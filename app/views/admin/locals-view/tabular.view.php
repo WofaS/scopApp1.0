@@ -42,9 +42,9 @@ use model\Auth;
               $age = $diff->format('%Yyrs.');
           ?>
         <tr>                        
-          <th scope="row"><a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>"><?=$id?></a></th>
+          <th scope="row"><a href="<?=ROOT?>/admin/profile/<?=$row->id?>"><?=$id?></a></th>
           <td>
-            <a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>" class="text-primary">
+            <a href="<?=ROOT?>/admin/profile/<?=$row->id?>" class="text-primary">
             <?php if(!empty($row->image)):?>
               <img src="<?=get_profile_image($row->image)?>" style="object-fit:cover; width: 40px;max-width: 40px; max-height: 40px; height: 40px; border-radius: 50%;" alt="">
             <?php elseif($row->gender ==="female" AND $age < 13):?>
@@ -60,13 +60,13 @@ use model\Auth;
           <strong class="badge bg-secondary"><?=$age?></strong>
         <?php endif;?>
           </td>
-          <th><a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>"><?=$row->firstname?> <?=$row->lastname?> <small class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>)</small></a></th>
+          <th><a href="<?=ROOT?>/admin/profile/<?=$row->id?>"><?=$row->firstname?> <?=$row->lastname?> <small class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>)</small></a></th>
           <td><span class=""><?=get_date($row->dob ?? 'Unknown')?></span></td>
           <td><span class=""><?=$row->phone ?? 'Unknown'?></span></td>
           <td><p class="fst-italic"><?=$row->residence?></p></td>          
           <td><p class="fst-italic"><?=$row->category_id ?? 'Unknown'?></p></td>
           <td><span class=" badge badge-lg">
-            <a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>">
+            <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
               <i class="bi bi-eye-fill"></i> 
             </a>
 

@@ -13,7 +13,7 @@
   <div class="container bg-secondary rounded shadow my-2" style="width:220px; height: 260px;">
     <div class="row justify-content-center rounded mb-0 pb-0" style="width:215px;">
       
-    <a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>">
+    <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
     <?php if(!empty($row->image)):?>              
       <img src="<?=get_profile_image($row->image)?>" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 180px; max-width:180px;height:140px;">
     <?php elseif(!empty($row->gender)):?>
@@ -32,7 +32,7 @@
       <span><?=$row->phone ? :'Unknown contact'?></span><br>
     
     <span class="social float-end mb-3">
-      <a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>">
+      <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
         <i class="bi bi-eye-fill text-light py-0 px-1"></i>
       </a>
     <?php if(user_can('edit_slider_images')):?>
