@@ -446,6 +446,7 @@ public function dashboard()
       $today = date("Y-m-d");
       $diff = date_diff(date_create($dob), date_create($today));
       $age = $diff->format('%Y years');
+
       if ($row->gender ==='male') {
       		$title = 'he';
       	$adjective = 'his';
@@ -453,6 +454,7 @@ public function dashboard()
       	$title = 'she';
       	$adjective = 'her';
       }
+
 				
 				$html = "
 
@@ -537,23 +539,28 @@ public function dashboard()
 
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Mother's Name:</th><td style=' font-style:italic;'><p>".esc($row->mother_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Mother's Contact:</th><td style=' font-style:italic;'><p>".esc($row->mother_phone ? :'Not available')."</p></td></tr>
 
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Emergency Person's Name:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_name ? :'Not available')."</p></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Emergency Contact Number:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_contact ? :'Not available')."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Emergency Person's Name:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_name ? :'Not available')."</p></td><th style='width:50px; font-family:tahoma; border:thin solid gray;'>Emergency Contact Number:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_contact ? :'Not available')."</p></td>
                     </tr>
 
                                      
                  </tbody>
                  <tfoot>               
-                    <tr style='margin-top:25px; font-style:italic; color:red;'>
-                    	<th colspan='3' ></th><td style='font-size:10px;'><strong style'text-aling:right; color:blue; font-size: 20px;'>Registered on: </strong>".esc(get_date($row->date ? :'Not available'))."</td>
-                    </tr>                   
-                    <tr style='margin-top:25px; font-style:italic; color:red;'>
-                    	<th colspan='3'></th><td style='font-size:10px;'><strong style'text-aling:right; color:blue; font-size: 20px;'>Downloaded on: </strong>".esc(date('D, jS M, Y') ? :'Not available')."</td>
+                      <tr style=''>
+                    	<th colspan='3' ></th><td style='f'><strong style'text-aling:right; color:blue; font-size: 7px;'></strong></td>
+                    	</tr>
+                    <br>
+
+                      <tr style=''>
+                    	<th colspan='3' ></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Registered on: </strong>".esc(get_date($row->date ? :'Not available'))."</td>
+                    </tr>                
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Downloaded on: </strong>".esc(date('D, jS M, Y') ? :'Not available')."</td>
                     </tr>
-                    <tr style='margin-top:25px; font-style:italic; color:red;'>
-                    	<th colspan='3'></th><td style='font-size:10px;'><strong style'text-aling:right; color:blue; font-size: 20px;'>Download time: </strong>".esc(date('H:i:sa') ? :'Not available')."</td>
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download time: </strong>".esc(date('H:i:sa') ? :'Not available')."</td>
                     </tr> 
-                    <tr style='margin-top:25px; font-style:italic; color:red;'>
-                    	<th colspan='3'></th><td style='font-size:10px;'><strong style'text-aling:right; color:blue; font-size: 20px;'>Download by: </strong>".ucfirst(Auth::getFirstname() ? :'Not available'). ' '.ucfirst(Auth::getLastname() ? :'Not available')."</td>
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download by: </strong>".ucfirst(Auth::getFirstname() ? :'Not available'). ' '.ucfirst(Auth::getLastname() ? :'Not available')."</td>
                     </tr> 
                  </tfoot>
                </table>
