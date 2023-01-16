@@ -25,8 +25,9 @@
             <img src="<?=get_profile_image($row->image)?>" class="rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
           <?php endif;?>
               <h4 class="text-center fw-bolder text-danger border-bottom"><?=esc($row->appname)?></h4>
-              <h2><?=esc(set_value('church_name',$row->church_name ?? ''))?></h2>
-              <h3><?=esc(set_value('district_name',$row->district_name ?? ''))?> - <?=esc(set_value('area_name',$row->area_name ?? ''))?> </h3>
+              <h3 class="text-info"><?=esc(set_value('church_name',$row->church_name ? :''))?></h3>
+              <h3><?=esc(set_value('district_name',$row->district_name ? :'')) ?></h3>
+              <h3><?=esc(set_value('area_name',$row->area_name ?? ''))?> </h3>
               <small class="fst-italic"><?=esc(set_value('location',$row->location ?? ''))?></small>
 
               <div class="social-links mt-2">
@@ -132,6 +133,66 @@
                             <small class="js-error-location text-danger"><?=$errors['location']?></small>
                           <?php endif;?>
                           <small class="js-error-location text-danger"></small>
+                        </div>
+
+                        <div class="row mb-3">
+                          <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="email" type="text" class="form-control" id="email" value="<?=set_value('email',$row->email)?>" placeholder="enter email">
+                          </div>
+
+                          <?php if(!empty($errors['email'])):?>
+                            <small class="js-error-email text-danger"><?=$errors['email']?></small>
+                          <?php endif;?>
+                          <small class="js-error-email text-danger"></small>
+                        </div> 
+
+                        <div class="row mb-3">
+                          <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="phone" type="text" class="form-control" id="phone" value="<?=set_value('phone',$row->phone)?>" placeholder="enter phone">
+                          </div>
+
+                          <?php if(!empty($errors['phone'])):?>
+                            <small class="js-error-phone text-danger"><?=$errors['phone']?></small>
+                          <?php endif;?>
+                          <small class="js-error-phone text-danger"></small>
+                        </div>
+
+                        <div class="row mb-3">
+                          <label for="address_box" class="col-md-4 col-lg-3 col-form-label">Box Address</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="address_box" type="text" class="form-control" id="address_box" value="<?=set_value('address_box',$row->address_box)?>" placeholder="enter box address">
+                          </div>
+
+                          <?php if(!empty($errors['address_box'])):?>
+                            <small class="js-error-address_box text-danger"><?=$errors['address_box']?></small>
+                          <?php endif;?>
+                          <small class="js-error-address_box text-danger"></small>
+                        </div>
+
+                        <div class="row mb-3">
+                          <label for="bank_name" class="col-md-4 col-lg-3 col-form-label">Bank Name</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="bank_name" type="text" class="form-control" id="bank_name" value="<?=set_value('bank_name',$row->bank_name)?>" placeholder="enter bank name">
+                          </div>
+
+                          <?php if(!empty($errors['bank_name'])):?>
+                            <small class="js-error-bank_name text-danger"><?=$errors['bank_name']?></small>
+                          <?php endif;?>
+                          <small class="js-error-bank_name text-danger"></small>
+                        </div> 
+
+                        <div class="row mb-3">
+                          <label for="bank_account" class="col-md-4 col-lg-3 col-form-label">Bank account</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="bank_account" type="text" class="form-control" id="bank_account" value="<?=set_value('bank_account',$row->bank_account)?>" placeholder="enter bank account">
+                          </div>
+
+                          <?php if(!empty($errors['bank_account'])):?>
+                            <small class="js-error-bank_account text-danger"><?=$errors['bank_account']?></small>
+                          <?php endif;?>
+                          <small class="js-error-bank_account text-danger"></small>
                         </div>                  
 
                     <div class="js-prog progress my-4 hide">

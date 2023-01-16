@@ -1,63 +1,11 @@
-<?php 
+CREATE DATABASE IF NOT EXISTS `mysampacop` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `mysampacop`;
 
-/**
- * database class
- */
-class Database
-{
-    
-    private function connect()
-    {
-        $str = DBDRIVER.":hostname=".DBHOST.";dbname=".DBNAME;
-        return new PDO($str,DBUSER,DBPASS);
+-- --------------------------------------------------------
 
-    }
-
-    public function query($query,$data = [],$type = 'object')
-    {
-        $con = $this->connect();
-
-        $stm = $con->prepare($query);
-        if($stm)
-        {
-            $check = $stm->execute($data);
-            if($check)
-            {
-                if($type == 'object')
-                {
-                    $type = PDO::FETCH_OBJ;
-                }else{
-                    $type = PDO::FETCH_ASSOC;
-                }
-
-                $result = $stm->fetchAll($type);
-
-                if(is_array($result) && count($result) > 0)
-                {
-
-                    //run afterSelect functions
-                    if(property_exists($this, 'afterSelect'))
-                    {
-                        foreach ($this->afterSelect as $func) {
-                            
-                            $result = $this->$func($result);
-                        }
-                    }
-
-                    return $result;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public function create_tables()
-    {
-        //users table
-        $query = "
-
-
+--
+-- Table structure for table `activities`
+--
 
 CREATE TABLE `activities` (
   `id` int(11) NOT NULL,
@@ -1035,13 +983,3 @@ ALTER TABLE `register`
 ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
-
-        ";
-
-        $this->query($query);
-
-
-    }
-
-    
-}

@@ -15,6 +15,11 @@ class Operation extends Model
 
 		 	'appname',
 		 	'location',
+		 	'phone',
+		 	'email',
+		 	'bank_name',
+		 	'bank_account',
+		 	'address_box',
 		 	'image',
 		 	'district_name',
 		 	'area_name',
