@@ -54,13 +54,12 @@
   <link href="<?=ROOT?>/niceadmin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="<?=ROOT?>/niceadmin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link rel="stylesheet" href="<?=ROOT?>/admindash/vendor/chartist/css/chartist.min.css">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="<?=ROOT?>/admindash/vendor/toastr/css/toastr.min.css">
 
   <!-- Template Main CSS File -->
   <link href="<?=ROOT?>/niceadmin/assets/css/style.css" rel="stylesheet">
-  <link href="<?=ROOT?>/assets/css/custom.css" rel="stylesheet">  
+  <link href="<?=ROOT?>/assets/css/custom.css" rel="stylesheet">
   <script src="<?=ROOT?>/assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+
 
 </head>
 
@@ -448,6 +447,12 @@
               <a class="nav-link collapsed" href="<?=ROOT?>/admin/operations">
                 <i class="text-info bi bi-gear" style="font-size: 18px;"></i>
                 <span>App Details</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+            <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/adminsignup">
+                <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
+                <span>Add Admin</span>
               </a>
             </li><!-- End Dashboard Nav -->
             <li class="nav-item ">

@@ -1,5 +1,5 @@
 <?php $this->view('admin/admin-header',$data) ?>
-  <?php if(!empty($row)):?>
+
 
     <?php
 
@@ -134,21 +134,8 @@
 
 </style>
 
-    
-    
-    <div class="row">
-      <div class="col-3 search-div float-left mb-2">
-      <form>
-        <div class="results js-results hide">
-        <div>
-          
-        </div>
-        </div>
-      </form>
-    </div>
-    
-    <div class="col-7"></div>
-    </div>
+  
+  <?php if(!empty($row)):?>
 
   <div class="page-titles">
        <div class="col-sm-6 p-md-0">
@@ -208,11 +195,17 @@
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-pencil" data-bs-toggle="tab" data-bs-target="#profile-edit" id="profile-edit-tab">Edit Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab">Attendance</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" action='search' class="nav-link bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab"><?=$row->firstname?>'s Attendance</button>
+                </li>
+
+                <li class="nav-item mx-2">
+                  <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-pencil">Edit Profile</button>
+                  </a>
                 </li>
 
                 <li class="nav-item mx-2">
@@ -285,7 +278,7 @@
 
                                 <tr class="my-3  row d-flex">
                                   <th class="col-4">DOB: </th>
-                                  <td class="col-8"><?=esc($row->dob ? :'Not available')?></td>
+                                  <td class="col-8"><?=esc(get_date($row->dob ? :'Not available'))?></td>
                                 </tr>
 
                                 <tr class="my-3  row d-flex">
@@ -902,6 +895,36 @@
                   </div>
 
                 </div>
+
+                <div class="tab-pane fade search pt-3 show" id="search">
+                  <!-- Profile Edit Form -->
+                  <div class="row">
+                      <div class="mx-auto p-3 rounded">
+                      <div class=" rounded">
+    
+                          <div class="search-div">
+                            <form>
+                              <h3>Search</h3>
+                              <input class="search js-search" oninput="get_data(this.value)" type="text" name="query" placeholder="Type something to Search" title="Enter search" autocomplete="false" autofocus="true">
+                              <i class="bi bi-search text-info fw-bolder" style="font-size: 20px; margin-left: -40px;"></i>
+                              <div class="results js-results hide">
+                              <div>
+                                
+                              </div>
+                              </div>
+                              <br><br>
+                            </form>
+                            <span class="form-info">
+                              <h3 class="border-bottom text-info">Hint:</h3>
+                              <p><h5 class="fw-bolder">You may search by:</h5> Firstname, Lastname, email, phone number, local assembly or marital status</span>
+                          </div>
+                      </div>
+
+                  </div>
+                     
+                  </div>
+
+                </div>
               </div>
               </div>
 
@@ -919,7 +942,6 @@
                 That profile was not found!
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-
   <?php endif;?>
 
 <script>
@@ -1105,7 +1127,7 @@
 
 </script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   
   function get_data(text)
   {
@@ -1180,6 +1202,6 @@
     result_div.classList.add("hide")
   }
 
-</script> -->
+</script>
 
 <?php $this->view('admin/admin-footer',$data) ?>

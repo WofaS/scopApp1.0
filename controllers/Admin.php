@@ -294,6 +294,31 @@ public function dashboard()
 		$this->view('admin/search',$data);
 	}
 
+	public function mysearch($role = null, $slug = null)
+	{
+		
+
+		$id = $id ?? Auth::getId();
+
+		$member = new \Model\Member();
+		$data['row'] = $row = $member->findAllByName();
+
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $row)
+		{
+			if (count($_POST) > 0) {
+
+				$text = $_POST['text'];
+				$text = addslashes($text);
+				$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
+				$result = $member->query($query);
+
+			  echo json_encode($result); die;
+			}
+		}
+		
+		$this->view('admin/mysearch',$data);
+	}
+
 	public function make_pdf($action = null, $id = null, )
 	{
 		if(!Auth::logged_in())
@@ -446,7 +471,6 @@ public function dashboard()
       $today = date("Y-m-d");
       $diff = date_diff(date_create($dob), date_create($today));
       $age = $diff->format('%Y years');
-
       if ($row->gender ==='male') {
       		$title = 'he';
       	$adjective = 'his';
@@ -455,11 +479,24 @@ public function dashboard()
       	$adjective = 'her';
       }
 
+      foreach($app as $app){
+
+      	$district = $app->district_name;
+      	$church = $app->church_name;
+      	$area = $app->area_name;
+      	$app_name = $app->appname;
+      	$address = $app->location;
+      	$logo = get_avatar($app->image);
+
+      }
 				
 				$html = "
 
 						<table>
                  <thead>
+                 <tr>
+                 <td style='color:gray; font-size:12px; width:150px;'><img src='". $logo ."' style='max-width:20px; max-height:20px; padding:1px; justify-content:center; margin:auto;'><p style='padding-top:5px; padding-bottom:5px;'>" .ucfirst($church) .' '.$district ."<br>".' '.$row->category_id . ' Assembly ' ."</p></td>
+                 </tr><br>
                  <tr >
 
                  <div style='display:flex; flex-direction:row; margin:auto;'>
@@ -473,7 +510,7 @@ public function dashboard()
 	                 </td>
 
 	                 <td colspan='1'>
-			 								<img src='".get_profile_image($row->image) ."' style='max-width:80px; max-height:80px; border:1px solid gray; border-radius:10px; padding:5px;'>
+			 								<img src='".get_avatar($row->image) ."' style='max-width:80px; max-height:80px; width:80px; height:80px; border:2px solid #f6f9ff66; border-radius:10px; padding:1px;'>
 
 	                 </td>
 			 						</div>
@@ -486,81 +523,80 @@ public function dashboard()
                  <br>										                                  
                     
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray;'>First Name:</th><td style=' font-style:italic;'><p>".esc(set_value('firstname',$row->firstname ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Last Names:</th><td style=' font-style:italic;'><p>".esc(set_value('lastname',$row->lastname ? :''))."</p></td>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>First Name:</th><td style=' font-style:italic;'><p>".esc(set_value('firstname',$row->firstname ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Last Names:</th><td style=' font-style:italic;'><p>".esc(set_value('lastname',$row->lastname ? :''))."</p></td>
                     	</tr>
 										
 										<tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Email:</th><td style=' font-style:italic;'><p>".esc(set_value('email',$row->email ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Phone Number:</th><td style=' font-style:italic;'><p>".esc(set_value('phone',$row->phone ? :''))."</p></td>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Email:</th><td style=' font-style:italic;'><p>".esc(set_value('email',$row->email ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Phone Number:</th><td style=' font-style:italic;'><p>".esc(set_value('phone',$row->phone ? :''))."</p></td>
                     	</tr>
 
                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                   		<th style='width:100px; font-family:tahoma; border:thin solid gray;'>DOB:</th><td style=' font-style:italic;'><p>".esc(get_date('dob',$row->dob ? :''))."</p></td>
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>DOB:</th><td style=' font-style:italic;'><p>".esc(get_date($row->dob ? :'Not available'))."</p></td>
 
 
-                   		<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Age:</th><td style='font-style:italic; margin-left:5px;'><p>".$age."</p></td>
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Age:</th><td style='font-style:italic; margin-left:5px;'><p>".$age."</p></td>
 
                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
 
-                   		<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Gender:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->gender. "</p> </td>
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Gender:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->gender. "</p> </td>
 
-                   		<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Marital status:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->marital_status_id."</p></td>
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Marital status:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->marital_status_id."</p></td>
 
                    </tr>
 
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Name of Spouse:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_name',$row->spouse_name ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Spouse's Contact:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_phone',$row->spouse_phone ? :'Not available'))."</p></td>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Name of Spouse:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_name',$row->spouse_name ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Spouse's Contact:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_phone',$row->spouse_phone ? :'Not available'))."</p></td>
                     </tr>
                     
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Names of Children(if any):</th><td style='font-style:italic; font-weight:bolder;' colspan='3'><p>".esc(set_value('children',$row->children ? :'Not available'))."</p> </td>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Names of Children(if any):</th><td style='font-style:italic; font-weight:bolder;' colspan='3'><p>".esc(set_value('children',$row->children ? :'Not available'))."</p> </td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Residential Address:</th><td style=' font-style:italic;'><p>".esc(set_value('residence',$row->residence ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>GPS Address:</th><td style=' font-style:italic;'><p>".esc(set_value('gps_address',$row->gps_address ? :'Not available'))."</p></td></tr>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Residential Address:</th><td style=' font-style:italic;'><p>".esc(set_value('residence',$row->residence ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>GPS Address:</th><td style=' font-style:italic;'><p>".esc(set_value('gps_address',$row->gps_address ? :'Not available'))."</p></td></tr>
 
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Hometown:</th><td style=' font-style:italic;'><p>".esc(set_value('hometown',$row->hometown ? :'NOt available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Occupation:</th><td style=' font-style:italic;'><p>".esc(set_value('job',$row->job ? :'Not available'))."</p></td></tr>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Hometown:</th><td style=' font-style:italic;'><p>".esc(set_value('hometown',$row->hometown ? :'NOt available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Occupation:</th><td style=' font-style:italic;'><p>".esc(set_value('job',$row->job ? :'Not available'))."</p></td></tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Baptized in water?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->water_baptized."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Baptized in water?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->water_baptized."</p></td>
 
-                    <th style='width:100px; font-family:tahoma; border:thin solid gray;'>Holy Ghost Baptized?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->holyghost_baptized."</p></td>
+                    <th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Holy Ghost Baptized?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->holyghost_baptized."</p></td>
                     </tr>
 
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray;'>Attends Communion?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->communicant_status."</p></td>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Attends Communion?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->communicant_status."</p></td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Local Assembly:</th><td style=' font-style:italic;'><p>".$row->category_id."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Role:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->role_name."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Local Assembly:</th><td style=' font-style:italic;'><p>".$row->category_id."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Role:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->role_name."</p></td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Position in District:</th><td style=' font-style:italic;'><p>".esc($row->position_id ? :'No position')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Position in Local:</th><td style=' font-style:italic;'><p>".esc($row->localposition_id ? :'No position')."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in District:</th><td style=' font-style:italic;'><p>".esc($row->position_id ? :'No position')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in Local:</th><td style=' font-style:italic;'><p>".esc($row->localposition_id ? :'No position')."</p></td>
                     </tr>
 
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Father's Name:</th><td style=' font-style:italic;'><p>".esc($row->father_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Father's Contact:</th><td style=' font-style:italic;'><p>".esc($row->father_phone ? :'Not available')."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Name:</th><td style=' font-style:italic;'><p>".esc($row->father_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Contact:</th><td style=' font-style:italic;'><p>".esc($row->father_phone ? :'Not available')."</p></td>
                     </tr>
 
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Mother's Name:</th><td style=' font-style:italic;'><p>".esc($row->mother_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Mother's Contact:</th><td style=' font-style:italic;'><p>".esc($row->mother_phone ? :'Not available')."</p></td></tr>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Mother's Name:</th><td style=' font-style:italic;'><p>".esc($row->mother_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Mother's Contact:</th><td style=' font-style:italic;'><p>".esc($row->mother_phone ? :'Not available')."</p></td></tr>
 
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray;'>Emergency Person's Name:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_name ? :'Not available')."</p></td><th style='width:50px; font-family:tahoma; border:thin solid gray;'>Emergency Contact Number:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_contact ? :'Not available')."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Emergency Person's Name:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_name ? :'Not available')."</p></td><th style='width:50px; font-family:tahoma; border:thin solid gray;'>Emergency Contact Number:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_contact ? :'Not available')."</p></td>
                     </tr>
 
                                      
                  </tbody>
                  <tfoot>               
                       <tr style=''>
-                    	<th colspan='3' ></th><td style='f'><strong style'text-aling:right; color:blue; font-size: 7px;'></strong></td>
+                    	<th colspan='3' ></th><td style=''><strong style'text-aling:right; color:blue; font-size: 7px;'></strong></td>
                     	</tr>
-                    <br>
 
                       <tr style=''>
-                    	<th colspan='3' ></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Registered on: </strong>".esc(get_date($row->date ? :'Not available'))."</td>
+                    	<th colspan='3' ></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Registered on: </strong>".esc(get_date($row->date ? :'Not available'))."</td>
                     </tr>                
                     <tr style=''>
-                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Downloaded on: </strong>".esc(date('D, jS M, Y') ? :'Not available')."</td>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Downloaded on: </strong>".esc(date('D, jS M, Y') ? :'Not available')."</td>
                     </tr>
                     <tr style=''>
-                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download time: </strong>".esc(date('H:i:sa') ? :'Not available')."</td>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download time: </strong>".esc(date('H:i:sa') ? :'Not available')."</td>
                     </tr> 
                     <tr style=''>
-                    	<th colspan='3'></th><td style='font-size:10px; font-style:italic; color:#a44646; border:2px solid #f2f9f1;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download by: </strong>".ucfirst(Auth::getFirstname() ? :'Not available'). ' '.ucfirst(Auth::getLastname() ? :'Not available')."</td>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download by: </strong>".ucfirst(Auth::getFirstname() ? :'Not available'). ' '.ucfirst(Auth::getLastname() ? :'Not available')."</td>
                     </tr> 
                  </tfoot>
                </table>
@@ -768,20 +804,45 @@ public function dashboard()
 		
 		}
 
-		// $data['rows'] = $rows = $member->findAllByName();
+		$data['rows'] = $rows = $member->findAllByName();
 
-		// if($_SERVER['REQUEST_METHOD'] == "POST" && $rows)
-		// {
-		// 	if (count($_POST) > 0) {
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $rows)
+		{
+			if (count($_POST) > 0) {
 
-		// 		$text = $_POST['text'];
-		// 		$text = addslashes($text);
-		// 		$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
-		// 		$result = $member->query($query);
+				$text = $_POST['text'];
+				$text = addslashes($text);
+				$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
+				$result = $member->query($query);
 
-		// 	  echo json_encode($result); die;
-		// 	}
-		// }
+			  echo json_encode($result); die;
+			}
+		}
+
+
+
+		$data['title'] = "Profile";
+		$data['errors'] = $member->errors;
+
+		$this->view('admin/profile',$data);
+	}
+
+	public function profile_edit($id = null)
+	{
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$data = [];
+
+		$id = $id ?? Auth::getId();
+
+		$member = new \Model\Member();
+		$data['row'] = $row = $member->first(['id'=>$id]);
+
 
 		if($_SERVER['REQUEST_METHOD'] == "POST" && $row)
 		{
@@ -849,7 +910,7 @@ public function dashboard()
 		$data['title'] = "Profile";
 		$data['errors'] = $member->errors;
 
-		$this->view('admin/profile',$data);
+		$this->view('admin/profile_edit',$data);
 	}
 
 	public function operations($id = null)
