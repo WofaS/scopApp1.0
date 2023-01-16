@@ -443,22 +443,11 @@
         <ul id="icons-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <?php if(user_can('view_roles')):?>
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/operations">
-                <i class="text-info bi bi-gear" style="font-size: 18px;"></i>
-                <span>App Details</span>
-              </a>
-            </li><!-- End Dashboard Nav -->
+            
             <li class="nav-item ">
               <a class="nav-link collapsed" href="<?=ROOT?>/adminsignup">
                 <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
                 <span>Add Admin</span>
-              </a>
-            </li><!-- End Dashboard Nav -->
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/roles">
-                <i class="text-info bx bxs-lock" style="font-size: 18px;"></i>
-                <span>Permissions</span>
               </a>
             </li><!-- End Dashboard Nav --> 
               
@@ -467,7 +456,50 @@
                   <i class="text-info bi bi-list" style="font-size: 18px;"></i>
                   <span>List Locals</span>
                 </a>
-              </li><!-- End Dashboard Nav --> 
+              </li><!-- End Dashboard Nav -->      
+          <?php endif;?>
+
+          <?php if(user_can('view_marital_status')):?>
+            <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/maritalstatus">
+                <i class="text-info bi bi-gender-ambiguous" style="font-size: 18px;"></i>
+                <span>Marital Statuses</span>
+              </a>
+            </li><!-- End Dashboard Nav -->      
+          <?php endif;?>
+
+          <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-subnav" data-bs-toggle="collapse" href="#">
+            <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>App Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+          </a>
+
+            <ul id="icons-subnav" class="nav-content collapse " data-bs-parent="#icons-nav3">
+
+
+              <li class="nav-item ">
+                <a class="nav-link collapsed" href="<?=ROOT?>/admin/roles">
+                  <i class="text-info bx bxs-lock" style="font-size: 18px;"></i>
+                  <span>Permissions</span>
+                </a>
+              </li><!-- End Dashboard Nav -->
+
+              <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/operations">
+                <i class="text-info bi bi-gear" style="font-size: 18px;"></i>
+                <span>App Details</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-subnav2" data-bs-toggle="collapse" href="#">
+            <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Position Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+          </a>
+
+            <ul id="icons-subnav2" class="nav-content collapse " data-bs-parent="#icons-nav3"> 
 
             <li class="nav-item ">
               <a class="nav-link collapsed" href="<?=ROOT?>/admin/districtposition">
@@ -480,17 +512,12 @@
                 <i class="text-info bx bx-list-check" style="font-size: 18px;"></i>
                 <span>Local Positions</span>
               </a>
-            </li><!-- End Dashboard Nav -->      
-          <?php endif;?>
+            </li><!-- End Dashboard Nav -->
 
-          <?php if(user_can('view_marital_status')):?>
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/maritalstatus">
-                <i class="text-info bi bi-gender-ambiguous" style="font-size: 18px;"></i>
-                <span>Marital Statuses</span>
-              </a>
-            </li><!-- End Dashboard Nav -->      
-          <?php endif;?>
+            </ul>
+
+          </li>
+
 
         </ul>
       </li>
