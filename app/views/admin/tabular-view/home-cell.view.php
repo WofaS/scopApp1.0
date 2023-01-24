@@ -132,7 +132,7 @@
 
               <table class="table table-striped table-borderless border-bottom table-hover datatable dataTable-loading" >
               <thead>
-                <tr class="bg-secondary text-light">
+                <tr style="background: lightgray;">
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">#</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Photo</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Name</a></th>

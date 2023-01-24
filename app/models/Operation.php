@@ -15,6 +15,11 @@ class Operation extends Model
 
 		 	'appname',
 		 	'location',
+		 	'phone',
+		 	'email',
+		 	'bank_name',
+		 	'bank_account',
+		 	'address_box',
 		 	'image',
 		 	'district_name',
 		 	'area_name',
@@ -40,11 +45,7 @@ class Operation extends Model
 		{
 			$this->errors['district_name'] = "A district name is required";
 		}
-
-		if(empty($data['area_name']))
-		{
-			$this->errors['area_name'] = "An area name is required";
-		}
+		
 		if(empty($data['church_name']))
 		{
 			$this->errors['church_name'] = "A church name is required";

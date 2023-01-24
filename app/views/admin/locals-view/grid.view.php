@@ -3,24 +3,17 @@
     
 <div class="row">
   <div class="row d-flex col-12">
-      <div class="col-10 d-flex">
+      <div class="col-12 d-flex">
         <h3 class="col-9">SAMPA DISTRICT MEMBERS</h3>
+
+        <div class="float-end"> 
+          <a href="<?=ROOT?>/admin/excel/print_members"><button class="btn btn-success btn-sm" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button></a>
+
+        <a href="<?=ROOT?>/admin/print_g" class="mx-auto"><button class="btn btn-primary btn-sm">print</button></a>
+        </div>
       </div>
       
   </div>
-
-  <div class="row d-flex mx-auto">
-        <div class="col-md-10">
-            <div class="input-group mb-3">
-                <input type="text" name="search" class="ms-4 form-control js-search" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1" autofocus>
-                <span class="input-group-text" id="basic-addon1">Search<i class="bi bi-search fw-bolder mx-2"></i></span>
-            </div>
-        </div>
-
-      <div class="col-2 float-end">  
-      <a href="<?=ROOT?>/admin/print_g" class="mx-auto"><button class="btn btn-primary">print</button></a>
-    </div>
-    </div>
 
   <div class="row d-flex mx-1 bg-light justify-content-center rounded shadow table py-3" style="height:200;">
 
@@ -101,3 +94,5 @@
          
 </div>
 </div> <!-- End .row -->
+
+

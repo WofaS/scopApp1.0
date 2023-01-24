@@ -31,9 +31,9 @@
               <span class="mb-0" >||<?=APP_NAME?></span>
             </a>
           <?php endif;?>
-          </div><!-- End Logo -->
+          </div id="forms-content"><!-- End Logo -->
 
-          <form method="post" class="row g-3 needs-validation" novalidate>
+          <form method="post" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
             <div class="container mb-5 p-2 d-flex">
             <div class="card mb-5 p-3 col-6">
               
@@ -51,7 +51,7 @@
                   <input value="<?=set_value('firstname')?>" type="text" name="firstname" class="form-control <?=!empty($errors['firstname']) ? 'border-danger':'';?>" id="firstname" required>
                   <div class="invalid-feedback">Please, enter your first name!</div>
                   <?php if (!empty($errors['firstname'])):?>
-                    <div class="text-danger"><small><?=$errors['firstname']?></small></div>
+                    <div class="js-error-firstname text-danger"><small><?=$errors['firstname']?></small></div>
                   <?php endif;?>
                 </div>
 
@@ -60,7 +60,7 @@
                   <input value="<?=set_value('lastname')?>" type="text" name="lastname" class="form-control <?=!empty($errors['lastname']) ? 'border-danger':'';?>" id="lastname" required>
                   <div class="invalid-feedback">Please, enter your last name!</div>
                   <?php if (!empty($errors['lastname'])):?>
-                    <div class="text-danger"><small><?=$errors['lastname']?></small></div>
+                    <div class="js-error-lastname text-danger"><small><?=$errors['lastname']?></small></div>
                   <?php endif;?>
                 </div>
                 </div>
@@ -73,11 +73,11 @@
                     <div class="invalid-feedback">Please enter a valid email.</div>
                   </div>
                     <?php if (!empty($errors['email'])):?>
-                    <div class="text-danger"><small><?=$errors['email']?></small></div>
+                    <div class="js-error-email text-danger"><small><?=$errors['email']?></small></div>
                   <?php endif;?>
                 </div>
                 <?php if (!empty($errors['password'])):?>
-                    <div class="text-danger"><small><?=$errors['password']?></small></div>
+                    <div class="js-error-password text-danger"><small><?=$errors['password']?></small></div>
                   <?php endif;?>
 
               <div class="col-12 d-flex my-2">
@@ -89,7 +89,7 @@
                   <div class="invalid-feedback">Please retype your phone!</div>
                 </div>
                 <?php if (!empty($errors['phone'])):?>
-                    <div class="text-danger"><small><?=$errors['phone']?></small></div>
+                    <div class="js-error-phone text-danger"><small><?=$errors['phone']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -105,7 +105,7 @@
                     <div class="invalid-feedback">Gender is required.</div>
                 </div>                
                 <?php if (!empty($errors['gender'])):?>
-                    <div class="text-danger"><small><?=$errors['gender']?></small></div>
+                    <div class="js-error-gender text-danger"><small><?=$errors['gender']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -119,7 +119,7 @@
                   <div class="invalid-feedback">Please enter your dob!</div>
                 </div>
                 <?php if (!empty($errors['dob'])):?>
-                    <div class="text-danger"><small><?=$errors['dob']?></small></div>
+                    <div class="js-error-dob text-danger"><small><?=$errors['dob']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -138,7 +138,7 @@
                     <div class="invalid-feedback">Marital Status is required.</div>
                 </div>                
                 <?php if (!empty($errors['marital_status_id'])):?>
-                    <div class="text-danger"><small><?=$errors['marital_status_id']?></small></div>
+                    <div class="js-error-marital_status_id text-danger"><small><?=$errors['marital_status_id']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -152,7 +152,7 @@
                   <div class="invalid-feedback">Please enter your residence location!</div>
                 </div>
                 <?php if (!empty($errors['job'])):?>
-                    <div class="text-danger"><small><?=$errors['job']?></small></div>
+                    <div class="js-error-job text-danger"><small><?=$errors['job']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -164,7 +164,7 @@
                   <div class="invalid-feedback">Please enter your gps address location!</div>
                 </div>
                 <?php if (!empty($errors['gps_address'])):?>
-                    <div class="text-danger"><small><?=$errors['gps_address']?></small></div>
+                    <div class="js-error-gps_address text-danger"><small><?=$errors['gps_address']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -178,7 +178,7 @@
                   <div class="invalid-feedback">Please enter your hometown location!</div>
                 </div>
                 <?php if (!empty($errors['hometown'])):?>
-                    <div class="text-danger"><small><?=$errors['hometown']?></small></div>
+                    <div class="js-error-hometown text-danger"><small><?=$errors['hometown']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -190,7 +190,7 @@
                   <div class="invalid-feedback">Please enter your job/occupation!</div>
                 </div>
                 <?php if (!empty($errors['job'])):?>
-                    <div class="text-danger"><small><?=$errors['job']?></small></div>
+                    <div class="js-error-hometown text-danger"><small><?=$errors['hometown']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -209,7 +209,7 @@
                     <div class="invalid-feedback">Water baptism Status is required.</div>
                 </div>                
                 <?php if (!empty($errors['water_baptized'])):?>
-                    <div class="text-danger"><small><?=$errors['water_baptized']?></small></div>
+                    <div class="js-error-water_baptized text-danger"><small><?=$errors['water_baptized']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -225,7 +225,7 @@
                     <div class="invalid-feedback">Holy Ghost baptism Status is required.</div>
                 </div>                
                 <?php if (!empty($errors['holyghost_baptized'])):?>
-                    <div class="text-danger"><small><?=$errors['holyghost_baptized']?></small></div>
+                    <div class="js-error-holyghost_baptized text-danger"><small><?=$errors['holyghost_baptized']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -241,7 +241,33 @@
                     <div class="invalid-feedback">Holy Ghost baptism Status is required.</div>
                 </div>                
                 <?php if (!empty($errors['communicant_status'])):?>
-                    <div class="text-danger"><small><?=$errors['communicant_status']?></small></div>
+                    <div class="js-error-communicant_status text-danger"><small><?=$errors['communicant_status']?></small></div>
+                  <?php endif;?>
+              </div>
+              </div>
+
+              <div class="col-12 d-flex my-2">
+              <div class="col-6">
+                  <label for="spouse_name" class="form-label">Spouse Name <small>(if any)</small></label>
+                  <div class="input-group has-validation">
+                    <i class="text-primary bx bxs-user input-group-text fs-4" id="inputGroupPrepend"></i>
+                  <input value="<?=set_value('spouse_name')?>" type="text" name="spouse_name" class="form-control <?=!empty($errors['spouse_name']) ? 'border-danger':'';?>" id="spouse_name">
+                  <div class="invalid-feedback">Please enter your spouse name!</div>
+                </div>
+                <?php if (!empty($errors['spouse_name'])):?>
+                    <div class="js-error-spouse_name text-danger"><small><?=$errors['spouse_name']?></small></div>
+                  <?php endif;?>
+              </div>
+
+              <div class="col-6">
+                  <label for="spouse_phone" class="form-label">Spouse's phone <small>(if any)</small></label>
+                  <div class="input-group has-validation">
+                    <i class="text-primary bx bx-phone input-group-text fs-4" id="inputGroupPrepend"></i>
+                  <input value="<?=set_value('spouse_phone')?>" type="text" name="spouse_phone" class="form-control <?=!empty($errors['spouse_phone']) ? 'border-danger':'';?>" id="spouse_phone" >
+                  <div class="invalid-feedback">Please enter your spouse's phone number!</div>
+                </div>
+                <?php if (!empty($errors['spouse_phone'])):?>
+                    <div class="js-error-spouse_phone text-danger"><small><?=$errors['spouse_phone']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -257,32 +283,6 @@
                 <h5 class="card-title text-center pb-0 fs-4">Member Form B</h5><br>
               </div>
 
-              <div class="col-12 d-flex my-2">
-              <div class="col-6">
-                  <label for="spouse_name" class="form-label">Spouse Name <small>(if any)</small></label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bx bxs-user input-group-text fs-4" id="inputGroupPrepend"></i>
-                  <input value="<?=set_value('spouse_name')?>" type="text" name="spouse_name" class="form-control <?=!empty($errors['spouse_name']) ? 'border-danger':'';?>" id="spouse_name">
-                  <div class="invalid-feedback">Please enter your spouse name!</div>
-                </div>
-                <?php if (!empty($errors['spouse_name'])):?>
-                    <div class="text-danger"><small><?=$errors['spouse_name']?></small></div>
-                  <?php endif;?>
-              </div>
-
-              <div class="col-6">
-                  <label for="spouse_phone" class="form-label">Spouse's phone <small>(if any)</small></label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bx bx-phone input-group-text fs-4" id="inputGroupPrepend"></i>
-                  <input value="<?=set_value('spouse_phone')?>" type="text" name="spouse_phone" class="form-control <?=!empty($errors['spouse_phone']) ? 'border-danger':'';?>" id="spouse_phone" >
-                  <div class="invalid-feedback">Please enter your spouse's phone number!</div>
-                </div>
-                <?php if (!empty($errors['spouse_phone'])):?>
-                    <div class="text-danger"><small><?=$errors['spouse_phone']?></small></div>
-                  <?php endif;?>
-              </div>
-              </div>
-
               <div class="col-12 ">
                   <label for="yourPassword" class="form-label"> </label>
                   <div class="input-group has-validation">
@@ -290,7 +290,7 @@
                     <textarea value="<?=set_value('children')?>" type="text" name="children" class="form-control <?=!empty($errors['children']) ? 'border-danger':'';?>" id="children"></textarea>
                 </div>                
                 <?php if (!empty($errors['children'])):?>
-                    <div class="text-danger"><small><?=$errors['children']?></small></div>
+                    <div class="js-error-children text-danger"><small><?=$errors['children']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -303,7 +303,7 @@
                   <div class="invalid-feedback">Please enter father's name!</div>
                 </div>
                 <?php if (!empty($errors['father_name'])):?>
-                    <div class="text-danger"><small><?=$errors['father_name']?></small></div>
+                    <div class="js-error-father_name text-danger"><small><?=$errors['father_name']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -315,7 +315,7 @@
                   <div class="invalid-feedback">Please enter father's phone!</div>
                 </div>
                 <?php if (!empty($errors['father_phone'])):?>
-                    <div class="text-danger"><small><?=$errors['father_phone']?></small></div>
+                    <div class="js-error-father_phone text-danger"><small><?=$errors['father_phone']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -329,7 +329,7 @@
                   <div class="invalid-feedback">Please enter mother's name!</div>
                 </div>
                 <?php if (!empty($errors['mother_name'])):?>
-                    <div class="text-danger"><small><?=$errors['mother_name']?></small></div>
+                    <div class="js-error-mother_name text-danger"><small><?=$errors['mother_name']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -343,7 +343,7 @@
                   <div class="invalid-feedback">Please enter Mother's name!</div>
                 </div>
                 <?php if (!empty($errors['mother_phone'])):?>
-                    <div class="text-danger"><small><?=$errors['mother_phone']?></small></div>
+                    <div class="js-error-mother_phone text-danger"><small><?=$errors['mother_phone']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -357,7 +357,7 @@
                   <div class="invalid-feedback">Please enter Person's name!</div>
                 </div>
                 <?php if (!empty($errors['emergecy_name'])):?>
-                    <div class="text-danger"><small><?=$errors['emergecy_name']?></small></div>
+                    <div class="js-error-emergecy_name text-danger"><small><?=$errors['emergecy_name']?></small></div>
                   <?php endif;?>
               </div>
 
@@ -369,7 +369,7 @@
                   <div class="invalid-feedback">Please enter emergency contact!</div>
                 </div>
                 <?php if (!empty($errors['emergecy_contact'])):?>
-                    <div class="text-danger"><small><?=$errors['emergecy_contact']?></small></div>
+                    <div class="js-error-emergecy_contact text-danger"><small><?=$errors['emergecy_contact']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -412,7 +412,7 @@
                     <option value="9">visitor</option>
                 <?php endif;?>              
                   </select>
-                  <small class="error error-role_name w-100 text-danger"></small>
+                  <small class="js-error-role_name w-100 text-danger"></small>
                 </div>
                 </div>
 
@@ -426,7 +426,7 @@
                         <?php endforeach;?>
                       <?php endif;?>      
                   </select>
-                  <small class="error error-role_name w-100 text-danger"></small>
+                  <small class="js-error-error-role_name w-100 text-danger"></small>
                 </div>
 
                 <div class="col-6">
@@ -438,8 +438,27 @@
                         <?php endforeach;?>
                       <?php endif;?>      
                   </select>
-                  <small class="error error-role_name w-100 text-danger"></small>
+                  <small class="js-error-error-role_name w-100 text-danger"></small>
                 </div>
+                </div>
+
+                <div class="col-12 my-4 d-flex">
+
+                  <label class="d-flex rounded js-profile-image-input" title="Click to Upload new profile image">
+                    <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
+                    <img class="js-image-preview bg-light shadow rounded text-center my-auto" src="<?=ROOT?>/<?=$row->image?>" alt="Profile photo" style="width:50px;max-width:50px;height:50px;object-fit: cover; font-size: 18px">
+                    <div class="js-filename m-2 ">Selected File: None</div>
+                  </label>
+                  <div class="pt-2">
+                    <label class="btn btn-primary btn-sm" title="Upload new profile image" >
+                      <i class="text-info mx text-white bi bi-upload"></i>
+                      <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
+                    </label>
+
+                    <?php if(!empty($errors['image'])):?>
+                      <small class="js-error-image text-danger"><?=$errors['image']?></small>
+                    <?php endif;?>
+                  </div>    
                 </div>
 
                 <div class="col-12 my-3">
@@ -449,7 +468,7 @@
                     <div class="invalid-feedback">You must agree before submitting.</div>
                   </div>
                   <?php if (!empty($errors['terms'])):?>
-                    <div class="text-danger"><small><?=$errors['terms']?></small></div>
+                    <div class="js-error-terms text-danger"><small><?=$errors['terms']?></small></div>
                   <?php endif;?>
                 </div>
 
@@ -468,4 +487,23 @@
     </div>
   </div>          
 </div>
+
+
+<script>
+  
+  function load_image(file)
+  {
+
+    document.querySelector(".js-filename").innerHTML = "Selected File: " + file.name;
+
+    var mylink = window.URL.createObjectURL(file);
+    document.querySelector(".js-image-preview").src = mylink;
+  }
+
+  window.onload = function(){
+
+    show_tab(tab);
+  }
+
+</script>
 <?php $this->view('admin/admin-footer',$data) ?>

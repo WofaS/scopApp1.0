@@ -93,6 +93,20 @@ function get_profile_image($file)
 		return ROOT ."/assets/images/no-image.jpg";		
 			
 }
+
+function get_avatar($file)
+{
+
+	if(file_exists($file))
+	{
+		return ROOT . "/". $file;
+	}
+
+		else{
+			return ROOT ."/assets/images/noface.jpg";
+		}
+
+	}
 	
 
 function set_select($key, $value, $default = '')

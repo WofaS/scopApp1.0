@@ -319,23 +319,24 @@ class Member extends Model
 	}
 
 
-	protected function get_category($rows)
+	protected function get_category($data)
 	{
 		$db = new \Database();
-		if(!empty($rows[0]->category_id))
+		if(!empty($data[0]->category_id))
 		{
-			foreach ($rows as $key => $row) {
+			foreach ($data as $key => $row) {
 				
 				$query = "select * from categories where id = :id limit 1";
 				$cat = $db->query($query,['id'=>$row->category_id]);
 				if(!empty($cat)){
 
-					$rows[$key]->category_row = $cat[0];
+					$data[$key]->category_row = $cat[0];
+					$data[$key]->category_name = $cat[0]->category;
 				}
 			}
 		}
 
-		return $rows;
+		return $data;
 	}
 
 	protected function get_role($data)
@@ -360,65 +361,65 @@ class Member extends Model
 		return $data;
 	}
 
-	protected function get_position($rows){
+	protected function get_position($data){
 
 		$db = new \Database();
-		if(!empty($rows[0]->position_id))
+		if(!empty($data[0]->position_id))
 		{
-			foreach ($rows as $key => $row) {
+			foreach ($data as $key => $row) {
 				
 				$query = "select * from positions where id = :id limit 1";
 				$position = $db->query($query,['id'=>$row->position_id]);
 				if($position)
 				{
 
-					$position[0]->position = $position[0]->position . '$position[0]->position';
-					$rows[$key]->position_name = $position[0]->position;
+					$position[0]->position = $position[0]->position;
+					$data[$key]->position_name = $position[0]->position;
 				}
 			}
 		}
 
-		return $rows;
+		return $data;
 	}
 
-	protected function get_local_position($rows){
+	protected function get_local_position($data){
 
 		$db = new \Database();
-		if(!empty($rows[0]->localposition_id))
+		if(!empty($data[0]->localposition_id))
 		{
-			foreach ($rows as $key => $row) {
+			foreach ($data as $key => $row) {
 				
 				$query = "select * from localpositions where id = :id limit 1";
 				$localposition = $db->query($query,['id'=>$row->localposition_id]);
 				if(!empty($localposition)){
 
-					$localposition[0]->position = $localposition[0]->position . '$localposition[0]->position';
-					$rows[$key]->localposition_name = $localposition[0]->position;
+					$localposition[0]->position = $localposition[0]->position;
+					$data[$key]->localposition_name = $localposition[0]->position;
 				}
 			}
 		}
 
-		return $rows;
+		return $data;
 	}
 
-	protected function get_marital_status($rows){
+	protected function get_marital_status($data){
 
 		$db = new \Database();
-		if(!empty($data[0]->email) && !empty($rows[0]->marital_status_id))
+		if(!empty($data[0]->email) && !empty($data[0]->marital_status_id))
 		{
-			foreach ($rows as $key => $row) {
+			foreach ($data as $key => $row) {
 				
-				$query = "select * from marital_status";
+				$query = "select * from marital_status where id = :id limit 1";
 				$marital_status = $db->query($query,['id'=>$row->marital_status_id]);
 				if(!empty($marital_status)){
 
-					$marital_status[0]->name = $marital_status[0]->name . ' $marital_status[0]->marital_status';
-					$rows[$key]->marital_status_row = $marital_status[0];
+					$marital_status[0]->name = $marital_status[0]->marital_status;
+					$data[$key]->marital_status_name = $marital_status[0]->marital_status;
 				}
 			}
 		}
 
-		return $rows;
+		return $data;
 	}
 
 }

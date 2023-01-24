@@ -1,5 +1,5 @@
 <?php $this->view('admin/admin-header',$data) ?>
-  <?php if(!empty($row)):?>
+
 
     <?php
 
@@ -12,7 +12,8 @@
       $dob = $row->dob;
       $today = date("Y-m-d");
       $diff = date_diff(date_create($dob), date_create($today));
-      $age = $diff->format('%Y,%m years');
+      $age = $diff->format('%Y years');
+      $age_month = $diff->format('%Yyrs,%m months');
 
 
     $myID = $row->id;
@@ -58,7 +59,7 @@
     .search-div{
       margin: auto;
       width: 850px;
-      padding: 10px;
+      padding: 5px;
       display: flex;
       flex-direction: row;
      /* box-shadow: 0px 0px 10px #aaa;*/
@@ -69,7 +70,6 @@
       width: 90%;
       padding: 10px;
       border-radius: 10px;
-      border: solid thin #aaa;
       outline: none;
     }
 
@@ -134,21 +134,8 @@
 
 </style>
 
-    
-    
-    <div class="row">
-      <div class="col-3 search-div float-left mb-2">
-      <form>
-        <div class="results js-results hide">
-        <div>
-          
-        </div>
-        </div>
-      </form>
-    </div>
-    
-    <div class="col-7"></div>
-    </div>
+  
+  <?php if(!empty($row)):?>
 
   <div class="page-titles">
        <div class="col-sm-6 p-md-0">
@@ -168,17 +155,13 @@
 
     <section class="container-fluid">
       <div class="row">
-        <div class="mx-auto col-md-3">
+        <?php if(!empty($row)):?>
+
+          <div class="mx-auto col-md-3">
 
           <div class="card">
-            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-              <?php if(!empty($row->image)):?>              
-            <img src="<?=get_profile_image($row->image)?>" class="w-100 rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
-          <?php elseif(!empty($row->gender)):?>
-            <img src="<?=ROOT?>/assets/images/<?=($row->gender)?>.jpg" class="rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
-          <?php else:?>
-            <img src="<?=get_profile_image($row->image)?>" class="rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
-          <?php endif;?>
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">            
+            <img src="<?=get_avatar($row->image)?>" class="w-100 rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
               <h4 class="text-center"><?=esc($row->firstname)?> <?=esc($row->lastname)?></h4>
               <h5><?=esc(set_value('role',$row->role_name ?? ''))?></h5>
               <h5><?=esc($row->phone )?></h5>
@@ -196,6 +179,8 @@
 
         </div>
 
+      <?php endif;?>
+
         <div class="col-md-9">
 
           <div class="card">
@@ -204,15 +189,27 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
                 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link active bi bi-eye-fill" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View Profile</button>
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit" id="profile-edit-tab">Edit Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab">Attendance</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" action='search' class="nav-link bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab"><?=$row->firstname?>'s Attendance</button>
+                </li>
+
+                <li class="nav-item mx-2">
+                  <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-pencil">Edit Profile</button>
+                  </a>
+                </li>
+
+                <li class="nav-item mx-2">
+                  <a class="justify-content-right float-right" href="<?=ROOT?>/admin/make_pdf/download_profile/<?=$row->id?>">
+                    <button class="nav-link bi bi-download"> Download profile</button>
+                  </a>
                 </li>
 
               </ul>
@@ -232,668 +229,32 @@
                 <div class="tab-content">               
 
                 <div class="tab-pane fade profile-view pt-3 show active" id="profile-view">
-                  <!-- Profile Edit Form -->                      
-                      <div class="row mb-3 col-12">
-                        <div class=" px-3 py-2 rounded" style="">
-                          <div class="row d-flex mx-0 px-0">
-                            <div class="col-9 my-auto">
-                              <h4 class="border-bottom fw-bolder text-center mx-auto">About <?=ucfirst($row->firstname)?> <?=ucfirst($row->lastname)?></h4>
-                              <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_id). ' Assembly serves in the church as '?> <?=$row->position_id ? :$row->role_name?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname."'s occupation is ". $row->job.' and stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
-                            <!--  <div class="badge bg-info"><?=$age?></div> -->
-                            </div>
-                            <div class="col float-end my-auto mx-auto">
-                            <?php if(!empty($row->image)):?>
-                                <img src="<?=get_profile_image($row->image)?>" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 150px; max-width:150px;height:150px; border: 2px solid black;" alt="">
-                              <?php elseif($row->gender ==="female" AND $age < 13):?>
-                                <img src="<?=ROOT?>/assets/images/girl-avatar2.jpg" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 150px; max-width:150px;height:150px; border: 2px solid black;" alt="">
-                              <?php elseif($row->gender ==="female" AND $age > 13 OR $age === 13):?>
-                                <img src="<?=ROOT?>/assets/images/female.jpg" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 150px; max-width:150px;height:150px; border: 2px solid black;" alt="">
-                              <?php elseif($row->gender === "male" AND $age < 13):?>
-                                <img src="<?=ROOT?>/assets/images/boy-avatar2.jpg" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 150px; max-width:150px;height:150px; border: 2px solid black;" alt="">
-                                <?php elseif($row->gender === "male" AND $age > 13 OR $age === 13):?>
-                                <img src="<?=ROOT?>/assets/images/male.jpg" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 150px; max-width:150px;height:150px; border: 2px solid black;" alt="">
-                              <?php endif;?><br>
-                            <div class="badge bg-info text-light py-1"><?=$age?></div>
-                          </div> 
-                          <br>
-                          
-                          </div>
-                         <div class="table table-hover mx-0 px-3 rounded mb-3 mt-2" id="profile-overview">            
-                              
-                              <div class="row d-flex">
-                              <div class="col-lg-6 px-2">
-                              <table class="table-borderless table-hover table-striped px-3 rounded">
-                                <tbody>
-                                  <!-- personal Details -->
-                                  <h5 class="text-info">Personal Details</h5><hr>
+                  <!-- Profile Edit Form -->   
 
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Name: </th>
-                                  <td class="col-8"><?=esc($row->firstname ? :'Not available')?> <?=esc($row->lastname ? :'Not available')?></td>
-                                </tr>              
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Role: </th>
-                                  <td class="col-8"><?=esc($row->role_name ? :'Not available')?> <span class="fst-italic text-muted">(<?=($row->position_id ? :'No position')?>)</span></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">DOB: </th>
-                                  <td class="col-8"><?=esc($row->dob ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Gender: </th>
-                                  <td class="col-8"><?=esc($row->gender ? :'Not available')?></td>
-                                </tr>
-
-                                 <tr class="my-3  row d-flex">
-                                  <th class="col-4">Contact: </th>
-                                  <td class="col-8"><?=esc($row->phone ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Email: </th>
-                                  <td class="col-8"><?=esc($row->email ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">M Status: </th>
-                                  <td class="col-8"><?=esc($row->marital_status_id ? :'Not available')?></td>
-                                </tr>
-                                
-                                <?php if($row->marital_status_id === 'Married'):?>
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Spouse Name: </th>
-                                  <td class="col-8"><?=esc($row->spouse_name ? :'Not available')?>
-                                    <span class="fst-italic text-muted">(<?=esc($row->spouse_phone ? :'Contact Unknowm')?>)</span>
-                                  </td>
-                                </tr>
-
-                                
-
-                                <?php if(!empty($row->children)):?> 
-                                <tr class="my-3  row">
-                                  <th class="col-4">Children </th>
-                                  <td class="col-8"><?=esc($row->children ? :'Not available')?></td>
-                                </tr>
-                                <?php endif;?> 
-                              <?php endif;?>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Residence: </th>
-                                  <td class="col-8"><?=esc($row->residence ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">GPS Address: </th>
-                                  <td class="col-8"><?=esc($row->gps_address ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Water Baptized?: </th>
-                                  <td class="col-8"><?=esc($row->water_baptized ? :'Not available')?></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                              </div>
-
-                          <!-- Other Details -->
-                              <div class="col-lg-6 px-2">
-                              <table class="table-borderless table-hover table-striped px-3 rounded">
-                                  <tbody>
-
-                                  <h5 class="text-info">Other Details</h5><hr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">HolyGhost Baptized?: </th>
-                                  <td class="col-8"><?=esc($row->holyghost_baptized ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row d-flex">
-                                  <th class="col-4">Attends Communion?: </th>
-                                  <td class="col-8"><?=esc($row->communicant_status ? :'Not available')?></td>
-                                </tr>
-
-                                  <tr class="my-3  row d-flex">
-                                  <th class="col-4">Occupation: </th>
-                                  <td class="col-8"><?=esc($row->job ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row">
-                                  <th class="col-4 ">Hometown:</th>
-                                  <td class="col-8 text-wrap"><?=esc($row->hometown ? :'Not available')?></td>
-                                </tr>
-
-                                <tr class="my-3  row">
-                                  <th class="col-4">Father:</th>
-                                  <td class="col-8 text-wrap"><?=esc($row->father_name ? :'Not available')?> <span class="fst-italic text-muted">(<?=esc($row->father_phone ? :'Contact Unknowm')?>)</span>
-                                  </td>
-                                </tr>
-
-                                <tr class="my-3  row">
-                                  <th class="col-4">Mother:</th>
-                                  <td class="col-8 text-wrap"><?=esc($row->mother_name ? :'Not available')?> <span class="fst-italic text-muted">(<?=esc($row->mother_phone ? :'Contact Unknowm')?>)</span>
-                                  </td>
-                                </tr>
-
-                                <tr class="my-3  row">
-                                  <th class="col-4 text-wrap">Emergency Contact Person:</th>
-                                  <td class="col-8 text-wrap"><?=esc($row->emergecy_name ? :'Not available')?> <span class="fst-italic text-muted">(<?=esc($row->emergecy_contact ? :'Contact Unknowm')?>)</span>
-                                  </td>
-                                </tr>
-                                
-                                <tr class="my-3  row">
-                                  <th class="col-4">Registered on:</th>
-                                  <td class="col-8 text-wrap"><?=get_date($row->date ?? '<div class="text-danger fs-5 fw-lighter">Not available</div>')?></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                              </div>
-                              </div>
-
-                          
-                        </div>
-                      </div>
-                    </div>
+                      <?php include views_path('admin/profile-tabs-contents/view_profile') ?>                   
+                    
                 </div>
 
                  <div class="tab-pane fade profile-edit pt-3 show" id="profile-edit">
                   <!-- Profile Edit Form -->
 
-                  <form method="post" enctype="multipart/form-data">
-
-                    <div class="row mb-3 ">
-                      <label for="profileImage" class="mx-auto col-md-4 col-lg-3 px-3">Profile Image</label>
-                      <div class="mx-auto col-md-8 col-lg-9">
-                        <label class="d-flex rounded js-profile-image-input" title="Click to Upload new profile image">
-                          <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
-                          <img class="js-image-preview bg-light shadow rounded text-center my-auto" src="<?=ROOT?>/<?=$row->image?>" alt="Profile photo" style="width:200px;max-width:200px;height:200px;object-fit: cover; font-size: 18px">
-                          <div class="js-filename m-2 ">Selected File: None</div>
-                        </label>
-                        <div class="pt-2">
-                          <label class="btn btn-primary btn-sm" title="Upload new profile image" >
-                            <i class="text-info mx text-white bi bi-upload"></i>
-                            <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
-                          </label>
-
-                          <?php if(!empty($errors['image'])):?>
-                            <small class="js-error-image text-danger"><?=$errors['image']?></small>
-                          <?php endif;?>
-                        </div>
-                      </div>
-
-                    </div>                      
-                      <div class="row mb-3 col-12">
-                        <div class="row mb-3">
-                          <label for="firstname" class="mx-auto col-md-4 col-lg-3 px-3">First Name</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="firstname" type="text" class="form-control" id="firstname" value="<?=set_value('firstname',$row->firstname)?>">
-                          </div>
-
-                          <?php if(!empty($errors['firstname'])):?>
-                            <small class="js-error-firstname text-danger"><?=$errors['firstname']?></small>
-                          <?php endif;?>
-                          <small class="js-error-firstname text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="lastname" class="mx-auto col-md-4 col-lg-3 px-3">Last Name</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="lastname" type="text" class="form-control" id="lastname" value="<?=set_value('lastname',$row->lastname)?>">
-                          </div>
-
-                          <?php if(!empty($errors['lastname'])):?>
-                            <small class="js-error-lastname text-danger"><?=$errors['lastname']?></small>
-                          <?php endif;?>
-                          <small class="js-error-lastname text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="Job" class="mx-auto col-md-4 col-lg-3 px-3">Job</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="job" type="text" class="form-control" id="Job" value="<?=set_value('job',$row->job)?>">
-                          </div>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="dob" class="mx-auto col-md-4 col-lg-3 px-3">dob</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="dob" type="date" class="form-control" id="dob" value="<?=set_value('dob',$row->dob)?>">
-                          </div>
-
-                          <?php if(!empty($errors['dob'])):?>
-                            <small class="js-error-dob text-danger"><?=$errors['dob']?></small>
-                          <?php endif;?>
-                          <small class="js-error-dob text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="Phone" class="mx-auto col-md-4 col-lg-3 px-3">Phone</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="phone" type="text" class="form-control" id="Phone" value="<?=set_value('phone',$row->phone)?>">
-                          </div>
-
-                          <?php if(!empty($errors['phone'])):?>
-                            <small class="js-error-phone text-danger"><?=$errors['phone']?></small>
-                          <?php endif;?>
-                          <small class="js-error-phone text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="Email" class="mx-auto col-md-4 col-lg-3 px-3">Email</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="email" type="email" class="form-control" id="Email" value="<?=set_value('email',$row->email)?>">
-                          </div>
-
-                          <?php if(!empty($errors['email'])):?>
-                            <small class="js-error-email text-danger"><?=$errors['email']?></small>
-                          <?php endif;?>
-                          <small class="js-error-email text-danger"></small>
-                        </div>
-
-                      <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Gender/M.Status</label>
-                      <div class="mx-auto col-md-4 col-lg-5">
-                        <select class="form-select rounded <?=!empty($errors['gender']) ? 'border-danger':'';?>" name="gender"  >
-                            <option value="">--Select Gender--</option>
-                            <option value="female" <?=set_select('gender','female',$row->gender)?>>female</option>
-                            <option value="male"<?=set_select('gender','male',$row->gender)?>>male</option>
-
-                        </select>
-                        <div class="invalid-feedback">Gender is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['gender'])):?>
-                        <div class="text-danger"><small><?=$errors['gender']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-4 col-lg-4">
-                        <select class="form-select rounded <?=!empty($errors['marital_status_id']) ? 'border-danger':'';?>" name="marital_status_id"  >
-                            <option value="">---Select Marital Status---</option>
-                            <?php if(!empty($maritalStatus)):?>
-                              <?php foreach($maritalStatus as $cat):?>
-                                <option <?=set_select('marital_status_id',$row->marital_status_id,$cat->marital_status)?> value="<?=$cat->marital_status?>"><?=esc($cat->marital_status)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>
-                        </select>
-                        <div class="invalid-feedback">Marital status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['marital_status_id'])):?>
-                        <div class="text-danger"><small><?=$errors['marital_status_id']?></small></div>
-                      <?php endif;?>
-                      </div>
-
-                      <div class="row mb-3">
-                          <label for="position" class="mx-auto col-md-4 col-lg-3 px-3">About Spouse <br> (if married)</label>
-                          <div class="mx-auto col-md-4 col-lg-5">
-                            <input name="spouse_name" type="text" class="form-control" id="Email" value="<?=set_value('spouse_name',$row->spouse_name)?>" placeholder="Enter Spouse's Full Name">
-                          </div>
-
-                          <div class="mx-auto col-md-4 col-lg-4">
-                            <input name="spouse_phone" type="text" class="form-control" id="Email" value="<?=set_value('spouse_phone',$row->spouse_phone)?>" placeholder="Enter Spouse's Contact">
-                          </div>
-
-                          <?php if(!empty($errors['spouse_phone'])):?>
-                            <small class="js-error-spouse_phone text-danger"><?=$errors['spouse_phone']?></small>
-                          <?php endif;?>
-                          <small class="js-error-spouse_phone text-danger"></small>
-                        </div>
-
-                      <div class="row mb-3">
-                          <label for="Children" class="mx-auto col-md-4 col-lg-3 px-3">Names of Children <br> (if any)</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <textarea  class="form-control" aria-label="With textarea" style="height: 100px;" name="children" placeholder="Please list the full names of your children. Eg. Alvin Nyansah Sam, Diana Favour Sam, etc."><?=$row->children?></textarea>
-                          </div>
-
-                          <?php if(!empty($errors['children'])):?>
-                            <small class="js-error-children text-danger"><?=$errors['children']?></small>
-                          <?php endif;?>
-                          <small class="js-error-children text-danger"></small>
-                      </div>
-
-                    <?php if(user_can('edit_slider_images')):?>
-                      <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-3 col-lg-3 px-3">Baptism</label>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['water_baptized']) ? 'border-danger':'';?>" name="water_baptized"  >
-                            <option value="" selected="">---Water Baptized?---</option>
-                            <option value="yes"  <?=set_select('water_baptized','yes',$row->water_baptized)?> >yes</option>
-                            <option value="no" <?=set_select('water_baptized','no',$row->water_baptized)?> >no</option>
-                          </select>
-                        <div class="invalid-feedback">Water Baptism status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['water_baptized'])):?>
-                        <div class="text-danger"><small><?=$errors['water_baptized']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['holyghost_baptized']) ? 'border-danger':'';?>" name="holyghost_baptized"  >
-                          <option value="" selected="">---Holy Ghost Baptized?---</option>
-                            <option value="yes"  <?=set_select('holyghost_baptized','yes',$row->holyghost_baptized)?> >yes</option>
-                            <option value="no" <?=set_select('holyghost_baptized','no',$row->holyghost_baptized)?> >no</option>
-                        </select>
-                        <div class="invalid-feedback">Holy Ghost baptism status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['holyghost_baptized'])):?>
-                        <div class="text-danger"><small><?=$errors['holyghost_baptized']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['communicant_status']) ? 'border-danger':'';?>" name="communicant_status"  >
-                          <option value="" selected="">---Attends Communion?---</option>
-                            <option value="yes"  <?=set_select('communicant_status','yes',$row->communicant_status)?> >yes</option>
-                            <option value="no" <?=set_select('communicant_status','no',$row->communicant_status)?> >no</option>
-                        </select>
-                        <div class="invalid-feedback">Communion status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['communicant_status'])):?>
-                        <div class="text-danger"><small><?=$errors['communicant_status']?></small></div>
-                      <?php endif;?>
-                      </div>
-                    <?php endif;?>
-
-                     <?php if(user_can('edit_slider_images')):?>
-                      <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Local/Role</label>
-
-                      <div class="mx-auto col-md-4 col-lg-5">
-                        <select class="form-select rounded <?=!empty($errors['category_id']) ? 'border-danger':'';?>" name="category_id"  >
-                            <option value="">---Select Local Assembly---</option>
-                            <?php if(!empty($categories)):?>
-                              <?php foreach($categories as $cat):?>
-                                <option <?=set_select('category_id',$row->category_id,$cat->category)?> value="<?=$cat->category?>"><?=esc($cat->category)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>
-
-                        </select>
-                        <div class="invalid-feedback">Local assembly is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['category_id'])):?>
-                        <div class="text-danger"><small><?=$errors['category_id']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-4 col-lg-4">
-                        <select class="form-select rounded <?=!empty($errors['role']) ? 'border-danger':'';?>" name="role"  >
-                            <option value="">---Select Role---</option>
-                            <?php if(!empty($roles)):?>
-                              <?php foreach($roles as $cat):?>
-                                <option <?=set_select('role',$row->role_name,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>
-
-                        </select>
-                        <div class="invalid-feedback">Role is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['role'])):?>
-                        <div class="text-danger"><small><?=$errors['role']?></small></div>
-                      <?php endif;?>
-                      </div>
-                    <?php endif;?>
-
-                        <div class="row mb-3">
-                          <label for="position" class="mx-auto col-md-4 col-lg-3 px-3">Position</label>
-                          <div class="mx-auto col-md-4 col-lg-5">
-                            <select name="localposition_id" class="form-select rounded">
-                              <option value="">--Select Local Role--</option>
-                              <?php if(!empty($localPositions)):?>
-                              <?php foreach($localPositions as $cat):?>
-                                <option <?=set_select('localposition_id',$row->localposition_id,$cat->position)?> value="<?=$cat->position?>"><?=esc($cat->position)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>        
-                            </select>
-                          </div>
-
-                          <div class="mx-auto col-md-4 col-lg-4">
-                            <select name="position_id" class="form-select rounded">
-                              <option value="">--Select District Role--</option>
-                              <?php if(!empty($positions)):?>
-                              <?php foreach($positions as $cat):?>
-                                <option <?=set_select('position_id',$row->position_id,$cat->position)?> value="<?=$cat->position?>"><?=esc($cat->position)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>        
-                            </select>
-                          </div>
-
-                          <?php if(!empty($errors['position_id'])):?>
-                            <small class="js-error-position_id text-danger"><?=$errors['position_id']?></small>
-                          <?php endif;?>
-                          <small class="js-error-position_id text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="residence" class="mx-auto col-md-4 col-lg-3 px-3">Residence</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="residence" type="text" class="form-control" id="residence" value="<?=set_value('residence',$row->residence)?>">
-                          </div>
-
-                          <?php if(!empty($errors['residence'])):?>
-                            <small class="js-error-residence text-danger"><?=$errors['residence']?></small>
-                          <?php endif;?>
-                          <small class="js-error-residence text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="gps_address" class="mx-auto col-md-4 col-lg-3 px-3">GPS Address</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="gps_address" type="text" class="form-control" id="gps_address" value="<?=set_value('gps_address',$row->gps_address)?>">
-                          </div>
-
-                          <?php if(!empty($errors['gps_address'])):?>
-                            <small class="js-error-gps_address text-danger"><?=$errors['gps_address']?></small>
-                          <?php endif;?>
-                          <small class="js-error-gps_address text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="hometown" class="mx-auto col-md-4 col-lg-3 px-3">Hometown</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="hometown" type="text" class="form-control" id="hometown" value="<?=set_value('hometown',$row->hometown)?>">
-                          </div>
-
-                          <?php if(!empty($errors['hometown'])):?>
-                            <small class="js-error-hometown text-danger"><?=$errors['hometown']?></small>
-                          <?php endif;?>
-                          <small class="js-error-hometown text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="MotherName" class="mx-auto col-md-4 col-lg-3 px-3">Mother's Name</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="mother_name" type="text" class="form-control" id="MotherName" value="<?=set_value('mother_name',$row->mother_name)?>">
-                          </div>
-
-                          <?php if(!empty($errors['mother_name'])):?>
-                            <small class="js-error-mother_name text-danger"><?=$errors['mother_name']?></small>
-                          <?php endif;?>
-                          <small class="js-error-mother_name text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="MotherPhone" class="mx-auto col-md-4 col-lg-3 px-3">Mother's Phone</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="mother_phone" type="text" class="form-control" id="MotherPhone" value="<?=set_value('mother_phone',$row->mother_phone)?>">
-                          </div>
-
-                          <?php if(!empty($errors['mother_phone'])):?>
-                            <small class="js-error-mother_phone text-danger"><?=$errors['mother_phone']?></small>
-                          <?php endif;?>
-                          <small class="js-error-mother_phone text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="FatherName" class="mx-auto col-md-4 col-lg-3 px-3">Father's Name</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="father_name" type="text" class="form-control" id="FatherName" value="<?=set_value('father_name',$row->father_name)?>">
-                          </div>
-
-                          <?php if(!empty($errors['father_name'])):?>
-                            <small class="js-error-father_name text-danger"><?=$errors['father_name']?></small>
-                          <?php endif;?>
-                          <small class="js-error-father_name text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="FatherPhone" class="mx-auto col-md-4 col-lg-3 px-3">Father's Phone</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="father_phone" type="text" class="form-control" id="FatherPhone" value="<?=set_value('father_phone',$row->father_phone)?>">
-                          </div>
-
-                          <?php if(!empty($errors['father_phone'])):?>
-                            <small class="js-error-father_phone text-danger"><?=$errors['father_phone']?></small>
-                          <?php endif;?>
-                          <small class="js-error-father_phone text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="emergecy_name" class="mx-auto col-md-4 col-lg-3 px-3">Emergency Contact Person</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="emergecy_name" type="text" class="form-control" id="emergecy_name" value="<?=set_value('emergecy_name',$row->emergecy_name)?>">
-                          </div>
-
-                          <?php if(!empty($errors['emergecy_name'])):?>
-                            <small class="js-error-emergecy_name text-danger"><?=$errors['emergecy_name']?></small>
-                          <?php endif;?>
-                          <small class="js-error-emergecy_name text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="emergecy_contact" class="mx-auto col-md-4 col-lg-3 px-3">Emergency Contact Number</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="emergecy_contact" type="text" class="form-control" id="emergecy_contact" value="<?=set_value('emergecy_contact',$row->emergecy_contact)?>">
-                          </div>
-
-                          <?php if(!empty($errors['emergecy_contact'])):?>
-                            <small class="js-error-emergecy_contact text-danger"><?=$errors['emergecy_contact']?></small>
-                          <?php endif;?>
-                          <small class="js-error-emergecy_contact text-danger"></small>
-                        </div>
-                        <br>
-                          <h4>End of Personal details</h4>                  
-
-                    <div class="js-prog progress my-4 hide">
-                      <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Saving.. 50%</div>
-                    </div>
-                    </div>
-
-                    <div class="text-center">
-                     <!--  <a href="<?=ROOT?>/admin/viewusers/<?=$row->id?>">
-                        <button type="button" class="btn btn-warning  float-start">Back</button>
-                      </a> -->
-                      <button type="button" onclick="save_profile(event)" type="submit" class="btn btn-info float-end">Save Changes</button>
-                    </div>
-                  </form><!-- End Profile Edit Form -->
+                  <?php include views_path('admin/profile-tabs-contents/edit_profile') ?> 
 
                 </div>
 
                  <div class="tab-pane fade attendance pt-3 show" id="attendance">
                   <!-- Profile Edit Form -->
 
-                  <?php /*include('register/stat2.inc.php');*/ ?>
+                  <?php include views_path('admin/profile-tabs-contents/attendance') ?> 
 
-                  <div class="row">
-                      <div class="mx-auto p-3 rounded">
-                      <div class=" rounded">
-                      <?php if(!empty($rows2)):?>
-                          <h4 class="text-center LucidaSans mt-3"><u>Marked Attendance for <?= $row->firstname ?></u></h4>
-                          <div class="table-responsive mt-3">
-                              <div class="card p-3 mb-4 col-8 mx-auto">
-                                  <table  id="example" class="table table-hover table-bordered table-striped">
-                                      
-                                    <tbody>  
-                                      <tr class="alert alert-info">                                        
-                                           
-                                          <th></th>          
-                                          <th>Total</th>
-                                      </tr> 
-                                      <tr>
-                                          <th focus="row">Present:</th>
-                                          <td><?=$my_total_present ? $my_total_present : 0?></td>
+                  
+                </div>
 
-                                      </tr>
-                                      <tr>
-                                          <th focus="row">Absent:</th>
-                                          <td><?=$my_total_attentance ? $my_total_absent : 0?></td>
+                <div class="tab-pane fade search pt-3 show" id="search">
+                  <!-- Profile Edit Form -->
 
-                                      </tr>
-
-                                      <tr>
-                                          <th focus="row">Total Marked:</th>
-                                          <th class="border-bottom text-primary"><?=$my_total_attentance  ? $my_total_attentance :0;?></th>
-
-                                      </tr>
-                                      </tbody>
-                                  </table>
-                              </div>
-                              <div class="container-fluid mb-4 mx-auto">
-
-                                  <table id="example" class="table table-hover table-striped table-sm">
-                                      <tr>                                        
-                                          <th>Sn</th> 
-                                          <th>Event Date</th> 
-                                          <th>Image</th>            
-                                          <th>Name</th>            
-                                          <th>Assembly</th>            
-                                          <th>Comment</th>          
-                                          <th>Remarks</th>          
-                                          <th>Marked by</th>            
-
-                                      </tr>     
-                                      <?php
-                                      $NO = 0;
-                                      foreach ($rows2 as $att):
-                                          $NO += 1;
-                                          ?>
-                                          <tr>
-                                              <td><?= esc($NO) ?></td>
-                                              <td><?=date('D, ', strtotime($att->month))?><?= esc(($att->month))?></td>
-                                              <td>
-                                                 <a href="<?=ROOT?>/admin/profile/<?=$att->member_id?>" class="text-primary">
-                                                  <?php if (!empty($att->image)): ?>                  
-                                                  <img src="<?=get_profile_image($att->image)?>" alt="" style="width:80px;max-width:80px;height:80px;object-fit: SPAN;" class="rounded">          
-                                                  <?php elseif(!empty($att->gender)):?>
-                                                  <img src="<?=ROOT?>/assets/images/<?=$att->gender?>.jpg" alt="" style="width:80px;max-width:80px;height:80px;object-fit: SPAN;" class="rounded">
-                                                <?php else:?>
-                                                  <img src="<?=ROOT?>/assets/images/no-image.jpg" alt="" style="width:80px;max-width:80px;height:80px;object-fit: SPAN;" class="rounded">
-                                                <?php endif ;?></a>
-                                              </td>
-
-                                              <td><?= esc($att->firstname . ' ' . $att->lastname) ?></td>
-                                              <td><?= esc($att->category_id) ?></td>
-                                              <td <?php
-                                                  if ($att->status == "PRESENT") {
-                                                      echo 'class="text-success text-center"';
-                                                  } else {
-                                                      echo 'class="text-danger text-center"';
-                                                  }
-                                                  ?>><?php echo $att->status; ?>
-                                              </td>
-
-                                              <td >
-                                                  <?php if(!empty($att->comment)):?>
-                                                      <p class="text-center text-muted fst-italic alert alert-info py-1"><?= $att->comment; ?></p>
-                                                  <?php endif;?>
-                                              </td>
-                                              
-                                              <td><?= $att->marked_by ?></td>
-
-                                          </tr>
-                                      <?php endforeach; ?>
-                                      
-
-                                  </table>
-                          </div>
-                      </div>
-
-                      <?php else: ?>
-                        
-                      <div class="alert alert-danger text-center mt-5">Record not found</div>
-                                
-                      <?php endif; ?>
-                      </div>
-                  </div>
-                     
-                  </div>
+                  <?php include views_path('admin/profile-tabs-contents/search') ?> 
+                  
 
                 </div>
               </div>
@@ -913,7 +274,6 @@
                 That profile was not found!
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-
   <?php endif;?>
 
 <script>
@@ -1099,7 +459,7 @@
 
 </script>
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   
   function get_data(text)
   {
@@ -1174,6 +534,6 @@
     result_div.classList.add("hide")
   }
 
-</script> -->
+</script>
 
 <?php $this->view('admin/admin-footer',$data) ?>

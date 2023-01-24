@@ -743,6 +743,43 @@ if($action == 'print_members')
  
 
     }
+     elseif($action == 'print_officers')
+    {
+
+      $Sampa_District_officers = [
+        ['Id', 'First Name', 'Last Name', 'Local Assembly', 'Position', 'Age', 'DoB', 'Marital Status', 'Email Address', 'Phone Number', 'Location']
+      ];
+
+      $id = 0;
+      foreach ($data['row'] as $row){
+
+      if(!empty($row->role) AND $row->role_name === 'elder' OR $row->role_name === 'deacon' OR $row->role_name === 'deaconess'){
+
+       $id +=1;
+
+            $dob = $row->dob;
+            $today = date("Y-m-d");
+            $diff = date_diff(date_create($dob), date_create($today));
+            $age = $diff->format('%Y');
+
+            $mydob = get_date_month_day($row->dob);
+            $today = date('m d');
+                        
+
+          $Sampa_District_officers = array_merge($Sampa_District_officers, array(array($id, $row->firstname, $row->lastname, $row->category_id, $row->role_name, $age, get_date($row->dob), $row->marital_status_id, $row->email, $row->phone, $row->residence)));
+        }
+      }
+
+      $xlsx = model\SimpleXLSXGen::fromArray($Sampa_District_officers);
+      $xlsx->downloadAs('Sampa_District_officers_' . date('Ymd_') . date('H.i.sa').'.xlsx'); // This will download the file to your local system
+
+      // $xlsx->saveAs('Sampa_District_officers' . date('Ymd') . date('H.i.s').'.xlsx'); // This will save the file to your server
+
+      echo "<pre>";
+      print_r($Sampa_District_officers . date('Ymd') . date('H.i.s'));
+ 
+
+    }
     elseif($action == 'print_deacons')
     {
 

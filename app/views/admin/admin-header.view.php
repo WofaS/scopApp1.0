@@ -1,4 +1,38 @@
-<?php
+<style>
+    
+     *{
+        font-family: tahoma;
+      }
+
+    .subnav ul li:hover{
+      color: red;
+      background-color: #00cfff;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .subnav ul li{
+      margin-left: 15px;
+      font-size: 16px;
+    }
+
+    .subnav ul li span:hover{
+          color: lightblue;
+
+    }
+
+    .subnav ul li span{
+      margin-left: 12px;
+      transition: 0.5s zoom-in;
+      }
+
+    .hide{
+      display: none;
+    }
+
+  </style>
+
+  <?php
   use \Model\Auth;
   $categories = get_categories();
   $members = get_members();
@@ -54,13 +88,12 @@
   <link href="<?=ROOT?>/niceadmin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="<?=ROOT?>/niceadmin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
   <link rel="stylesheet" href="<?=ROOT?>/admindash/vendor/chartist/css/chartist.min.css">
-  <!-- Toastr -->
-  <link rel="stylesheet" href="<?=ROOT?>/admindash/vendor/toastr/css/toastr.min.css">
 
   <!-- Template Main CSS File -->
   <link href="<?=ROOT?>/niceadmin/assets/css/style.css" rel="stylesheet">
-  <link href="<?=ROOT?>/assets/css/custom.css" rel="stylesheet">  
+  <link href="<?=ROOT?>/assets/css/custom.css" rel="stylesheet">
   <script src="<?=ROOT?>/assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+
 
 </head>
 
@@ -381,16 +414,7 @@
         <li class="nav-item">
           <a class="nav-link collapsed" href="<?=ROOT?>/admin/locals">
             <i class="text-info bi bi-people-fill" style="font-size: 18px;"></i>
-            <span>Members</span>
-          </a>
-        </li><!-- End Dashboard Nav -->
-        <?php endif;?>
-
-        <?php if(user_can('view_categories')):?>
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="<?=ROOT?>/admin/groups">
-            <i class="text-info bx bxl-mailchimp" style="font-size: 24px;"></i>
-            <span>Groups</span>
+            <span>Staff</span>
           </a>
         </li><!-- End Dashboard Nav -->
         <?php endif;?>
@@ -409,7 +433,7 @@
           <i class="text-info bi bi-book-half" style="font-size: 18px;"></i><span>Attendance</span><i class="text-info bi bi-chevron-down ms-auto"></i>
         </a>
 
-        <ul id="icons-navAttendance" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="icons-navAttendance" class="subnav nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <?php if(user_can('view_roles')):?>
             <li class="nav-item ">
@@ -441,41 +465,23 @@
           <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Admin Operations</span><i class="text-info bi bi-chevron-down ms-auto"></i>
         </a>
 
-        <ul id="icons-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <ul id="icons-nav3" class="subnav nav-content collapse " data-bs-parent="#sidebar-nav">
 
           <?php if(user_can('view_roles')):?>
+            
             <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/operations">
-                <i class="text-info bi bi-gear" style="font-size: 18px;"></i>
-                <span>App Details</span>
-              </a>
-            </li><!-- End Dashboard Nav -->
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/roles">
-                <i class="text-info bx bxs-lock" style="font-size: 18px;"></i>
-                <span>Permissions</span>
+              <a class="nav-link collapsed" href="<?=ROOT?>/adminsignup">
+                <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
+                <span>Add Admin</span>
               </a>
             </li><!-- End Dashboard Nav --> 
               
               <li class="nav-item">
                 <a class="nav-link collapsed" href="<?=ROOT?>/admin/categories">
                   <i class="text-info bi bi-list" style="font-size: 18px;"></i>
-                  <span>List Locals</span>
+                  <span>List Branches</span>
                 </a>
-              </li><!-- End Dashboard Nav --> 
-
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/districtposition">
-                <i class="text-info bx bx-list-check" style="font-size: 18px;"></i>
-                <span>Dist. Positions</span>
-              </a>
-            </li><!-- End Dashboard Nav -->    
-            <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/admin/local_position">
-                <i class="text-info bx bx-list-check" style="font-size: 18px;"></i>
-                <span>Local Positions</span>
-              </a>
-            </li><!-- End Dashboard Nav -->      
+              </li><!-- End Dashboard Nav -->      
           <?php endif;?>
 
           <?php if(user_can('view_marital_status')):?>
@@ -486,6 +492,51 @@
               </a>
             </li><!-- End Dashboard Nav -->      
           <?php endif;?>
+
+          <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-subnav" data-bs-toggle="collapse" href="#">
+            <i class="text-info bi bi-gear-fill" style="font-size: 18px;"></i><span>App Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+          </a>
+
+            <ul id="icons-subnav" class="subnav nav-content collapse " data-bs-parent="#icons-nav3">
+
+
+              <li class="nav-item ">
+                <a class="nav-link collapsed" href="<?=ROOT?>/admin/roles">
+                  <i class="text-info bx bxs-lock" style="font-size: 18px;"></i>
+                  <span>Permissions</span>
+                </a>
+              </li><!-- End Dashboard Nav -->
+
+              <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/operations">
+                <i class="text-info bi bi-gear" style="font-size: 18px;"></i>
+                <span>App Details</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+
+            </ul>
+
+          </li>
+
+          <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#icons-subnav2" data-bs-toggle="collapse" href="#">
+            <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Position Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+          </a>
+
+            <ul id="icons-subnav2" class="subnav nav-content collapse " data-bs-parent="#icons-nav3"> 
+               
+            <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/local_position">
+                <i class="text-info bx bx-list-check" style="font-size: 18px;"></i>
+                <span>Positions</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+
+            </ul>
+
+          </li>
+
 
         </ul>
       </li>

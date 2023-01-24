@@ -294,33 +294,49 @@ public function dashboard()
 		$this->view('admin/search',$data);
 	}
 
-	public function make_pdf($action = null, $id = null, $slug = null, $category_id = null, $role = null, )
+	public function mysearch($role = null, $slug = null)
+	{
+		
+
+		$id = $id ?? Auth::getId();
+
+		$member = new \Model\Member();
+		$data['row'] = $row = $member->findAllByName();
+
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $row)
+		{
+			if (count($_POST) > 0) {
+
+				$text = $_POST['text'];
+				$text = addslashes($text);
+				$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
+				$result = $member->query($query);
+
+			  echo json_encode($result); die;
+			}
+		}
+		
+		$this->view('admin/mysearch',$data);
+	}
+
+	public function make_pdf($action = null, $id = null, )
 	{
 		if(!Auth::logged_in())
 		{
 			message('please login to view the admin section');
 			redirect('login');
 		}
-
-		$user_id = Auth::getId();
-		$category = new \Model\Category();
-		$member = new \Model\Member();
+		
 
 		$data = [];
+
+		$id = $id ?? Auth::getId();
+
 		$data['action'] = $action;
-		$data['id'] = $id;
-		$data['role'] = $role;
-		$data['category_id'] = $category_id;
 
-		//read all categores 
-		$query = "SELECT m.*,cat.category,cat.slug as catslug FROM members as m join categories as cat on cat.slug = m.category_id where cat.slug = :slug";
-		$data['rows'] =$rows = $category->query($query,['slug'=>$slug]);
-		
-		//read all members order by slug value
-		$query = "select * from categories where slug = slug order by category asc";
-		$data['slug'] = $category->query($query);
-
-		$data['row'] = $rows = $member->findAllByName('asc');
+		$register = new \Model\Register();
+		$member = get_members($id);
+		$data['row'] = $rows = $member;
 
 
 		$app = get_app_details();
@@ -348,16 +364,18 @@ public function dashboard()
 		   
 		 ]);
 		 
-foreach($app as $row){
+
 	if($action == 'download_member_form'){
+
+		foreach($app as $app){
 		$html = "
 
 
 						<table>
                  <thead>
-                 <tr ><th colspan='4' style=''><div style='display:flex; flex-direction:row; margin:auto;'>
-		 						<img src='".get_profile_image($row->image)."' style='max-width:50px; max-height:50px; '><br>
-		 							".strtoupper($row->church_name). "- ".strtoupper($row->area_name)."<br><br> <p>". strtoupper($row->district_name)."</p>
+                 <tr ><th colspan='4' style=''><div style='display:flex; flex-direction:app; margin:auto;'>
+		 						<img src='".get_profile_image($app->image)."' style='max-width:50px; max-height:50px; '><br>
+		 							".strtoupper($app->church_name). "- ".strtoupper($app->area_name)."<br><br> <p>". strtoupper($app->district_name)."</p>
                  </th></tr>
                  
                  </thead>
@@ -384,7 +402,7 @@ foreach($app as $row){
                     </tr>
                     
                     <tr style='margin-bottom:10px;'>
-                    	<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Names of Children(if any):</th><td style='font-style:italic; font-size:11px; font-weight:bolder;' colspan='3'><br>
+                    	<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Names of Children(if any):</th><td style='font-style:italic; font-weight:bolder;' colspan='3'><br>
                     	1................................................   
                     	2................................................ 
                     	3................................................ <br><br>
@@ -440,88 +458,157 @@ foreach($app as $row){
 
 		";
 
-
+	}
 		$file_name = $folder.'new_member_form_'.date("dmY_His",time()).'.pdf';
 
-	}
+}
 
 	elseif($action == 'download_profile'){
-		$html = "
+		
+		foreach($rows as $row){
 
+			$dob = $row->dob;
+      $today = date("Y-m-d");
+      $diff = date_diff(date_create($dob), date_create($today));
+      $age = $diff->format('%Y years');
+      if ($row->gender ==='male') {
+      		$title = 'he';
+      	$adjective = 'his';
+      }else{
+      	$title = 'she';
+      	$adjective = 'her';
+      }
+
+      foreach($app as $app){
+
+      	$district = $app->district_name;
+      	$church = $app->church_name;
+      	$area = $app->area_name;
+      	$app_name = $app->appname;
+      	$address = $app->location;
+      	$logo = get_avatar($app->image);
+
+      }
+				
+				$html = "
 
 						<table>
                  <thead>
-                 <tr ><th colspan='4' style=''><div style='display:flex; flex-direction:row; margin:auto;'>
-		 						<img src='".get_profile_image($row->image)."' style='max-width:50px; max-height:50px; '><br>
-		 							".strtoupper($row->church_name). "- ".strtoupper($row->area_name)."<br><br> <p>". strtoupper($row->district_name)."</p>
-                 </th></tr>
+                 <tr>
+                 <td style='color:gray; font-size:12px; width:150px;'><img src='". $logo ."' style='max-width:20px; max-height:20px; padding:1px; justify-content:center; margin:auto;'><p style='padding-top:5px; padding-bottom:5px;'>" .ucfirst($church) .' '.$district ."<br>".' '.$row->category_id . ' Assembly ' ."</p></td>
+                 </tr><br>
+                 <tr >
+
+                 <div style='display:flex; flex-direction:row; margin:auto;'>
+	                 
+
+	                 <td colspan='3';> 
+	                 		<h4 style='border-bottom:2px solid gray; font-weight:bolder; text-align:center; justify-content:center; margin-bottom:10px;'>About ". ucfirst($row->firstname). ' ' . ucfirst($row->lastname). " </h4><br>
+	                 	<p style='font-style:italic; color:darkblue; font-size:12px;'>
+	                 		".ucfirst($row->firstname) . ' ' .ucfirst($row->lastname) . ' (' .ucfirst($row->role_name) .') worships with ' . ucfirst($row->category_id).' Assembly of the Church of Pentecost Sampa District. Born on the '. get_date($row->dob) .' to '. $row->father_name . ' (father) and '. $row->mother_name.' (mother), '. $title. ' is '. $age.' old. '. ucfirst($title) .' comes from '. $row->hometown .'. and is '. $row->marital_status_id.'. Currently, '. $title. ' stays at '. $row->residence . ' in Sampa-Jaman North District of the Bono Region, Ghana.' . " 
+	                 	</p>
+	                 </td>
+
+	                 <td colspan='1'>
+			 								<img src='".get_avatar($row->image) ."' style='max-width:80px; max-height:80px; width:80px; height:80px; border:2px solid #f6f9ff66; border-radius:10px; padding:1px;'>
+
+	                 </td>
+			 						</div>
+                 </tr> 
                  
                  </thead>
-                 <tr><th colspan='5' style='font-family:tahoma;'>
-                 MEMBERSHIP RECORD FORM <br> <small style='font-style:italic; font-size:10px; color:red;'>Please fill this form as accurate as possible</small></th></tr>
-                 </thead>
-                 <hr style='stroke:10px; color:gray; height:5px; margin-left:-30px;'>
+
                  <tbody>
-                   <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>First Name:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Last Names:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
-                   <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Email:</th><td></td><input style='width:200px; border-radius:5px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Phone Number:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
 
-                   <tr style='margin-bottom:10px;'>
-                   		<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>DOB(dd/mm/yyyy):</th><td><input style='width:200px; border-radius:5px;'></td>
+                 <br>										                                  
+                    
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>First Name:</th><td style=' font-style:italic;'><p>".esc(set_value('firstname',$row->firstname ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Last Names:</th><td style=' font-style:italic;'><p>".esc(set_value('lastname',$row->lastname ? :''))."</p></td>
+                    	</tr>
+										
+										<tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Email:</th><td style=' font-style:italic;'><p>".esc(set_value('email',$row->email ? :''))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Phone Number:</th><td style=' font-style:italic;'><p>".esc(set_value('phone',$row->phone ? :''))."</p></td>
+                    	</tr>
 
-                   		<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Gender:</th><td colspan='4'; style='font-style:italic; font-size:10px;'>female <input type='checkbox' style='margin-left:5px;'>  male<input type='checkbox'> </td>
+                   <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>DOB:</th><td style=' font-style:italic;'><p>".esc(get_date($row->dob ? :'Not available'))."</p></td>
 
-                   <tr style='margin-bottom:10px;'>
-                   		<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Marital status:</th><td colspan='4'; style='font-style:italic; font-size:10px;'>Single<input type='checkbox' style='margin-left:5px;'>  married<input type='checkbox'> dating <input type='checkbox' style='margin-left:5px;'> complicated <input type='checkbox' style='margin-left:5px;'> widowed <input type='checkbox' style='margin-left:5px;'>  divorced<input type='checkbox'> </td>
+
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Age:</th><td style='font-style:italic; margin-left:5px;'><p>".$age."</p></td>
+
+                   <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Gender:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->gender. "</p> </td>
+
+                   		<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Marital status:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->marital_status_id."</p></td>
 
                    </tr>
 
-                    <tr style='margin-bottom:10px;'>
-                    	<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Name of Spouse:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Phone:</th><td><input style='width:200px; border-radius:5px;'></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Name of Spouse:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_name',$row->spouse_name ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Spouse's Contact:</th><td style=' font-style:italic;'><p>".esc(set_value('spouse_phone',$row->spouse_phone ? :'Not available'))."</p></td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px;'>
-                    	<th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Names of Children(if any):</th><td><input style='width:200px;' ></td><td style='width:50px;'> </td><td><input style='width:200px;'></td>
-                    </tr>
-                    <tr style='margin-bottom:10px;'><th></th><td><input style='width:200px;' ></td><td style='width:50px;'> </td><td><input style='width:200px;'></td></tr>
-                    
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Residential Address:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>GPS Address:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
-
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Hometown:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Occupation:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
-                    
-                    <tr style='margin-bottom:10px;'><th style=' font-size:10px; font-family:tahoma; border:thin solid gray;'>Baptized in water?:</th><td>Yes  <input type='checkbox'> No  <input type='checkbox'></td>
-
-                    <th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Holy Ghost Baptized?:</th><td>Yes  <input type='checkbox'> No  <input type='checkbox'></td>
-                    </tr>
-
-                    <tr><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Attends Communion?:</th><td>Yes  <input type='checkbox'> No <input type='checkbox'></td></tr>
-                    
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Local Assembly:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Role:</th><td>Child  <input type='checkbox'>Deacon  <input type='checkbox'> Deaconess <input type='checkbox'>Elder  <input type='checkbox'> Member <input type='checkbox'> Visitor <input type='checkbox'></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Names of Children(if any):</th><td style='font-style:italic; font-weight:bolder;' colspan='3'><p>".esc(set_value('children',$row->children ? :'Not available'))."</p> </td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Position in District:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Position in Local:</th><td><input type='text' style='width:200px; border-radius:5px;'></td></tr>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Residential Address:</th><td style=' font-style:italic;'><p>".esc(set_value('residence',$row->residence ? :'Not available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>GPS Address:</th><td style=' font-style:italic;'><p>".esc(set_value('gps_address',$row->gps_address ? :'Not available'))."</p></td></tr>
 
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Father's Name:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Phone:</th><td><input type='text' style='width:200px; border-radius:5px;'></td></tr>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Hometown:</th><td style=' font-style:italic;'><p>".esc(set_value('hometown',$row->hometown ? :'NOt available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Occupation:</th><td style=' font-style:italic;'><p>".esc(set_value('job',$row->job ? :'Not available'))."</p></td></tr>
+                    
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Baptized in water?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->water_baptized."</p></td>
 
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Mother's Name:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Phone:</th><td><input type='text' style='width:200px; border-radius:5px;'></td></tr>
-                    <tr style='margin-top:10px;'>                    
+                    <th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Holy Ghost Baptized?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->holyghost_baptized."</p></td>
+                    </tr>
+
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
+                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Attends Communion?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->communicant_status."</p></td>
+                    </tr>
+                    
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Local Assembly:</th><td style=' font-style:italic;'><p>".$row->category_id."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Role:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->role_name."</p></td>
+                    </tr>
+                    
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in District:</th><td style=' font-style:italic;'><p>".esc($row->position_id ? :'No position')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in Local:</th><td style=' font-style:italic;'><p>".esc($row->localposition_id ? :'No position')."</p></td>
+                    </tr>
+
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Name:</th><td style=' font-style:italic;'><p>".esc($row->father_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Contact:</th><td style=' font-style:italic;'><p>".esc($row->father_phone ? :'Not available')."</p></td>
+                    </tr>
+
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Mother's Name:</th><td style=' font-style:italic;'><p>".esc($row->mother_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Mother's Contact:</th><td style=' font-style:italic;'><p>".esc($row->mother_phone ? :'Not available')."</p></td></tr>
+
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Emergency Person's Name:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_name ? :'Not available')."</p></td><th style='width:50px; font-family:tahoma; border:thin solid gray;'>Emergency Contact Number:</th><td style=' font-style:italic;'><p>".esc($row->emergecy_contact ? :'Not available')."</p></td>
+                    </tr>
+
+                                     
                  </tbody>
-                 <tfoot>
+                 <tfoot>               
+                      <tr style=''>
+                    	<th colspan='3' ></th><td style=''><strong style'text-aling:right; color:blue; font-size: 7px;'></strong></td>
+                    	</tr>
 
+                      <tr style=''>
+                    	<th colspan='3' ></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Registered on: </strong>".esc(get_date($row->date ? :'Not available'))."</td>
+                    </tr>                
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Downloaded on: </strong>".esc(date('D, jS M, Y') ? :'Not available')."</td>
+                    </tr>
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download time: </strong>".esc(date('H:i:sa') ? :'Not available')."</td>
+                    </tr> 
+                    <tr style=''>
+                    	<th colspan='3'></th><td style='font-size:8px; font-style:italic; color:gray;'><strong style'text-aling:right; color:blue; font-size: 7px;'>Download by: </strong>".ucfirst(Auth::getFirstname() ? :'Not available'). ' '.ucfirst(Auth::getLastname() ? :'Not available')."</td>
+                    </tr> 
                  </tfoot>
                </table>
-
-               <tr>
-               <hr style='stroke:10px; color:gray; height:5px; margin-left:-30px;'> 
-                 	<td style='width:550px;'><strong style='font-weight:bolder;'>Declaration:</strong> I ................................ confirm that the above information provided is accurate. Thank you.</td>
-                  </tr>
 
 		";
 
 
-		$file_name = $folder.'member_profile_'.date("dmY_His",time()).'.pdf';
+		$file_name = $folder.'member_profile_'.$row->firstname.' '.$row->lastname.'_'.date("dmY_His",time()).'.pdf';
+		}
 
 	}
-	}
+
 		$mpdf->WriteHTML($html);
 		
 
@@ -547,6 +634,7 @@ foreach($app as $row){
 
 		//$this->view('admin/make_pdf',$data);
 	}
+
 
 
 	public function excel($action = null, $id = null, $slug = null, $category_id = null, $role = null, )
@@ -583,7 +671,7 @@ foreach($app as $row){
 		$this->view('admin/excel',$data);
 	}
 	
-	public function print_g($slug = null,)
+	public function print_g($action = null, $id = null, $slug = null, $category_id = null, $role = null)
 	{
 		if(!Auth::logged_in())
 		{
@@ -598,6 +686,13 @@ foreach($app as $row){
 		$member = new \Model\Member();
 		$member = new \Model\Member();
 
+
+		$data = [];
+		$data['action'] = $action;
+		$data['id'] = $id;
+		$data['role'] = $role;
+		$data['category_id'] = $category_id;
+
 		$data['title'] = "Locals";
 
 		//read all categories 
@@ -611,18 +706,6 @@ foreach($app as $row){
 		$query1 = "select * from members where id = id order by firstname asc";
 
 		$data['row'] = $rows = $member->findAllByName('asc');
-
-		
-		if($data['rows']){
-			$data['first_row'] = $data['rows'][0];
-			unset($data['rows'][0]);
-
-			$total_rows = count($data['rows']);
-			$half_rows = round($total_rows / 2);
-
-			$data['rows1'] = array_splice($data['rows'], 0,$half_rows);
-			$data['rows2'] = $data['rows'];
-		}
 
 
 		$this->view('admin/print_g',$data);
@@ -721,20 +804,45 @@ foreach($app as $row){
 		
 		}
 
-		// $data['rows'] = $rows = $member->findAllByName();
+		$data['rows'] = $rows = $member->findAllByName();
 
-		// if($_SERVER['REQUEST_METHOD'] == "POST" && $rows)
-		// {
-		// 	if (count($_POST) > 0) {
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $rows)
+		{
+			if (count($_POST) > 0) {
 
-		// 		$text = $_POST['text'];
-		// 		$text = addslashes($text);
-		// 		$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
-		// 		$result = $member->query($query);
+				$text = $_POST['text'];
+				$text = addslashes($text);
+				$query = "select * from members where firstname like '%$text%' OR lastname like '%$text%' OR category_id like '%$text%' OR slug like '%$text%' OR email like '%$text%' OR marital_status_id like '%$text%' order by firstname desc";
+				$result = $member->query($query);
 
-		// 	  echo json_encode($result); die;
-		// 	}
-		// }
+			  echo json_encode($result); die;
+			}
+		}
+
+
+
+		$data['title'] = "Profile";
+		$data['errors'] = $member->errors;
+
+		$this->view('admin/profile',$data);
+	}
+
+	public function profile_edit($id = null)
+	{
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$data = [];
+
+		$id = $id ?? Auth::getId();
+
+		$member = new \Model\Member();
+		$data['row'] = $row = $member->first(['id'=>$id]);
+
 
 		if($_SERVER['REQUEST_METHOD'] == "POST" && $row)
 		{
@@ -802,7 +910,7 @@ foreach($app as $row){
 		$data['title'] = "Profile";
 		$data['errors'] = $member->errors;
 
-		$this->view('admin/profile',$data);
+		$this->view('admin/profile_edit',$data);
 	}
 
 	public function operations($id = null)
@@ -1497,6 +1605,34 @@ foreach($app as $row){
 
 
 		$this->view('admin/register/register_info');
+	}
+
+	public function localregister_info()
+	{
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$user_id = Auth::getId();
+
+		$errors = [];
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+		    $startdate = $_POST['startdate'];
+		    $enddate = $_POST['enddate'];
+   			if(!empty($date)){
+
+		    redirect("admin/mark_register&date=$date");
+			}
+			 message("Please select start Date and end Date");
+			}
+
+
+		$this->view('admin/register/localregister_info');
 	}
 
 

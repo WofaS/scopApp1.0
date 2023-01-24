@@ -131,7 +131,7 @@ use model\Auth;
                 <div class="items my-0 bg-light rounded shadow px-0">
 
                   <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
-                    <div class="text-center my-0">
+                    <div class="text-center my-0 px-3" style="height:220px;">
                       <small class="card-title" style="font-size: 12px;"><?=$num?></small>
                       <?php if(!empty($row->image)):?>
                       <img style="height: 80px; max-height: 80px; max-width:80px;" src="<?=get_profile_image($row->image)?>" alt=""class="mb-0 mx-auto rounded">
@@ -145,7 +145,7 @@ use model\Auth;
                       <img style="height: 80px; max-height: 80px; max-width:80px;" src="<?=ROOT?>/assets/images/male.jpg" alt=""class="mb-0 mx-auto rounded">
                     <?php endif;?>
                     <p style="margin-top:-10px; position: fixed;" class="badge bg-secondary text-light"><span>age <?=$age?></span></p>
-                    <h5 class="mb-0 card-title text-info"><?=$row->firstname?> <?=$row->lastname?><br> <span class="mb-0"><?=$row->category_id?></span></h5>
+                    <h5 class="mb-0 card-title text-info" style="font-size: 15px;"><?=$row->firstname?> <?=$row->lastname?><br> <span class="mb-0"><?=$row->category_id?></span></h5>
                    
                   </div>
                 </a>
@@ -489,7 +489,7 @@ use model\Auth;
 
 
 
-                  <svg viewbox="0 0 <?= $max_width. " ". $max_height; ?>" style="background-color: #4a7680; width: 100%; font-size: 12px; font-family:tahoma; font-weight: bolder; padding: 5px 10px 10px 10px; border-radius:5px;">
+                  <svg viewbox="0 0 <?= $max_width. " ". $max_height; ?>" style="background-color: #4a7680; font-size: 12px; font-family:tahoma; font-weight: bolder; padding: 5px 10px 10px 10px; border-radius:5px;">
 
                     <style type="text/css">
 
@@ -570,7 +570,7 @@ use model\Auth;
                   <h5 class="card-title">Water Baptism Vrs Holy Ghost Baptism <span>/Local Distribution</span></h5>
 
 
-                    <div id="histogram" style="height: 450px; width: 100%; font-size: 8px; padding:5px all;"></div>
+                    <div id="histogram" style="height: 450px; font-size: 8px; padding:5px all;"></div>
                     <!-- Line Chart -->
 
                   <?php
@@ -720,7 +720,7 @@ use model\Auth;
                   <h5 class="card-title">Water Baptism Vrs Holy Ghost Baptism <span>/Local Distribution</span></h5>
 
 
-                    <div id="areaChart" style="height: 450px; width: 100%; font-size: 8px; padding:5px all;"></div>
+                    <div id="areaChart" style="height: 450px; font-size: 8px; padding:5px all;"></div>
                     <!-- Line Chart -->
 
                   <?php
@@ -1063,7 +1063,7 @@ use model\Auth;
                 <h5 class="card-title">Role Categories<span>/General Distribution</span></h5>
 
                       
-                    <div class="rounded" id="NwBarMSChart" style="height: 150px; width: 100%; font-size: 8px; padding:0px all;"></div>
+                    <div class="rounded" id="NwBarMSChart" style="height: 150px; font-size: 8px; padding:0px all;"></div>
                     <!-- Line Chart -->
 
                   <?php
@@ -1133,7 +1133,7 @@ use model\Auth;
 
                     <h1></h1>
                       
-                      <div id="chartContainer2" style="height: 200px; width: 100%; font-size: 8px; padding:0px all;"></div>
+                      <div id="chartContainer2" style="height: 200px; font-size: 8px; padding:0px all;"></div>
 
                      <?php
 

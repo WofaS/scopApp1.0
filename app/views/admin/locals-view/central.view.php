@@ -126,6 +126,13 @@
 <?php if(!empty($data['row'])):?>
     <div class="section-header d-flex justify-content-between align-items-center mb-5">
       <h2 class="text-muted"><?=strtoupper(esc('Central ASSEMBLY'))?></h2>
+
+      <div class="float-end"> 
+          <a href="<?=ROOT?>/admin/excel/print_central"><button class="btn btn-success btn-sm" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button></a>
+
+        <a href="<?=ROOT?>/admin/print_g/print_central" class="mx-auto"><button class="btn btn-primary btn-sm">print</button></a>
+        </div>
+
     </div>
   <div class="row g-5">
     <div class="row d-flex mx-1 justify-content-center rounded table py-3 " style="height:200;">
