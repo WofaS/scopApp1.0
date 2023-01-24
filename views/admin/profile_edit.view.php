@@ -203,6 +203,12 @@
                 </li>
 
                 <li class="nav-item mx-2">
+                  <a href="<?=ROOT?>/admin/delete/<?=$row->id?>">
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link  bi bi-trash-fill" >Delete</button>
+                  </a>
+                </li>
+
+                <li class="nav-item mx-2">
                   <a class="justify-content-right float-right" href="<?=ROOT?>/admin/make_pdf/download_profile/<?=$row->id?>">
                     <button class="nav-link bi bi-download"> Download profile</button>
                   </a>

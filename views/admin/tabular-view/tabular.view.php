@@ -8,94 +8,9 @@
 
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('District Membership Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('Staff Overview')?></label>
         
-        <ul class="breadcrumb my-0 py-0">
-
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder" >
-
-          <?php
-
-           $num = 0;  
-           $numM = 0; 
-           $numV = 0; 
-           $numMM = 0; 
-           $numMF = 0; 
-
-           foreach ($data['row'] as $row){
-
-                 if(!empty($row->category_id)){
-
-                      $dob = $row->dob;
-                      $today = date("Y-m-d");
-                      $diff = date_diff(date_create($dob), date_create($today));
-                      $age = $diff->format('%Y');
-
-                      $num += 1;
-
-                    $totalT = $num ;
-
-                    if($row->role_name !='visitor'){
-
-                      $numM += 1;
-
-                      $totalM =$numM;
-
-                      if($row->gender ==='male')
-                      $numMM += 1;
-
-                      $totalMM =$numMM;
-
-                      if($row->gender ==='female')
-                      $numMF += 1;
-
-                      $totalMF =$numMF;
-
-                    }
-
-                    if($row->role_name === 'visitor')
-                      $numV += 1;
-
-                    $totalV = $numV ;
-                  }
-                }
-                ?>
-              <i class="bi bi-people-fill"></i></div>Total  <b class="mx-2 mb-0 text-danger"><?=$totalT ?? 0?></b>
-
-              <div class="filter col float-end">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6></h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Members </label><span class="col-6 text-info fw-bold"><?=$totalM ?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Visitors </label><span class="col-6 text-info fw-bold"><?=$totalV ?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6 fw-bolder text-danger">TOTAL </label><span class=" col-6 text-danger fw-bold" style="border-bottom:2px solid red"><?=$totalT?></span></a></li>
-                  </ul>
-                </div>
-          </li>
-          
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder mx-auto" ><i class="bx bx-male"></i></div>Members <b class="mx-3 text-danger"><?=$totalM ? : 0?></b>
-            <div class="filter col float-end">
-            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6></h6>
-                </li>
-
-                <li><a class="dropdown-item" href="#"><label class="col-6">Male </label><span class="col-6 text-info fw-bold"><?=$totalMM ?></span></a></li>
-                <li><a class="dropdown-item" href="#"><label class="col-6">Female </label><span class="col-6 text-info fw-bold"><?=$totalMF ?></span></a></li>
-                <li><a class="dropdown-item" href="#"><label class="col-6 fw-bolder text-danger">TOTAL </label><span class=" col-6 text-danger fw-bold" style="border-bottom:2px solid red"><?=$totalM?></span></a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder mx-auto" ><i class="bx bx-female"></i></div>Visitors <b class="mx-3 text-danger"><?=$totalV ?? 0?></b>
-          </li>
-        </ul>
+        
       </nav>
     </div><!-- End Page Title -->
 
@@ -108,7 +23,7 @@
         <div class="card-body">
              
             <div class="section-header d-flex justify-content-between align-items-center mb-2">
-              <h5 class="text-muted"><?=strtoupper(esc('Sampa District - Membership'))?></h5>
+              <h5 class="text-muted"><?=strtoupper(esc('Staff Overview'))?></h5>
               <p class="col-6">Note: <span class="fst-italic">These are all members of the district who have been registered so far.It comprises children, officers, non-officers and 'visitors'.</span></p>
             </div>      
             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">

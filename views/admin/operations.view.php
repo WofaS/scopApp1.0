@@ -27,7 +27,6 @@
               <h4 class="text-center fw-bolder text-danger border-bottom"><?=esc($row->appname)?></h4>
               <h3 class="text-info"><?=esc(set_value('church_name',$row->church_name ? :''))?></h3>
               <h3><?=esc(set_value('district_name',$row->district_name ? :'')) ?></h3>
-              <h3><?=esc(set_value('area_name',$row->area_name ?? ''))?> </h3>
               <small class="fst-italic"><?=esc(set_value('location',$row->location ?? ''))?></small>
 
               <div class="social-links mt-2">
@@ -88,7 +87,7 @@
                         </div>
 
                         <div class="row mb-3">
-                          <label for="district_name" class="col-md-4 col-lg-3 col-form-label">District Name</label>
+                          <label for="district_name" class="col-md-4 col-lg-3 col-form-label">Branch Name</label>
                           <div class="col-md-8 col-lg-9">
                             <input name="district_name" type="text" class="form-control" id="district_name" value="<?=set_value('district_name',$row->district_name)?>">
                           </div>
@@ -100,19 +99,7 @@
                         </div>
 
                         <div class="row mb-3">
-                          <label for="area_name" class="col-md-4 col-lg-3 col-form-label">Area Name</label>
-                          <div class="col-md-8 col-lg-9">
-                            <input name="area_name" type="text" class="form-control" id="area_name" value="<?=set_value('area_name',$row->area_name)?>">
-                          </div>
-
-                          <?php if(!empty($errors['area_name'])):?>
-                            <small class="js-error-area_name text-danger"><?=$errors['area_name']?></small>
-                          <?php endif;?>
-                          <small class="js-error-area_name text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="church_name" class="col-md-4 col-lg-3 col-form-label">Church Name</label>
+                          <label for="church_name" class="col-md-4 col-lg-3 col-form-label">Company Name</label>
                           <div class="col-md-8 col-lg-9">
                             <input name="church_name" type="text" class="form-control" id="church_name" value="<?=set_value('church_name',$row->church_name)?>">
                           </div>

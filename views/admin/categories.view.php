@@ -49,7 +49,7 @@
 
   <div class="card col-md-5 mx-auto">
     <div class="card-body">
-      <h5 class="card-title">Add Local Assembly</h5>
+      <h5 class="card-title">Add Branch</h5>
 
       <?php if(user_can('add_ministries')):?>
 
@@ -57,7 +57,7 @@
       <form method="post" class="row g-3">
         
         <div class="col-md-12">
-          <input value="<?=set_value('category')?>" name="category" type="text" class="form-control <?=!empty($errors['category']) ? 'border-danger':'';?>" placeholder="Local Assembly's Name">
+          <input value="<?=set_value('category')?>" name="category" type="text" class="form-control <?=!empty($errors['category']) ? 'border-danger':'';?>" placeholder="Branch's Name">
 
           <?php if(!empty($errors['category'])):?>
             <small class="text-danger"><?=$errors['category']?></small>
@@ -98,7 +98,7 @@
   
   <div class="card col-md-5 mx-auto">
     <div class="card-body">
-      <h5 class="card-title">Delete Local Assembly?</h5>
+      <h5 class="card-title">Delete Branch?</h5>
 
       <?php if(!empty($row)):?>
         
@@ -149,7 +149,7 @@
 
   <div class="card col-md-5 mx-auto">
     <div class="card-body">
-      <h5 class="card-title">Edit Local Assembly</h5>
+      <h5 class="card-title">Edit Branch</h5>
 
       <?php if(!empty($row)):?>
 
@@ -207,9 +207,9 @@
 
     <div class="card-body">
       <h5 class="card-title">
-        Local Assemblies 
+        Branches 
         <a href="<?=ROOT?>/admin/categories/add">
-          <button class="btn btn-primary float-end"><i class="bi bi-plus-circle-fill"></i> New Local Assembly</button>
+          <button class="btn btn-primary float-end"><i class="bi bi-plus-circle-fill"></i> New Branch</button>
         </a>
       </h5>
 
@@ -220,7 +220,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Local Assembly</th>
+                <th scope="col">Branch</th>
                 <th scope="col">Active</th>
                 <th scope="col">slug</th>
                 <th scope="col">Action</th>

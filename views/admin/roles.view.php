@@ -104,7 +104,7 @@ $members = get_admin();
 
 <?php elseif($action == 'delete'):?>
   
-  <div class="card">
+  <div class="col-md-6 mx-auto card shadow">
     <div class="card-body">
       <h5 class="card-title">Delete role</h5>
 

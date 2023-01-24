@@ -12,35 +12,35 @@ include('stat.inc.php');
 
   <div class="content-body">
   <div class="container-fluid pagetitle">
-      <h1>Members</h1>
+      <h1>Staffs</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="<?=ROOT?>/admin/dashboard">Dashboard</a></li>
           <li class="breadcrumb-item active">Locals</li>
         </ol>
-        <label class="fw-bolder badge text-secondary"><?=strtoupper('District Membership Overview')?></label>
+        <label class="fw-bolder badge text-secondary"><?=strtoupper('Staff Overview')?></label>
         <ul class="breadcrumb bg-light my-0 py-0">
 
           <li class="card-title mx-auto d-flex">
             <div class="card-icon rounded-circle text-primary fw-bolder">
-              <i class="bi bi-people-fill px-2 fs-6"></i></div>Total <b class="mx-2 mb-0 text-danger"><?=$resAllMembers['num'] ?? 0?></b>
+              <i class="bi bi-people-fill px-2 fs-6"></i></div>Total <b class="mx-2 mb-0 text-danger"><?=$resAllStaffs['num'] ?? 0?></b>
               <div class="filter col float-end">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
-                  <h6>Members</h6>
+                  <h6>Staffs</h6>
                     </li>
 
                     <li><a class="dropdown-item" href="#"><label class="col-6">Users </label><span class="col-6 text-primary fw-bold"><?=$resUsers['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Admin </label><span class="col-6 text-primary fw-bold"><?=$resAdmin['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Membs. </label><span class="col-6 text-primary fw-bold"><?=$resMember['num']?></span></a></li>
+                    <li><a class="dropdown-item" href="#"><label class="col-6">Membs. </label><span class="col-6 text-primary fw-bold"><?=$resStaff['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Elds </label><span class="col-6 text-primary fw-bold"><?=$resElder['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Dcnss. </label><span class="col-6 text-primary fw-bold"><?=$resDeaconess['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Dcns. </label><span class="col-6 text-primary fw-bold"><?=$resDeacon['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Children </label><span class="col-6 text-primary fw-bold"><?=$resChild['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Visitors </label><span class="col-6 text-primary fw-bold"><?=$resVisitor['num']?></span></a></li>
                     <li><a class="dropdown-item" href="#"><label class="col-6">Ps. & Wife </label><span class="col-6 text-primary fw-bold">2</span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6 fw-bolder text-danger">TOTAL </label><span class=" col-6 text-danger fw-bold" style="border-bottom:2px solid red"><?=$resAllMembers['num']?></span></a></li>
+                    <li><a class="dropdown-item" href="#"><label class="col-6 fw-bolder text-danger">TOTAL </label><span class=" col-6 text-danger fw-bold" style="border-bottom:2px solid red"><?=$resAllStaffs['num']?></span></a></li>
                   </ul>
                 </div>
           </li>
@@ -92,7 +92,7 @@ include('stat.inc.php');
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active border " data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>All Members</button>
+                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border " data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>All Staffs</button>
                     </li>
 
                     <?php if(!empty($categories)):?>
@@ -112,7 +112,7 @@ include('stat.inc.php');
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>All Members</button>
+                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>All Staffs</button>
                     </li>
 
                     <?php if(!empty($categories)):?>
@@ -151,7 +151,7 @@ include('stat.inc.php');
             <?php if(user_can('edit_slider_images')):?> 
 
                 <a href="<?=ROOT?>/membersignup">
-                  <button class="btn btn-primary btn-md float-end" title="register new member">+ New Member</button>
+                  <button class="btn btn-primary btn-md float-end" title="register new member">+ New Staff</button>
                 </a>
             <?php endif;?>
           </li>
@@ -170,7 +170,7 @@ include('stat.inc.php');
               <div class="tab-content">
         <!-- Profile overview -->
 
-                 <div class="tab-pane fade tabular-view pt-3 show" id="tabular-view">
+                 <div class="tab-pane fade tabular-view pt-3 show active" id="tabular-view">
                   <!-- Profile Edit Form -->
 
                       <?php include views_path('admin/tabular-view/tabular') ?>
@@ -244,14 +244,42 @@ include('stat.inc.php');
   
   
   var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab"): "#profile-overview";
-  var uploading = false;
 
-  function show_tab(tab_name)
+  /*function show_tab(tab_name)
   {
     const someTabTriggerEl = document.querySelector(tab_name +"-tab");
     const tab = new bootstrap.Tab(someTabTriggerEl);
 
     tab.show();
+
+  }*/
+
+  var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab"): "intended-learners";
+  var dirty = false;
+  var get_meta = true;
+
+  function show_tab(tab_name)
+  {
+ 
+    var contentDiv = document.querySelector("#tabs-content");
+    // show_loader(contentDiv);
+
+    //change active tab
+    var div = document.querySelector("#"+tab_name);
+    var children = div.parentNode.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].classList.remove("active-tab");
+    }
+
+    div.classList.add("active-tab");
+
+
+    send_data({
+      tab_name:tab,
+      data_type:"read",
+    });
+
+    disable_save_button(false);
 
   }
 
@@ -261,16 +289,111 @@ include('stat.inc.php');
     sessionStorage.setItem("tab", tab_name);
   }
 
-  
+  function show_loader(item)
+  {
+    item.innerHTML = '<img class="loader" src="<?=ROOT?>/assets/images/loader2.gif">';
+  }
+
+  show_tab(tab);
+
+  function load_image(file)
+  {
+
+    document.querySelector(".js-filename").innerHTML = "Selected File: " + file.name;
+
+    var mylink = window.URL.createObjectURL(file);
+    document.querySelector(".js-image-preview").src = mylink;
+  }
+
   window.onload = function(){
 
     show_tab(tab);
   }
 
-  
-  /*function handle_result(result)
+  //upload functions
+  function save_profile(e)
   {
 
+    var form = e.currentTarget.form;
+    var inputs = form.querySelectorAll("input,textarea,select,radio");
+    var obj = {};
+    var image_added = false;
+
+    for (var i = 0; i < inputs.length; i++) {
+      var key = inputs[i].name;
+
+      if(key == 'image'){
+        if(typeof inputs[i].files[0] == 'object'){
+          obj[key] = inputs[i].files[0];
+          image_added = true;
+        }
+      }else{
+        obj[key] = inputs[i].value;
+      }
+    }
+ 
+    //validate image
+    if(image_added){
+
+      var allowed = ['jpg','jpeg','png'];
+      if(typeof obj.image == 'object'){
+        var ext = obj.image.name.split(".").pop();
+      }
+
+      if(!allowed.includes(ext.toLowerCase())){
+        alert("Only these file types are allowed in profile image: "+ allowed.toString(","));
+        return;
+      }
+    }
+
+    send_data(obj);
+
+  }
+
+  function send_data(obj, progbar = 'js-prog')
+  {
+
+    var prog = document.querySelector("."+progbar);
+    prog.children[0].style.width = "0%";
+    prog.classList.remove("hide");
+
+    var myform = new FormData();
+    for(key in obj){
+      myform.append(key,obj[key]); 
+    }
+
+    var ajax = new XMLHttpRequest();
+
+    ajax.addEventListener('readystatechange',function(){
+
+      if(ajax.readyState == 4){
+
+        if(ajax.status == 200){
+          //everything went well
+          //alert("upload complete");
+          handle_result(ajax.responseText);
+        }else{
+          //error
+          alert("an error occurred");
+        }
+      }
+    });
+
+    ajax.upload.addEventListener('progress',function(e){
+
+      var percent = Math.round((e.loaded / e.total) * 100);
+      prog.children[0].style.width = percent + "%";
+      prog.children[0].innerHTML = "Saving.. " + percent + "%";
+
+    });
+
+    ajax.open('post','',true);
+    ajax.send(myform);
+
+  }
+
+  function handle_result(result)
+  {
     console.log(result);
     var obj = JSON.parse(result);
     if(typeof obj == 'object'){
@@ -283,7 +406,7 @@ include('stat.inc.php');
         alert("Please correct the errors on the page");
       }else{
         //save complete
-        alert(obj.message);
+        alert("Profile saved successfully!");
         window.location.reload();
 
       }
@@ -297,7 +420,7 @@ include('stat.inc.php');
       document.querySelector(".js-error-"+key).innerHTML = errors[key];
     }
   }
-*/
+
 </script>
 
 <?php $this->view('admin/admin-footer',$data) ?>

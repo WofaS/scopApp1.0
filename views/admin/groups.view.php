@@ -85,7 +85,7 @@ include('stat.inc.php');
               <ul class="nav nav-tabs fw-bolder rounded mb-0">
 
                 <li class="nav-item">                 
-                    <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#visitor" id="visitor-tab" title="Visitors"><i class="bx bx-street-view text-info"></i>Visitors</label>
+                    <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active" data-bs-toggle="tab" data-bs-target="#visitor" id="visitor-tab" title="Visitors"><i class="bx bx-street-view text-info"></i>Visitors</label>
                 </li>
 
                 <li class="nav-item">
@@ -149,7 +149,7 @@ include('stat.inc.php');
               <div class="tab-content">
         <!-- Profile overview -->
 
-                 <div class="tab-pane fade visitor pt-3 show" id="visitor">
+                 <div class="tab-pane fade visitor pt-3 show active" id="visitor">
                   <!-- Profile Edit Form -->
 
                       <?php include views_path('admin/groups/visitor') ?>
@@ -225,15 +225,46 @@ include('stat.inc.php');
 <script>
   
   
+ <script>
+  
+  
   var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab"): "#profile-overview";
-  var uploading = false;
 
-  function show_tab(tab_name)
+  /*function show_tab(tab_name)
   {
     const someTabTriggerEl = document.querySelector(tab_name +"-tab");
     const tab = new bootstrap.Tab(someTabTriggerEl);
 
     tab.show();
+
+  }*/
+
+  var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab"): "intended-learners";
+  var dirty = false;
+  var get_meta = true;
+
+  function show_tab(tab_name)
+  {
+ 
+    var contentDiv = document.querySelector("#tabs-content");
+    // show_loader(contentDiv);
+
+    //change active tab
+    var div = document.querySelector("#"+tab_name);
+    var children = div.parentNode.children;
+    for (var i = 0; i < children.length; i++) {
+      children[i].classList.remove("active-tab");
+    }
+
+    div.classList.add("active-tab");
+
+
+    send_data({
+      tab_name:tab,
+      data_type:"read",
+    });
+
+    disable_save_button(false);
 
   }
 
@@ -243,16 +274,111 @@ include('stat.inc.php');
     sessionStorage.setItem("tab", tab_name);
   }
 
-  
+  function show_loader(item)
+  {
+    item.innerHTML = '<img class="loader" src="<?=ROOT?>/assets/images/loader2.gif">';
+  }
+
+  show_tab(tab);
+
+  function load_image(file)
+  {
+
+    document.querySelector(".js-filename").innerHTML = "Selected File: " + file.name;
+
+    var mylink = window.URL.createObjectURL(file);
+    document.querySelector(".js-image-preview").src = mylink;
+  }
+
   window.onload = function(){
 
     show_tab(tab);
   }
 
-  
-  function handle_result(result)
+  //upload functions
+  function save_profile(e)
   {
 
+    var form = e.currentTarget.form;
+    var inputs = form.querySelectorAll("input,textarea,select,radio");
+    var obj = {};
+    var image_added = false;
+
+    for (var i = 0; i < inputs.length; i++) {
+      var key = inputs[i].name;
+
+      if(key == 'image'){
+        if(typeof inputs[i].files[0] == 'object'){
+          obj[key] = inputs[i].files[0];
+          image_added = true;
+        }
+      }else{
+        obj[key] = inputs[i].value;
+      }
+    }
+ 
+    //validate image
+    if(image_added){
+
+      var allowed = ['jpg','jpeg','png'];
+      if(typeof obj.image == 'object'){
+        var ext = obj.image.name.split(".").pop();
+      }
+
+      if(!allowed.includes(ext.toLowerCase())){
+        alert("Only these file types are allowed in profile image: "+ allowed.toString(","));
+        return;
+      }
+    }
+
+    send_data(obj);
+
+  }
+
+  function send_data(obj, progbar = 'js-prog')
+  {
+
+    var prog = document.querySelector("."+progbar);
+    prog.children[0].style.width = "0%";
+    prog.classList.remove("hide");
+
+    var myform = new FormData();
+    for(key in obj){
+      myform.append(key,obj[key]); 
+    }
+
+    var ajax = new XMLHttpRequest();
+
+    ajax.addEventListener('readystatechange',function(){
+
+      if(ajax.readyState == 4){
+
+        if(ajax.status == 200){
+          //everything went well
+          //alert("upload complete");
+          handle_result(ajax.responseText);
+        }else{
+          //error
+          alert("an error occurred");
+        }
+      }
+    });
+
+    ajax.upload.addEventListener('progress',function(e){
+
+      var percent = Math.round((e.loaded / e.total) * 100);
+      prog.children[0].style.width = percent + "%";
+      prog.children[0].innerHTML = "Saving.. " + percent + "%";
+
+    });
+
+    ajax.open('post','',true);
+    ajax.send(myform);
+
+  }
+
+  function handle_result(result)
+  {
     console.log(result);
     var obj = JSON.parse(result);
     if(typeof obj == 'object'){
@@ -265,7 +391,7 @@ include('stat.inc.php');
         alert("Please correct the errors on the page");
       }else{
         //save complete
-        alert(obj.message);
+        alert("Profile saved successfully!");
         window.location.reload();
 
       }

@@ -3,16 +3,16 @@
         <div class="row mb-3 col-12">
           <div class=" px-3 py-2 rounded" style="">
             <div class="row d-flex mx-0 px-0">
-              <div class="col-8 my-auto">
+              <div class="col-9 my-auto">
                 <h4 class="border-bottom fw-bolder text-center mx-auto">About <?=ucfirst($row->firstname)?> <?=ucfirst($row->lastname)?></h4>
                 <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_id). ' Assembly serves in the church as '?> <?=$row->position_id ? :$row->role_name?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname."'s occupation is ". $row->job.' and stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
               <!--  <div class="badge bg-info"><?=$age?></div> -->
               </div>
-              <div class="col-4 float-end my-auto">
+              <div class="col float-end my-auto">
                 <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
                   <img src="<?=get_avatar($row->image)?>" class="w-100 rounded border mx-auto" style="object-fit: fill; width: 180px; max-width:180px;height:150px; border: 2px solid black;" alt="">
                 </a>
-              <div class="badge bg-info text-light py-0"><?=$age?></div>
+              <div class="badge bg-info text-light"><?=$age_month?></div>
             </div> 
             <br>
             

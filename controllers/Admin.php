@@ -1607,6 +1607,34 @@ public function dashboard()
 		$this->view('admin/register/register_info');
 	}
 
+	public function localregister_info()
+	{
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$user_id = Auth::getId();
+
+		$errors = [];
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+		    $startdate = $_POST['startdate'];
+		    $enddate = $_POST['enddate'];
+   			if(!empty($date)){
+
+		    redirect("admin/mark_register&date=$date");
+			}
+			 message("Please select start Date and end Date");
+			}
+
+
+		$this->view('admin/register/localregister_info');
+	}
+
 
 	public function register_edit_info()
 	{

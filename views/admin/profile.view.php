@@ -12,7 +12,8 @@
       $dob = $row->dob;
       $today = date("Y-m-d");
       $diff = date_diff(date_create($dob), date_create($today));
-      $age = $diff->format('%Y,%m years');
+      $age = $diff->format('%Y years');
+      $age_month = $diff->format('%Yyrs,%m months');
 
 
     $myID = $row->id;
@@ -154,7 +155,9 @@
 
     <section class="container-fluid">
       <div class="row">
-        <div class="mx-auto col-md-3">
+        <?php if(!empty($row)):?>
+
+          <div class="mx-auto col-md-3">
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">            
@@ -175,6 +178,8 @@
           </div>
 
         </div>
+
+      <?php endif;?>
 
         <div class="col-md-9">
 
