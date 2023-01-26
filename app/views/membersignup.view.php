@@ -170,7 +170,7 @@
               </div>
 
               <div class="col-12 d-flex mb-2">
-              <div class="col-6">
+              <div class="col-12">
                   <label for="hometown" class="form-label">Home Town</label>
                   <div class="input-group has-validation">
                     <i class="text-primary bi bi-house-fill input-group-text fs-4" id="inputGroupPrepend"></i>
@@ -179,69 +179,6 @@
                 </div>
                 <?php if (!empty($errors['hometown'])):?>
                     <div class="js-error-hometown text-danger"><small><?=$errors['hometown']?></small></div>
-                  <?php endif;?>
-              </div>
-
-              <div class="col-6">
-                  <label for="job" class="form-label">Occupation</label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bx bx-briefcase input-group-text fs-4" id="inputGroupPrepend"></i>
-                  <input value="<?=set_value('job')?>" type="text" name="job" class="form-control <?=!empty($errors['job']) ? 'border-danger':'';?>" id="job" required>
-                  <div class="invalid-feedback">Please enter your job/occupation!</div>
-                </div>
-                <?php if (!empty($errors['job'])):?>
-                    <div class="js-error-hometown text-danger"><small><?=$errors['hometown']?></small></div>
-                  <?php endif;?>
-              </div>
-              </div>
-
-
-              <div class="col-12 d-flex mb-2">
-              <div class="col-4">
-                  <label for="yourPassword" class="form-label">Baptized in Water?</label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bi bi-cloud-fog input-group-text fs-4" id="inputGroupPrepend"></i>
-                    <select <?=set_value('water_baptized')?> class="form-select <?=!empty($errors['water_baptized']) ? 'border-danger':'';?>" name="water_baptized"  required>
-                      <option value="">***********</option>
-                      <option value="yes" <?=set_value('water_baptized') == 'yes' ? 'selected' : '' ?> >yes</option>
-                      <option value="no" <?=set_value('water_baptized') == 'no' ? 'selected' : '' ?>>no</option>
-                    </select>                    
-                    <div class="invalid-feedback">Water baptism Status is required.</div>
-                </div>                
-                <?php if (!empty($errors['water_baptized'])):?>
-                    <div class="js-error-water_baptized text-danger"><small><?=$errors['water_baptized']?></small></div>
-                  <?php endif;?>
-              </div>
-
-              <div class="col-4">
-                  <label for="yourPassword" class="form-label">Holy Ghost Baptized?</label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bi bi-cloud-drizzle-fill input-group-text fs-4" id="inputGroupPrepend"></i>
-                    <select <?=set_value('holyghost_baptized')?> class="form-select <?=!empty($errors['holyghost_baptized']) ? 'border-danger':'';?>" name="holyghost_baptized"  required>
-                      <option value="">***********</option>
-                      <option value="yes" <?=set_value('holyghost_baptized') == 'yes' ? 'selected' : '' ?> >yes</option>
-                      <option value="no" <?=set_value('holyghost_baptized') == 'no' ? 'selected' : '' ?>>no</option>
-                    </select>                    
-                    <div class="invalid-feedback">Holy Ghost baptism Status is required.</div>
-                </div>                
-                <?php if (!empty($errors['holyghost_baptized'])):?>
-                    <div class="js-error-holyghost_baptized text-danger"><small><?=$errors['holyghost_baptized']?></small></div>
-                  <?php endif;?>
-              </div>
-
-              <div class="col-4">
-                  <label for="yourPassword" class="form-label">Attends Communion?</label>
-                  <div class="input-group has-validation">
-                    <i class="text-primary bi bi-inbox-fill input-group-text fs-4" id="inputGroupPrepend"></i>
-                    <select <?=set_value('communicant_status')?> class="form-select <?=!empty($errors['communicant_status']) ? 'border-danger':'';?>" name="communicant_status"  required>
-                      <option value="">***********</option>
-                      <option value="yes" <?=set_value('communicant_status') == 'yes' ? 'selected' : '' ?> >yes</option>
-                      <option value="no" <?=set_value('communicant_status') == 'no' ? 'selected' : '' ?>>no</option>
-                    </select>                    
-                    <div class="invalid-feedback">Holy Ghost baptism Status is required.</div>
-                </div>                
-                <?php if (!empty($errors['communicant_status'])):?>
-                    <div class="js-error-communicant_status text-danger"><small><?=$errors['communicant_status']?></small></div>
                   <?php endif;?>
               </div>
               </div>
@@ -279,7 +216,7 @@
 
             <div class="card-body bg-light p-3 rounded">
 
-              <div class="pt-0 pb-0">
+              <div class="pt-0 pb-3 mb-2">
                 <h5 class="card-title text-center pb-0 fs-4">Member Form B</h5><br>
               </div>
 
@@ -379,10 +316,10 @@
                 <div class="input-group has-validation">
                     <select name="category_id" id="inputState" class="form-select <?=!empty($errors['category_id']) ? 'border-danger':'';?>">
                       
-                      <option value="" selected="">---Select Assembly---</option>
+                      <option value="" selected="">---Select Category---</option>
                       <?php if(!empty($categories)):?>
                         <?php foreach($categories as $cat):?>
-                          <option <?=set_select('category_id',$cat->category)?> value="<?=$cat->category?>"><?=esc($cat->category)?></option>
+                          <option <?=set_select('category_id',$cat->id)?> value="<?=$cat->id?>"><?=esc($cat->category)?></option>
                         <?php endforeach;?>
                       <?php endif;?>
 
@@ -400,65 +337,14 @@
                     <option value="">--Select Role--</option>
                 <?php if(user_can('edit_slider_images')):?>
                     <?php if(!empty($roles)):?>
-                        <?php foreach($roles as $cat):?>
-                          <?php if($cat->id > 2):?>
-                          <option <?=set_select('role',$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
-                      <?php endif;?>
+                      <?php foreach($roles as $cat):?>
+                          <option <?=set_select('role',$cat->id)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
                       <?php endforeach;?>
-                      <?php endif;?>
-                <?php else:?>
-                    <option value="4">member</option>              
-                    <option value="8">child</option>              
-                    <option value="9">visitor</option>
+                    <?php endif;?>
                 <?php endif;?>              
                   </select>
                   <small class="js-error-role_name w-100 text-danger"></small>
                 </div>
-                </div>
-
-                <div class="col-12 my-4 d-flex">
-                <div class="col-6">
-                  <select name="position_id" class="form-select">
-                    <option value="">--Select Local Role--</option>
-                    <?php if(!empty($localPositions)):?>
-                        <?php foreach($localPositions as $cat):?>
-                          <option <?=set_select('localposition_id',$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
-                        <?php endforeach;?>
-                      <?php endif;?>      
-                  </select>
-                  <small class="js-error-error-role_name w-100 text-danger"></small>
-                </div>
-
-                <div class="col-6">
-                  <select name="position_id" class="form-select">
-                    <option value="">--Select District Role--</option>
-                    <?php if(!empty($positions)):?>
-                        <?php foreach($positions as $cat):?>
-                          <option <?=set_select('position_id',$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
-                        <?php endforeach;?>
-                      <?php endif;?>      
-                  </select>
-                  <small class="js-error-error-role_name w-100 text-danger"></small>
-                </div>
-                </div>
-
-                <div class="col-12 my-4 d-flex">
-
-                  <label class="d-flex rounded js-profile-image-input" title="Click to Upload new profile image">
-                    <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
-                    <img class="js-image-preview bg-light shadow rounded text-center my-auto" src="<?=ROOT?>/<?=$row->image?>" alt="Profile photo" style="width:50px;max-width:50px;height:50px;object-fit: cover; font-size: 18px">
-                    <div class="js-filename m-2 ">Selected File: None</div>
-                  </label>
-                  <div class="pt-2">
-                    <label class="btn btn-primary btn-sm" title="Upload new profile image" >
-                      <i class="text-info mx text-white bi bi-upload"></i>
-                      <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display: none;">
-                    </label>
-
-                    <?php if(!empty($errors['image'])):?>
-                      <small class="js-error-image text-danger"><?=$errors['image']?></small>
-                    <?php endif;?>
-                  </div>    
                 </div>
 
                 <div class="col-12 my-3">
@@ -488,22 +374,4 @@
   </div>          
 </div>
 
-
-<script>
-  
-  function load_image(file)
-  {
-
-    document.querySelector(".js-filename").innerHTML = "Selected File: " + file.name;
-
-    var mylink = window.URL.createObjectURL(file);
-    document.querySelector(".js-image-preview").src = mylink;
-  }
-
-  window.onload = function(){
-
-    show_tab(tab);
-  }
-
-</script>
 <?php $this->view('admin/admin-footer',$data) ?>

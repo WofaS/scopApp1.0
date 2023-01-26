@@ -71,20 +71,19 @@ class MemberSignup extends Controller
 				}
 
 				$_POST['date'] = date("Y-m-d H:i:s");
-				$_POST['id'] = $_POST['id'];
 				$_POST['position'] = $_POST['position'];
 				$_POST['marital_status'] = $_POST['marital_status'];
 
 				$member->insert($_POST);
 			
-				//message( ucfirst($_POST['firstname'])." has been added successfuly.<br> Thank you!!");
-				//redirect('admin/dashboard');
+				message( ucfirst($_POST['firstname'])." has been added successfuly.<br> Thank you!!");
+				redirect('admin/dashboard');
 			}
 
 
 			if(empty($member->errors)){
 				$arr['message'] =  ucfirst($_POST['firstname'])." has been added successfuly.<br> Thank you!!";
-				redirect('admin/profile/'.$id);
+				//redirect('admin/profile/'.$id);
 
 			}else{
 				$arr['message'] = "Please correct these errors";

@@ -15,7 +15,7 @@
       
   </div>
 
-  <div class="row d-flex mx-1 bg-light justify-content-center rounded shadow table py-3" style="height:200;">
+  <div class="row d-flex mx-1 justify-content-center rounded shadow table py-3" style="height:fit-content;">
 
   <?php foreach($data['row'] as $row):?>
   
@@ -60,8 +60,8 @@
   <?php endif;?>
     <div class="row bg-dark text-white px-3 text-wrap rounded mb-0 pb-4" style="width:160px; height: 100px;">
     <div class="text-center fw-bolder px-0 mx-0 mb-0 pb-0" style="font-size:11px"><b><?=$row->firstname ?? ''?> <?=$row->lastname ?? ''?></b>
-    <div><span class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>) - <?=$row->category_id ?? 'Unknown'?></span></div></div>
-    <div class="text-center small text-warning" style="font-size: 10px;"><b><?=$row->position_id ?? ''?></b><br>
+    <div><span class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>)</span></div></div>
+    <div class="text-center small text-warning" style="font-size: 10px;"><b><?=$row->category_name ?? ''?> Branch</b><br>
     <u class="text-danger fw-bolder fst-italic"><?=$row->phone ? :'Unknown contact'?></u><br>
     </div>
 

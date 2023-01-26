@@ -3,54 +3,54 @@
   $categories = get_categories();
 
   
-  $query = "select count(id) as num from members where category_id = 'Duadaso No.1'";
+  $query = "select count(id) as num from members where category_id = '3'";
   $resLocal = query_row($query);
 
-  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = 'Duadaso No.1'";
+  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '3'";
   $resLocalMale = query_row($queryMale);
   
-  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = 'Duadaso No.1'";
+  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '3'";
   $resLocalMaleChild = query_row($queryMaleChild);
 
   $resLocalMaleAdult = $resLocalMale['num'] - $resLocalMaleChild['num'];
 
-  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = 'Duadaso No.1'";
+  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '3'";
   $resLocalFemale = query_row($queryFemale);
 
-  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = 'Duadaso No.1'";
+  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '3'";
   $resLocalFemaleChild = query_row($queryFemaleChild);
 
   $resLocalFemaleAdult = $resLocalFemale['num'] - $resLocalFemaleChild['num'];
 
-  $query1 = "select count(id) as num from members where role = '1' AND category_id = 'Duadaso No.1'";
+  $query1 = "select count(id) as num from members where role = '1' AND category_id = '3'";
   $resLocal1 = query_row($query1);
 
   //admin count
-  $query2 = "select count(id) as num from members where role = '2' AND category_id = 'Duadaso No.1'";
+  $query2 = "select count(id) as num from members where role = '2' AND category_id = '3'";
   $resLocal2 = query_row($query2);
 
   //members count
-  $query3 = "select count(id) as num from members where role = '4' AND category_id = 'Duadaso No.1'";
+  $query3 = "select count(id) as num from members where role = '4' AND category_id = '3'";
   $resLocal3 = query_row($query3);
 
   //elders count
-  $query4 = "select count(id) as num from members where role = '5' AND category_id = 'Duadaso No.1'";
+  $query4 = "select count(id) as num from members where role = '5' AND category_id = '3'";
   $resLocal4 = query_row($query4);
 
   //dcnss count
-  $query5 = "select count(id) as num from members where role = '6' AND category_id = 'Duadaso No.1'";
+  $query5 = "select count(id) as num from members where role = '6' AND category_id = '3'";
   $resLocal5 = query_row($query5);
 
   //dcn count
-  $query6 = "select count(id) as num from members where role = '7' AND category_id = 'Duadaso No.1'";
+  $query6 = "select count(id) as num from members where role = '7' AND category_id = '3'";
   $resLocal6 = query_row($query6);
 
   //child count
-  $query7 = "select count(id) as num from members where role = '8' AND category_id = 'Duadaso No.1'";
+  $query7 = "select count(id) as num from members where role = '8' AND category_id = '3'";
   $resLocal7 = query_row($query7);
   
   //visitor count
-  $query8 = "select count(id) as num from members where role = '9' AND category_id = 'Duadaso No.1'";
+  $query8 = "select count(id) as num from members where role = '9' AND category_id = '3'";
   $resLocal8 = query_row($query8);
 
   //total count
@@ -59,7 +59,7 @@
 ?>
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('Duadaso No.1 Membership Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('3 Membership Overview')?></label>
         
         <ul class="breadcrumb my-0 py-0">
 
@@ -124,7 +124,12 @@
         <div class="card-body">
              
             <div class="section-header d-flex justify-content-between align-items-center mb-2">
-              <h2 class="text-muted"><?=strtoupper(esc('Duadaso No.1 ASSEMBLY'))?></h2>
+              <?php foreach ($data['row'] as $row):?>
+
+                <?php if(!empty($row->category_id) && $row->category_id === '3'): ?>
+                  <h2 class="text-muted"><?=strtoupper(esc($row->category_name ? :'BRANCH NAME'))?></h2>
+                <?php endif;?>
+              <?php endforeach;?>
             </div>      
             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
               
@@ -154,7 +159,7 @@
                 <?php $id = 0;?>
                 <?php foreach ($data['row'] as $row):?>
 
-                <?php if(!empty($row->category_id) && $row->category_id === 'Duadaso No.1'): $id +=1;?>
+                <?php if(!empty($row->category_id) && $row->category_id === '3'): $id +=1;?>
 
                   <?php
 

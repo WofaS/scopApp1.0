@@ -4,6 +4,7 @@
 
 use model\Auth;
 $categories = get_categories();
+$members = get_members();
 $roles = get_roles();
 
 include('stat.inc.php'); 
@@ -95,7 +96,7 @@ include('stat.inc.php');
                       <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border " data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>All Staffs</button>
                     </li>
 
-                    <?php if(!empty($categories)):?>
+                    <?php if(!empty($categories) AND !empty($members)):?>
                      <?php foreach($categories as $cat):?>
                       <li class="nav-item">                 
                         <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tabular-<?=$cat->slug?>" id="tabular-<?=$cat->slug?>-tab"><i class="bi bi-house text-info"></i><?=$cat->category?></label>             
@@ -115,7 +116,7 @@ include('stat.inc.php');
                       <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>All Staffs</button>
                     </li>
 
-                    <?php if(!empty($categories)):?>
+                    <?php if(!empty($categories) AND !empty($members)):?>
                      <?php foreach($categories as $cat):?>
                       <li class="nav-item">                 
                         <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#grid-<?=$cat->slug?>" id="grid-<?=$cat->slug?>-tab"><i class="bi bi-house text-info"></i><?=$cat->category?></label>             
@@ -126,16 +127,16 @@ include('stat.inc.php');
                 </li>
 
                 <li class="nav-item">
-                  <button style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="dropdown" id="leaders-tab" title="Officers">
-                    <i class="bx bx-street-view text-info"></i> Officers<i class="bi bi-caret-down-fill"></i>
+                  <button style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="dropdown" id="leaders-tab" title="Suppliers">
+                    <i class="bx bx-street-view text-info"></i> Suppliers<i class="bi bi-caret-down-fill"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                      <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#officers" id="officers-tab" title="Officers"><i class="text-info bi bi-grid"></i>All Officers</button>
+                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#officers" id="officers-tab" title="Suppliers"><i class="text-info bi bi-grid"></i>All Suppliers</button>
                     </li>
 
-                    <?php if(!empty($categories)):?>
+                    <?php if(!empty($categories) AND !empty($members)):?>
                      <?php foreach($categories as $cat):?>
                       <li class="nav-item">                 
                         <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#officers_<?=$cat->slug?>" id="officers_<?=$cat->slug?>-tab"><i class="bx bx-street-view text-info"></i> <?=$cat->category?></label>             
@@ -178,12 +179,12 @@ include('stat.inc.php');
 
                 </div>
 
-                <?php if(!empty($categories)):?>
+                <?php if(!empty($categories) AND !empty($members)):?>
                  <?php foreach($categories as $cat):?>
                 <div class="tab-pane fade tabular-<?=$cat->slug?> pt-3 show " id="tabular-<?=$cat->slug?>">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/tabular-view/'.$cat->slug) ?>
+                    <?php include views_path('admin/tabular-view/_'.str_to_url($cat->id)) ?>
 
                 </div>
                 <?php endforeach;?>
@@ -197,12 +198,12 @@ include('stat.inc.php');
 
                 </div>
 
-                <?php if(!empty($categories)):?>
+                <?php if(!empty($categories) AND !empty($members)):?>
                  <?php foreach($categories as $cat):?>
                 <div class="tab-pane fade grid-<?=$cat->slug?> pt-3 show " id="grid-<?=$cat->slug?>">
                   Change Password Form
                     
-                    <?php include views_path('admin/locals-view/'.$cat->slug) ?>
+                    <?php include views_path('admin/locals-view/_'.str_to_url($cat->id)) ?>
 
                 </div>
                 <?php endforeach;?>
@@ -216,12 +217,12 @@ include('stat.inc.php');
                 </div>
 
 
-                <?php if(!empty($categories)):?>
+                <?php if(!empty($categories) AND !empty($members)):?>
                  <?php foreach($categories as $cat):?>
                 <div class="tab-pane fade officers_<?=$cat->slug?> pt-3 show " id="officers_<?=$cat->slug?>">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/leaders-view/'.$cat->slug) ?>
+                    <?php include views_path('admin/leaders-view/_'.str_to_url($cat->id)) ?>
 
                 </div>
                 <?php endforeach;?>

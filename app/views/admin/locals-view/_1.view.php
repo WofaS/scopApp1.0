@@ -3,54 +3,54 @@
   $categories = get_categories();
 
   
-  $query = "select count(id) as num from members where category_id = 'Kabile'";
+  $query = "select count(id) as num from members where category_id = '1'";
   $resLocal = query_row($query);
 
-  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = 'Kabile'";
+  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '1'";
   $resLocalMale = query_row($queryMale);
   
-  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = 'Kabile'";
+  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '1'";
   $resLocalMaleChild = query_row($queryMaleChild);
 
   $resLocalMaleAdult = $resLocalMale['num'] - $resLocalMaleChild['num'];
 
-  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = 'Kabile'";
+  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '1'";
   $resLocalFemale = query_row($queryFemale);
 
-  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = 'Kabile'";
+  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '1'";
   $resLocalFemaleChild = query_row($queryFemaleChild);
 
   $resLocalFemaleAdult = $resLocalFemale['num'] - $resLocalFemaleChild['num'];
 
-  $query1 = "select count(id) as num from members where role = '1' AND category_id = 'Kabile'";
+  $query1 = "select count(id) as num from members where role = '1' AND category_id = '1'";
   $resLocal1 = query_row($query1);
 
   //admin count
-  $query2 = "select count(id) as num from members where role = '2' AND category_id = 'Kabile'";
+  $query2 = "select count(id) as num from members where role = '2' AND category_id = '1'";
   $resLocal2 = query_row($query2);
 
   //members count
-  $query3 = "select count(id) as num from members where role = '4' AND category_id = 'Kabile'";
+  $query3 = "select count(id) as num from members where role = '4' AND category_id = '1'";
   $resLocal3 = query_row($query3);
 
   //elders count
-  $query4 = "select count(id) as num from members where role = '5' AND category_id = 'Kabile'";
+  $query4 = "select count(id) as num from members where role = '5' AND category_id = '1'";
   $resLocal4 = query_row($query4);
 
   //dcnss count
-  $query5 = "select count(id) as num from members where role = '6' AND category_id = 'Kabile'";
+  $query5 = "select count(id) as num from members where role = '6' AND category_id = '1'";
   $resLocal5 = query_row($query5);
 
   //dcn count
-  $query6 = "select count(id) as num from members where role = '7' AND category_id = 'Kabile'";
+  $query6 = "select count(id) as num from members where role = '7' AND category_id = '1'";
   $resLocal6 = query_row($query6);
 
   //child count
-  $query7 = "select count(id) as num from members where role = '8' AND category_id = 'Kabile'";
+  $query7 = "select count(id) as num from members where role = '8' AND category_id = '1'";
   $resLocal7 = query_row($query7);
   
   //visitor count
-  $query8 = "select count(id) as num from members where role = '9' AND category_id = 'Kabile'";
+  $query8 = "select count(id) as num from members where role = '9' AND category_id = '1'";
   $resLocal8 = query_row($query8);
 
   //total count
@@ -59,7 +59,7 @@
 ?>
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('Kabile Membership Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('1 Membership Overview')?></label>
         
         <ul class="breadcrumb my-0 py-0">
 
@@ -125,7 +125,7 @@
 
 <?php if(!empty($data['row'])):?>
     <div class="section-header d-flex justify-content-between align-items-center mb-5">
-      <h2 class="text-muted"><?=strtoupper(esc('Kabile ASSEMBLY'))?></h2>
+      <h2 class="text-muted"><?=strtoupper(esc('1 ASSEMBLY'))?></h2>
     </div>
   <div class="row g-5">
     <div class="row d-flex mx-1 justify-content-center rounded table py-3 " style="height:200;">
@@ -133,7 +133,7 @@
       
   
   <?php foreach($data['row'] as $row):?>
-  <?php if(!empty($row->category_id) && $row->category_id === 'Kabile'):?>
+  <?php if(!empty($row->category_id) && $row->category_id === '1'):?>
 
 <?php
     $mydob = get_date_month_day($row->dob);

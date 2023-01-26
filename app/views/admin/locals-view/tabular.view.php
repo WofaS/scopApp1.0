@@ -21,7 +21,7 @@ use model\Auth;
           <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">DOB</a></th>
           <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bx bxs-phone-incoming fw-bolder"></i> Phone</a></th>
           <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> Residence</a></th>
-          <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> Local</a></th>
+          <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> Branch</a></th>
           <th scope="col" data-sortable="" ><a href="<?=ROOT?>/admin/users-view/tabular" class="dataTable-sorter">Action</a></th>
         </tr>
       </thead>
@@ -64,7 +64,7 @@ use model\Auth;
           <td><span class=""><?=get_date($row->dob ?? 'Unknown')?></span></td>
           <td><span class=""><?=$row->phone ?? 'Unknown'?></span></td>
           <td><p class="fst-italic"><?=$row->residence?></p></td>          
-          <td><p class="fst-italic"><?=$row->category_id ?? 'Unknown'?></p></td>
+          <td><p class="fst-italic"><?=$row->category_name ?? 'Unknown'?></p></td>
           <td><span class=" badge badge-lg">
             <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
               <i class="bi bi-eye-fill"></i> 

@@ -148,63 +148,21 @@
                           <small class="js-error-children text-danger"></small>
                       </div>
 
-                    <?php if(user_can('edit_slider_images')):?>
-                      <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-3 col-lg-3 px-3">Baptism</label>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['water_baptized']) ? 'border-danger':'';?>" name="water_baptized"  >
-                            <option value="" selected="">---Water Baptized?---</option>
-                            <option value="yes"  <?=set_select('water_baptized','yes',$row->water_baptized)?> >yes</option>
-                            <option value="no" <?=set_select('water_baptized','no',$row->water_baptized)?> >no</option>
-                          </select>
-                        <div class="invalid-feedback">Water Baptism status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['water_baptized'])):?>
-                        <div class="text-danger"><small><?=$errors['water_baptized']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['holyghost_baptized']) ? 'border-danger':'';?>" name="holyghost_baptized"  >
-                          <option value="" selected="">---Holy Ghost Baptized?---</option>
-                            <option value="yes"  <?=set_select('holyghost_baptized','yes',$row->holyghost_baptized)?> >yes</option>
-                            <option value="no" <?=set_select('holyghost_baptized','no',$row->holyghost_baptized)?> >no</option>
-                        </select>
-                        <div class="invalid-feedback">Holy Ghost baptism status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['holyghost_baptized'])):?>
-                        <div class="text-danger"><small><?=$errors['holyghost_baptized']?></small></div>
-                      <?php endif;?>
-
-                      <div class="mx-auto col-md-3 col-lg-3">
-                        <select class="form-select rounded <?=!empty($errors['communicant_status']) ? 'border-danger':'';?>" name="communicant_status"  >
-                          <option value="" selected="">---Attends Communion?---</option>
-                            <option value="yes"  <?=set_select('communicant_status','yes',$row->communicant_status)?> >yes</option>
-                            <option value="no" <?=set_select('communicant_status','no',$row->communicant_status)?> >no</option>
-                        </select>
-                        <div class="invalid-feedback">Communion status is required.</div>
-                      </div>                
-                      <?php if (!empty($errors['communicant_status'])):?>
-                        <div class="text-danger"><small><?=$errors['communicant_status']?></small></div>
-                      <?php endif;?>
-                      </div>
-                    <?php endif;?>
-
                      <?php if(user_can('edit_slider_images')):?>
                       <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Local/Role</label>
+                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Branch/Role</label>
 
                       <div class="mx-auto col-md-4 col-lg-5">
                         <select class="form-select rounded <?=!empty($errors['category_id']) ? 'border-danger':'';?>" name="category_id"  >
-                            <option value="">---Select Local Assembly---</option>
+                            <option value="">---Select Branch---</option>
                             <?php if(!empty($categories)):?>
                               <?php foreach($categories as $cat):?>
-                                <option <?=set_select('category_id',$row->category_id,$cat->category)?> value="<?=$cat->category?>"><?=esc($cat->category)?></option>
+                                <option <?=set_select('category_id',$row->category_id,$cat->category)?> value="<?=$cat->id?>"><?=esc($cat->category)?></option>
                               <?php endforeach;?>
                             <?php endif;?>
 
                         </select>
-                        <div class="invalid-feedback">Local assembly is required.</div>
+                        <div class="invalid-feedback">Branch name is required.</div>
                       </div>                
                       <?php if (!empty($errors['category_id'])):?>
                         <div class="text-danger"><small><?=$errors['category_id']?></small></div>
@@ -235,18 +193,7 @@
                               <option value="">--Select Local Role--</option>
                               <?php if(!empty($localPositions)):?>
                               <?php foreach($localPositions as $cat):?>
-                                <option <?=set_select('localposition_id',$row->localposition_id,$cat->position)?> value="<?=$cat->position?>"><?=esc($cat->position)?></option>
-                              <?php endforeach;?>
-                            <?php endif;?>        
-                            </select>
-                          </div>
-
-                          <div class="mx-auto col-md-4 col-lg-4">
-                            <select name="position_id" class="form-select rounded">
-                              <option value="">--Select District Role--</option>
-                              <?php if(!empty($positions)):?>
-                              <?php foreach($positions as $cat):?>
-                                <option <?=set_select('position_id',$row->position_id,$cat->position)?> value="<?=$cat->position?>"><?=esc($cat->position)?></option>
+                                <option <?=set_select('localposition_id',$row->localposition_id,$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
                               <?php endforeach;?>
                             <?php endif;?>        
                             </select>

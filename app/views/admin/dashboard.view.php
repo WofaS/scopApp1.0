@@ -145,7 +145,7 @@ use model\Auth;
                       <img style="height: 80px; max-height: 80px; max-width:80px;" src="<?=ROOT?>/assets/images/male.jpg" alt=""class="mb-0 mx-auto rounded">
                     <?php endif;?>
                     <p style="margin-top:-10px; position: fixed;" class="badge bg-secondary text-light"><span>age <?=$age?></span></p>
-                    <h5 class="mb-0 card-title text-info" style="font-size: 15px;"><?=$row->firstname?> <?=$row->lastname?><br> <span class="mb-0"><?=$row->category_id?></span></h5>
+                    <h5 class="mb-0 card-title text-info" style="font-size: 15px;"><?=$row->firstname?> <?=$row->lastname?><br> <span class="mb-0"><?=$row->role_name?></span></h5>
                    
                   </div>
                 </a>

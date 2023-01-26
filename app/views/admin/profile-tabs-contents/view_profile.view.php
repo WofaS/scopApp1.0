@@ -5,7 +5,7 @@
             <div class="row d-flex mx-0 px-0">
               <div class="col-9 my-auto">
                 <h4 class="border-bottom fw-bolder text-center mx-auto">About <?=ucfirst($row->firstname)?> <?=ucfirst($row->lastname)?></h4>
-                <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_id). ' Assembly serves in the church as '?> <?=$row->position_id ? :$row->role_name?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname."'s occupation is ". $row->job.' and stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
+                <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_name). ' Branch serves in the company as '?> <?=$row->role_name ? :'Not available'?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname. ' stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
               <!--  <div class="badge bg-info"><?=$age?></div> -->
               </div>
               <div class="col float-end my-auto">
@@ -38,7 +38,7 @@
 
                   <tr class="row d-flex">
                     <th class="col-4">DOB: </th>
-                    <td class="col-8"><?=esc($row->dob ? :'Not available')?></td>
+                    <td class="col-8"><?=esc(get_date($row->dob ? :'Not available'))?></td>
                   </tr>
 
                   <tr class="row d-flex">
@@ -88,11 +88,6 @@
                     <th class="col-4">GPS Address: </th>
                     <td class="col-8"><?=esc($row->gps_address ? :'Not available')?></td>
                   </tr>
-
-                  <tr class="row d-flex">
-                    <th class="col-4">Water Baptized?: </th>
-                    <td class="col-8"><?=esc($row->water_baptized ? :'Not available')?></td>
-                  </tr>
                 </tbody>
               </table>
                 </div>
@@ -105,18 +100,8 @@
                     <h5 class="text-info">Other Details</h5><hr>
 
                   <tr class="row d-flex">
-                    <th class="col-4">HolyGhost Baptized?: </th>
-                    <td class="col-8"><?=esc($row->holyghost_baptized ? :'Not available')?></td>
-                  </tr>
-
-                  <tr class="row d-flex">
-                    <th class="col-4">Attends Communion?: </th>
-                    <td class="col-8"><?=esc($row->communicant_status ? :'Not available')?></td>
-                  </tr>
-
-                    <tr class="row d-flex">
-                    <th class="col-4">Occupation: </th>
-                    <td class="col-8"><?=esc($row->job ? :'Not available')?></td>
+                    <th class="col-4">Position: </th>
+                    <td class="col-8"><?=esc($row->role_name ? :'Not available')?></td>
                   </tr>
 
                   <tr class="row">

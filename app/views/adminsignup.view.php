@@ -250,10 +250,6 @@
                       <option <?=set_select('role',$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
                     <?php endforeach;?>
                   <?php endif;?>
-                <?php else:?>
-                    <option value="4">member</option>              
-                    <option value="8">child</option>              
-                    <option value="9">visitor</option>
                 <?php endif;?>              
                   </select>
                   <small class="error error-role_name w-100 text-danger"></small>
@@ -261,19 +257,7 @@
 
                 <div class="col-6 my-3">
                   <select name="position_id" class="form-select">
-                    <option value="">--Select Local Role--</option>
-                    <?php if(!empty($localPositions)):?>
-                        <?php foreach($localPositions as $cat):?>
-                          <option <?=set_select('localposition_id',$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
-                        <?php endforeach;?>
-                      <?php endif;?>      
-                  </select>
-                  <small class="error error-role_name w-100 text-danger"></small>
-                </div>
-
-                <div class="col-6 my-3">
-                  <select name="position_id" class="form-select">
-                    <option value="">--Select District Role--</option>
+                    <option value="">--Select Role--</option>
                     <?php if(!empty($positions)):?>
                         <?php foreach($positions as $cat):?>
                           <option <?=set_select('position_id',$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>

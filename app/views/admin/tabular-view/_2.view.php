@@ -3,54 +3,54 @@
   $categories = get_categories();
 
   
-  $query = "select count(id) as num from members where category_id = 'Dunamis'";
+  $query = "select count(id) as num from members where category_id = '2'";
   $resLocal = query_row($query);
 
-  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = 'Dunamis'";
+  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '2'";
   $resLocalMale = query_row($queryMale);
   
-  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = 'Dunamis'";
+  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '2'";
   $resLocalMaleChild = query_row($queryMaleChild);
 
   $resLocalMaleAdult = $resLocalMale['num'] - $resLocalMaleChild['num'];
 
-  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = 'Dunamis'";
+  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '2'";
   $resLocalFemale = query_row($queryFemale);
 
-  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = 'Dunamis'";
+  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '2'";
   $resLocalFemaleChild = query_row($queryFemaleChild);
 
   $resLocalFemaleAdult = $resLocalFemale['num'] - $resLocalFemaleChild['num'];
 
-  $query1 = "select count(id) as num from members where role = '1' AND category_id = 'Dunamis'";
+  $query1 = "select count(id) as num from members where role = '1' AND category_id = '2'";
   $resLocal1 = query_row($query1);
 
   //admin count
-  $query2 = "select count(id) as num from members where role = '2' AND category_id = 'Dunamis'";
+  $query2 = "select count(id) as num from members where role = '2' AND category_id = '2'";
   $resLocal2 = query_row($query2);
 
   //members count
-  $query3 = "select count(id) as num from members where role = '4' AND category_id = 'Dunamis'";
+  $query3 = "select count(id) as num from members where role = '4' AND category_id = '2'";
   $resLocal3 = query_row($query3);
 
   //elders count
-  $query4 = "select count(id) as num from members where role = '5' AND category_id = 'Dunamis'";
+  $query4 = "select count(id) as num from members where role = '5' AND category_id = '2'";
   $resLocal4 = query_row($query4);
 
   //dcnss count
-  $query5 = "select count(id) as num from members where role = '6' AND category_id = 'Dunamis'";
+  $query5 = "select count(id) as num from members where role = '6' AND category_id = '2'";
   $resLocal5 = query_row($query5);
 
   //dcn count
-  $query6 = "select count(id) as num from members where role = '7' AND category_id = 'Dunamis'";
+  $query6 = "select count(id) as num from members where role = '7' AND category_id = '2'";
   $resLocal6 = query_row($query6);
 
   //child count
-  $query7 = "select count(id) as num from members where role = '8' AND category_id = 'Dunamis'";
+  $query7 = "select count(id) as num from members where role = '8' AND category_id = '2'";
   $resLocal7 = query_row($query7);
   
   //visitor count
-  $query8 = "select count(id) as num from members where role = '9' AND category_id = 'Dunamis'";
+  $query8 = "select count(id) as num from members where role = '9' AND category_id = '2'";
   $resLocal8 = query_row($query8);
 
   //total count
@@ -59,7 +59,7 @@
 ?>
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('Dunamis Membership Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('2 Membership Overview')?></label>
         
         <ul class="breadcrumb my-0 py-0">
 
@@ -120,11 +120,20 @@
       </nav>
     </div><!-- End Page Title -->
 
-      <!-- Profile Edit Form -->
+<section class="mt-2 pt-1">
+<div class="container-fluid" data-aos="fade-up">
+
+<?php if(!empty($data['row'])):?>
         <div class="card-body">
              
             <div class="section-header d-flex justify-content-between align-items-center mb-2">
-              <h2 class="text-muted"><?=strtoupper(esc('Dunamis ASSEMBLY'))?></h2>
+              <?php foreach ($data['row'] as $row):?>
+
+                <?php if(!empty($row->category_id) && $row->category_id === '2'): ?>
+                  <h2 class="text-muted"><?=strtoupper(esc($row->category_name ? :'BRANCH NAME'))?></h2>
+                <?php endif;?>
+              <?php endforeach;?>
+              <p class="col-6">Note: <span class="fst-italic">These are members from age of 36 to 60 years. It comprises officers, non-officers and 'visitors'.</span></p>
             </div>      
             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
               
@@ -132,19 +141,17 @@
 
               <table class="table table-striped table-borderless border-bottom table-hover datatable dataTable-loading" >
               <thead>
-                <tr style="background: lightgray;">
+                <tr class="" style="background: lightgray;">
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">#</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Photo</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">Name</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">PHOTO</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">NAME</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">M.STATUS</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">DOB</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">ROLE</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bx bxs-phone-incoming fw-bolder text-danger"></i> Phone</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> Residence</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> Local</a></th>
-                  <th scope="col" data-sortable="" >
-                    <a href="<?=ROOT?>/admin/excel/print_dunamis">
-                      <button class="btn btn-success btn-sm fs-6 px-3 py-0 m-0" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button>
-                    </a>Action</th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bx bxs-phone-incoming fw-bolder text-danger"></i> PHONE</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> RESIDENCE</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> LOCAL</a></th>
+                  <th scope="col-3" data-sortable="" ><a href="<?=ROOT?>/admin/excel/print_central"><button class="btn btn-success btn-sm fs-6 px-3 py-0 m-0" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button></a>ACTION</th>
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +161,7 @@
                 <?php $id = 0;?>
                 <?php foreach ($data['row'] as $row):?>
 
-                <?php if(!empty($row->category_id) && $row->category_id === 'Dunamis'): $id +=1;?>
+                <?php if(!empty($row->category_id) && $row->category_id === '2'): $id +=1;?>
 
                   <?php
 
@@ -191,6 +198,7 @@
                 <?php endif;?>
                   </td>
                   <th><a href="<?=ROOT?>/admin/profile/<?=$row->id?>"><?=$row->firstname?> <?=$row->lastname?> <small class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>)</small></a></th>
+                  <td><span class=""><?=$row->marital_status_id ?? 'Unknown'?></span></td>
                   <td><span class=""><?=get_date($row->dob ?? 'Unknown')?></span></td>
                   <td><span class=""><?=ucfirst($row->localposition_id ? :'member')?></span></td>
                   <td><span class=""><?=$row->phone ?? 'Unknown'?></span></td>
@@ -215,7 +223,11 @@
               </tbody>
             </table>
           </div>
-          </div>
-
         </div>
+        </div>
+      </div>
+    </section>
+  <?php else:?>
+    <div class="alert alert-danger">No records to show</div>
+  <?php endif;?>
       <!-- End Profile Edit Form -->

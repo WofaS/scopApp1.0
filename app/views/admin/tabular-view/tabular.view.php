@@ -41,7 +41,7 @@
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">ROLE</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bx bxs-phone-incoming fw-bolder text-danger"></i> PHONE</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> RESIDENCE</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> LOCAL</a></th>
+                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> BRANCH</a></th>
                   <th scope="col" data-sortable="" >
                     <a href="<?=ROOT?>/admin/excel/print_members"><button class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel p-0"></i> Download Excel</button>
                     </a>ACTION</th>
@@ -102,7 +102,7 @@
                   <td><span class=""><?=ucfirst($row->role_name ? :'Unknown')?></span></td>
                   <td><span class=""><?=$row->phone ?? 'Unknown'?></span></td>
                   <td><p class="fst-italic"><?=$row->residence?></p></td>          
-                  <td><p class="fst-italic"><?=$row->category_id ?? 'Unknown'?></p></td>
+                  <td><p class="fst-italic"><?=$row->category_name ?? 'Unknown'?></p></td>
                   <td colspan="3">
                     <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
                       <i class="bi bi-eye-fill btn btn-sm btn-outline-secondary"></i> 

@@ -3,54 +3,54 @@
   $categories = get_categories();
 
   
-  $query = "select count(id) as num from members where category_id = 'Buko'";
+  $query = "select count(id) as num from members where category_id = '8'";
   $resLocal = query_row($query);
 
-  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = 'Buko'";
+  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '8'";
   $resLocalMale = query_row($queryMale);
   
-  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = 'Buko'";
+  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '8'";
   $resLocalMaleChild = query_row($queryMaleChild);
 
   $resLocalMaleAdult = $resLocalMale['num'] - $resLocalMaleChild['num'];
 
-  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = 'Buko'";
+  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '8'";
   $resLocalFemale = query_row($queryFemale);
 
-  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = 'Buko'";
+  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '8'";
   $resLocalFemaleChild = query_row($queryFemaleChild);
 
   $resLocalFemaleAdult = $resLocalFemale['num'] - $resLocalFemaleChild['num'];
 
-  $query1 = "select count(id) as num from members where role = '1' AND category_id = 'Buko'";
+  $query1 = "select count(id) as num from members where role = '1' AND category_id = '8'";
   $resLocal1 = query_row($query1);
 
   //admin count
-  $query2 = "select count(id) as num from members where role = '2' AND category_id = 'Buko'";
+  $query2 = "select count(id) as num from members where role = '2' AND category_id = '8'";
   $resLocal2 = query_row($query2);
 
   //members count
-  $query3 = "select count(id) as num from members where role = '4' AND category_id = 'Buko'";
+  $query3 = "select count(id) as num from members where role = '4' AND category_id = '8'";
   $resLocal3 = query_row($query3);
 
   //elders count
-  $query4 = "select count(id) as num from members where role = '5' AND category_id = 'Buko'";
+  $query4 = "select count(id) as num from members where role = '5' AND category_id = '8'";
   $resLocal4 = query_row($query4);
 
   //dcnss count
-  $query5 = "select count(id) as num from members where role = '6' AND category_id = 'Buko'";
+  $query5 = "select count(id) as num from members where role = '6' AND category_id = '8'";
   $resLocal5 = query_row($query5);
 
   //dcn count
-  $query6 = "select count(id) as num from members where role = '7' AND category_id = 'Buko'";
+  $query6 = "select count(id) as num from members where role = '8' AND category_id = '8'";
   $resLocal6 = query_row($query6);
 
   //child count
-  $query7 = "select count(id) as num from members where role = '8' AND category_id = 'Buko'";
+  $query7 = "select count(id) as num from members where role = '8' AND category_id = '8'";
   $resLocal7 = query_row($query7);
   
   //visitor count
-  $query8 = "select count(id) as num from members where role = '9' AND category_id = 'Buko'";
+  $query8 = "select count(id) as num from members where role = '9' AND category_id = '8'";
   $resLocal8 = query_row($query8);
 
   //total count
@@ -59,7 +59,7 @@
 ?>
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('Buko Membership Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('6 Membership Overview')?></label>
         
         <ul class="breadcrumb my-0 py-0">
 
@@ -124,7 +124,12 @@
         <div class="card-body">
              
             <div class="section-header d-flex justify-content-between align-items-center mb-2">
-              <h2 class="text-muted"><?=strtoupper(esc('Buko ASSEMBLY'))?></h2>
+              <?php foreach ($data['row'] as $row):?>
+
+                <?php if(!empty($row->category_id) && $row->category_id === '8'): ?>
+                  <h2 class="text-muted"><?=strtoupper(esc($row->category_name ? :'BRANCH NAME'))?></h2>
+                <?php endif;?>
+              <?php endforeach;?>
             </div>      
             <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
               
@@ -142,7 +147,7 @@
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> Residence</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> Local</a></th>
                   <th scope="col" data-sortable="" >
-                    <a href="<?=ROOT?>/admin/excel/print_buko">
+                    <a href="<?=ROOT?>/admin/excel/print_elshadai">
                       <button class="btn btn-success btn-sm fs-6 px-3 py-0 m-0" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button>
                     </a>Action</th>
                 </tr>
@@ -154,7 +159,7 @@
                 <?php $id = 0;?>
                 <?php foreach ($data['row'] as $row):?>
 
-                <?php if(!empty($row->category_id) && $row->category_id === 'Buko'): $id +=1;?>
+                <?php if(!empty($row->category_id) && $row->category_id === '8'): $id +=1;?>
 
                   <?php
 
