@@ -4,8 +4,7 @@
     <?php
 
   $categories = get_categories();
-  $positions = get_positions();
-  $localPositions = get_local_positions();
+  $positions = get_local_positions();
   $roles = get_roles();
   $maritalStatus = get_marital_status();
   
@@ -385,7 +384,7 @@
 
                      <?php if(user_can('edit_slider_images')):?>
                       <div class="row mb-3 ">
-                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Local/Role</label>
+                      <label for="Marital-status" class="mx-auto col-md-4 col-lg-3 px-3">Branch/Role</label>
 
                       <div class="mx-auto col-md-4 col-lg-5">
                         <select class="form-select rounded <?=!empty($errors['category_id']) ? 'border-danger':'';?>" name="category_id"  >
@@ -397,7 +396,7 @@
                             <?php endif;?>
 
                         </select>
-                        <div class="invalid-feedback">Local assembly is required.</div>
+                        <div class="invalid-feedback">Branch is required.</div>
                       </div>                
                       <?php if (!empty($errors['category_id'])):?>
                         <div class="text-danger"><small><?=$errors['category_id']?></small></div>
@@ -420,6 +419,28 @@
                       <?php endif;?>
                       </div>
                     <?php endif;?>
+
+                       <?php if(!($row->role_name === "Supplier") ):?>
+                        <div class="row mb-3">
+                          <label for="residence" class="mx-auto col-md-4 col-lg-3 px-3">Position</label>
+                          <div class="mx-auto col-md-8 col-lg-9">
+                            <select class="form-select rounded <?=!empty($errors['localposition_id']) ? 'border-danger':'';?>" name="localposition_id"  >
+                                <option value="">---Select Position---</option>
+                                <?php if(!empty($positions)):?>
+                                  <?php foreach($positions as $cat):?>
+                                    <option <?=set_select('localposition_id',$row->localposition_name,$cat->position)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
+                                  <?php endforeach;?>
+                                <?php endif;?>
+
+                            </select>
+                            </div>
+
+                            <?php if(!empty($errors['residence'])):?>
+                              <small class="js-error-residence text-danger"><?=$errors['residence']?></small>
+                            <?php endif;?>
+                            <small class="js-error-residence text-danger"></small>
+                          </div>
+                        <?php endif;?>
 
                         <div class="row mb-3">
                           <label for="residence" class="mx-auto col-md-4 col-lg-3 px-3">Residence</label>

@@ -3,7 +3,9 @@
 
     <?php
 
-  $categories = get_categories();
+  if ($row) {
+
+    $categories = get_categories();
   $positions = get_positions();
   $localPositions = get_local_positions();
   $roles = get_roles();
@@ -28,6 +30,7 @@
     $queryAbsent = "SELECT count(*) AS T_MY_ABSENT FROM register where member_id=:member_id && status=:status";
     $totalAbs = query_row($queryAbsent, ['member_id' => $myID,'status'=>'ABSENT']);
     $my_total_absent = $totalAbs['T_MY_ABSENT'];
+  }
 
   ?>
 
@@ -48,6 +51,18 @@
       width: 40%;
       padding: 10px;
       border-radius: 10px;
+    }
+
+    .alert{
+      transition: 0.4s ease-in-out;
+      cursor: pointer;
+    }
+
+    .alert:hover{
+      background-color: deeppink;
+      color: white;
+      font-size: 20px;
+      font-weight: bolder;
     }
 
     center{
@@ -196,9 +211,12 @@
                   <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
                 </li>
 
+                
+              <?php if(!($row->role_name === "Supplier") ):?>
                 <li class="nav-item mx-2">
                   <button onclick="set_tab(this.getAttribute('data-bs-target'))" action='search' class="nav-link bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab"><?=$row->firstname?>'s Attendance</button>
                 </li>
+              <?php endif;?>
 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
@@ -270,7 +288,7 @@
 
   <?php else:?>
 
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show text-center col-6 mx-auto" role="alert">
                 That profile was not found!
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>

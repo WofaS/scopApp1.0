@@ -82,7 +82,7 @@
           <?php foreach($app as $row):?> 
           <h1 style="color:red;">Welcome to <?=$row->appname?></h1>
           <p >
-            This is a membership tracker app of <?=ucfirst($row->district_name ? : '(District name)')?> of <?=ucfirst($row->church_name ? : '(Church name)')?> - <?=ucfirst($row->area_name ? : '(Area name)')?> located @ <?=$row->location ? : '(Location)'?>. You are always welcome to worship with us.</p><br>
+            This is the Warehouse app of <?=ucfirst($row->church_name ? : '(Organization name)')?> - <?=ucfirst($row->district_name ? : '(Branch name)')?> branch, <?=ucfirst($row->area_name ? : '(Area name)')?> located @ <?=$row->location ? : '(Location)'?>. You are always welcome to worship with us.</p><br>
         <?php endforeach;?>
         <?php else:?>
           <h1>Welcome to to <?=APP_NAME?></h1>

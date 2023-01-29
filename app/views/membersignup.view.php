@@ -3,8 +3,7 @@
  <?php
   use \Model\Auth;
   $categories = get_categories();
-  $positions = get_positions();
-  $localPositions = get_local_positions();
+  $positions = get_local_positions();
   $roles = get_roles();
   $maritalStatus = get_marital_status();
   $app = get_app_details();
@@ -316,7 +315,7 @@
                 <div class="input-group has-validation">
                     <select name="category_id" id="inputState" class="form-select <?=!empty($errors['category_id']) ? 'border-danger':'';?>">
                       
-                      <option value="" selected="">---Select Category---</option>
+                      <option value="" selected="">---Select Branch---</option>
                       <?php if(!empty($categories)):?>
                         <?php foreach($categories as $cat):?>
                           <option <?=set_select('category_id',$cat->id)?> value="<?=$cat->id?>"><?=esc($cat->category)?></option>
@@ -328,7 +327,7 @@
                     <?php if(!empty($errors['category_id'])):?>
                       <small class="text-danger"><?=$errors['category_id']?></small>
                     <?php endif;?>
-                  <div class="invalid-feedback">Category is required.</div>
+                  <div class="invalid-feedback">Branch is required.</div>
                 </div>
                 </div>
 
@@ -345,6 +344,28 @@
                   </select>
                   <small class="js-error-role_name w-100 text-danger"></small>
                 </div>
+                </div>
+
+                <div class="col-12 my-3">
+                  <div class="col-6 ">
+                    <div class="input-group has-validation">
+                        <select name="localposition_id" id="inputState" class="form-select <?=!empty($errors['localposition_id']) ? 'border-danger':'';?>">
+                          
+                          <option value="" selected="">---Select Position---</option>
+                          <?php if(!empty($positions)):?>
+                            <?php foreach($positions as $cat):?>
+                              <option <?=set_select('localposition_id',$cat->id)?> value="<?=$cat->id?>"><?=esc($cat->position)?></option>
+                            <?php endforeach;?>
+                          <?php endif;?>
+
+                        </select>
+
+                        <?php if(!empty($errors['localposition_id'])):?>
+                          <small class="text-danger"><?=$errors['localposition_id']?></small>
+                        <?php endif;?>
+                      <div class="invalid-feedback">Position is required.</div>
+                    </div>
+                    </div>
                 </div>
 
                 <div class="col-12 my-3">

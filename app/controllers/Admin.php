@@ -414,26 +414,14 @@ public function dashboard()
                     <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Residential Address:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>GPS Address:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
 
                     <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Hometown:</th><td><input style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Occupation:</th><td><input style='width:200px; border-radius:5px;'></td></tr>
-                    
-                    <tr style='margin-bottom:10px;'><th style=' font-size:10px; font-family:tahoma; border:thin solid gray;'>Baptized in water?:</th><td style='font-style:italic; font-size:10px;'>Yes  <input type='checkbox'> No  <input type='checkbox'></td>
-
-                    <th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Holy Ghost Baptized?:</th><td style='font-style:italic; font-size:10px;'>Yes  <input type='checkbox'> No  <input type='checkbox'></td>
-                    </tr>
-
-                    <tr><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Attends Communion?:</th><td style='font-style:italic; font-size:10px;'>Yes  <input type='checkbox'> No <input type='checkbox'></td>
-                    </tr>
-                    
+                                        
                     <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Local Assembly:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Role:</th><td style='font-style:italic; font-size:10px;'>
-                    		Child<input type='checkbox'>   
-                    		Deacon<input type='checkbox'>   
-                    		Deaconess<input type='checkbox'><br>  
-                    		Elder<input type='checkbox'>  
-                    		Member<input type='checkbox'>   
-                    		Visitor<input type='checkbox'>
+                    		Staff<input type='checkbox'>   
+                    		Supplier<input type='checkbox'> 
                     	</td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Position in District:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Position in Local:</th><td><input type='text' style='width:200px; border-radius:5px;'></td>
+                    <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Position:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'></th><td><input type='text' style='width:200px; border-radius:5px;'></td>
                     </tr>
 
                     <tr style='margin-bottom:10px;'><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Father's Name:</th><td><input type='text' style='width:200px; border-radius:5px;'></td><th style='width:50px; font-size:10px; font-family:tahoma; border:thin solid gray;'>Phone:</th><td><input type='text' style='width:200px; border-radius:5px;'></td>
@@ -505,7 +493,7 @@ public function dashboard()
 	                 <td colspan='3';> 
 	                 		<h4 style='border-bottom:2px solid gray; font-weight:bolder; text-align:center; justify-content:center; margin-bottom:10px;'>About ". ucfirst($row->firstname). ' ' . ucfirst($row->lastname). " </h4><br>
 	                 	<p style='font-style:italic; color:darkblue; font-size:12px;'>
-	                 		".ucfirst($row->firstname) . ' ' .ucfirst($row->lastname) . ' (' .ucfirst($row->role_name) .') worships with ' . ucfirst($row->category_id).' Assembly of the Church of Pentecost Sampa District. Born on the '. get_date($row->dob) .' to '. $row->father_name . ' (father) and '. $row->mother_name.' (mother), '. $title. ' is '. $age.' old. '. ucfirst($title) .' comes from '. $row->hometown .'. and is '. $row->marital_status_id.'. Currently, '. $title. ' stays at '. $row->residence . ' in Sampa-Jaman North District of the Bono Region, Ghana.' . " 
+	                 		".ucfirst($row->firstname) . ' ' .ucfirst($row->lastname) . ' (' .ucfirst($row->role_name) .') works with ' . ucfirst($row->category_name).' Branch of '. ucfirst($app->church_name) .'. Born on the '. get_date($row->dob) .' to '. $row->father_name . ' (father) and '. $row->mother_name.' (mother), '. $title. ' is '. $age.' old. '. ucfirst($title) .' comes from '. $row->hometown .'. and is '. $row->marital_status_id.'. Currently, '. $title. ' stays at '. $row->residence . ' in Sampa-Jaman North District of the Bono Region, Ghana.' . " 
 	                 	</p>
 	                 </td>
 
@@ -556,19 +544,10 @@ public function dashboard()
 
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Hometown:</th><td style=' font-style:italic;'><p>".esc(set_value('hometown',$row->hometown ? :'NOt available'))."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Occupation:</th><td style=' font-style:italic;'><p>".esc(set_value('job',$row->job ? :'Not available'))."</p></td></tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Baptized in water?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->water_baptized."</p></td>
-
-                    <th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Holy Ghost Baptized?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->holyghost_baptized."</p></td>
-                    </tr>
-
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'>
-                    	<th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Attends Communion?:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->communicant_status."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Branch:</th><td style=' font-style:italic;'><p>".$row->category_name."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Role:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->role_name."</p></td>
                     </tr>
                     
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Local Assembly:</th><td style=' font-style:italic;'><p>".$row->category_id."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Role:</th><td style='font-style:italic; margin-left:5px;'><p>".$row->role_name."</p></td>
-                    </tr>
-                    
-                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in District:</th><td style=' font-style:italic;'><p>".esc($row->position_id ? :'No position')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position in Local:</th><td style=' font-style:italic;'><p>".esc($row->localposition_id ? :'No position')."</p></td>
+                    <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Position:</th><td style=' font-style:italic;'><p>".esc($row->localposition_name ? :'No position')."</p></td></td>
                     </tr>
 
                     <tr style='margin-bottom:10px; background-color:#f6f9ff66; border-bottom:thin gray; border-radius:5px;'><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Name:</th><td style=' font-style:italic;'><p>".esc($row->father_name ? :'Not available')."</p></td><th style='width:100px; font-family:tahoma; border:thin solid gray; font-size:13px;'>Father's Contact:</th><td style=' font-style:italic;'><p>".esc($row->father_phone ? :'Not available')."</p></td>
@@ -773,7 +752,7 @@ public function dashboard()
 	}
 
 
-	public function profile($id = null)
+	public function profile($id = null, $date = null)
 	{
 
 		if(!Auth::logged_in())
@@ -1396,7 +1375,7 @@ public function dashboard()
 		$this->view('admin/maritalstatus',$data);
 	}
 
-	public function districtposition($action = null, $id = null)
+	public function position($action = null, $id = null)
 	{
 
 		if(!Auth::logged_in())
@@ -1425,7 +1404,7 @@ public function dashboard()
 						
 						$position->insert($_POST);
 						message("Position added successfuly");
-						redirect('admin/districtposition');
+						redirect('admin/position');
 					}
 				}else{
 					$position->errors['position'] = "You are not allowed to perform this action";
@@ -1448,7 +1427,7 @@ public function dashboard()
 					
 				$position->delete($row->id);
 				message("Position was successfuly deleted");
-				redirect('admin/districtposition');
+				redirect('admin/position');
 
 				$data['errors'] = $position->errors;
 
@@ -1469,7 +1448,7 @@ public function dashboard()
 					
 					$position->update($row->id, $_POST);
 					message("Position was successfuly edited");
-					redirect('admin/districtposition');
+					redirect('admin/position');
 				}
 
 				$data['errors'] = $position->errors;
@@ -1485,7 +1464,7 @@ public function dashboard()
 
 		}
 
-		$this->view('admin/districtposition',$data);
+		$this->view('admin/position',$data);
 	}
 
 	public function local_position($action = null, $id = null)

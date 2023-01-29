@@ -1,12 +1,18 @@
 
-  <!-- Profile Edit Form -->                      
+  <!-- Profile Edit Form -->   
+  <?php if(!empty($row)):?>                   
         <div class="row mb-3 col-12">
           <div class=" px-3 py-2 rounded" style="">
             <div class="row d-flex mx-0 px-0">
               <div class="col-9 my-auto">
                 <h4 class="border-bottom fw-bolder text-center mx-auto">About <?=ucfirst($row->firstname)?> <?=ucfirst($row->lastname)?></h4>
-                <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_name). ' Branch serves in the company as '?> <?=$row->role_name ? :'Not available'?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname. ' stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
-              <!--  <div class="badge bg-info"><?=$age?></div> -->
+
+                <?php if(!($row->role_name === "Supplier")):?>
+                <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_name). ' Branch serves in the company as '?> <?=$row->localposition_name ? :'Not available'?><?='. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname. ' stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
+
+              <?php else:?>
+                <p class="small fst-italic border-bottom"><?= ucfirst($row->firstname ).' '. ucfirst($row->lastname)?> <?='('.ucfirst($row->role_name ? :'No role').') of '.ucfirst($row->category_name). ' Branch is a highly esteemed '?> <?=$row->role_name ? :'Not available'?><?=' of the company. '.ucfirst($row->firstname). ' was born on the '.get_date($row->dob).' to '.$row->mother_name.' (Mother) and '. $row->father_name." (Father). Currently ".$row->firstname. ' stays at '.$row->residence.' in Sampa-Jaman North District of the Bono Region, Ghana.'?></p>
+              <?php endif;?>
               </div>
               <div class="col float-end my-auto">
                 <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
@@ -33,7 +39,11 @@
 
                   <tr class="row d-flex">
                     <th class="col-4">Role: </th>
-                    <td class="col-8"><?=esc($row->role_name ? :'Not available')?> <span class="fst-italic text-muted">(<?=($row->position_id ? :'No position')?>)</span></td>
+                    <td class="col-8"><?=esc($row->role_name ? :'Not available')?> 
+                    <?php if(!($row->role_name === "Supplier") AND !empty($row->localposition_id)):?>
+                      <span class="fst-italic text-muted">(<?=($row->localposition_name ? :'No position')?>)</span>
+                    <?php endif;?>
+                    </td>
                   </tr>
 
                   <tr class="row d-flex">
@@ -140,3 +150,4 @@
           </div>
         </div>
       </div>
+      <?php endif;?>

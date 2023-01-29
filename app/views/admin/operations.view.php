@@ -1,3 +1,8 @@
+ <?php
+  $categories = get_categories();
+
+  ?>
+
 <?php $this->view('admin/admin-header',$data) ?>
   <?php if(!empty($row)):?>
 
@@ -89,7 +94,15 @@
                         <div class="row mb-3">
                           <label for="district_name" class="col-md-4 col-lg-3 col-form-label">Branch Name</label>
                           <div class="col-md-8 col-lg-9">
-                            <input name="district_name" type="text" class="form-control" id="district_name" value="<?=set_value('district_name',$row->district_name)?>">
+                            <select class="form-select rounded <?=!empty($errors['district_name']) ? 'border-danger':'';?>" name="district_name"  >
+                                <option value="">---Select Branch---</option>
+                                <?php if(!empty($categories)):?>
+                                  <?php foreach($categories as $cat):?>
+                                    <option <?=set_select('district_name',$row->district_name,$cat->category)?> value="<?=$cat->category?>"><?=esc($cat->category)?></option>
+                                  <?php endforeach;?>
+                                <?php endif;?>
+
+                            </select>
                           </div>
 
                           <?php if(!empty($errors['district_name'])):?>
@@ -120,6 +133,18 @@
                             <small class="js-error-location text-danger"><?=$errors['location']?></small>
                           <?php endif;?>
                           <small class="js-error-location text-danger"></small>
+                        </div>
+
+                        <div class="row mb-3">
+                          <label for="area_name" class="col-md-4 col-lg-3 col-form-label">Region/Country</label>
+                          <div class="col-md-8 col-lg-9">
+                            <input name="area_name" type="text" class="form-control" id="area_name" value="<?=set_value('area_name',$row->area_name)?>">
+                          </div>
+
+                          <?php if(!empty($errors['area_name'])):?>
+                            <small class="js-error-area_name text-danger"><?=$errors['area_name']?></small>
+                          <?php endif;?>
+                          <small class="js-error-area_name text-danger"></small>
                         </div>
 
                         <div class="row mb-3">
