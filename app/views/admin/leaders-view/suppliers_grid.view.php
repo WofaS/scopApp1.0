@@ -2,39 +2,18 @@
   use \Model\Auth;
   $categories = get_categories();
 
-  $queryElder = "select count(id) as num from members where role = '5'";
-  $resElder = query_row($queryElder);
-
-  $queryDeaconess = "select count(id) as num from members where role = '6'";
-  $resDeaconess = query_row($queryDeaconess);
-
-  $queryDeacon = "select count(id) as num from members where role = '7'";
-  $resDeacon = query_row($queryDeacon);
-
-  //total count
-  $totalOfficers = $resElder['num'] + $resDeaconess['num'] + $resDeacon['num'];
+  $querySuppliers = "select count(id) as num from members where role = '3'";
+  $resSuppliers = query_row($querySuppliers);
   ?>
 <div class="pagetitle rounded p-0 border-bottom">
    <nav>   
-        <label class="fw-bolder badge text-primary"><?=strtoupper('District Officers Overview')?></label>
+        <label class="fw-bolder badge text-primary"><?=strtoupper('Suppliers Overview')?></label>
         
         <ul class="breadcrumb my-0 py-0">
 
           <li class="card-title mx-auto d-flex">
             <div class="card-icon rounded-circle text-primary fw-bolder" >
-              <i class="bi bi-people-fill"></i></div>Total Officers<b class="mx-2 mb-0 text-danger"><?=$totalOfficers ?? 0?></b>
-          </li>
-          
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder mx-auto" ><i class="bx bx-male"></i></div>Elders <b class="mx-3 text-danger"><?=$resElder['num'] ?? 0?></b>
-          </li>
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder mx-auto" ><i class="bx bx-female"></i></div>Deacons <b class="mx-3 text-danger"><?=$resDeacon['num'] ?? 0?></b>
-            <div class="filter col float-end">
-          </li>
-          <li class="card-title mx-auto d-flex">
-            <div class="card-icon rounded-circle text-primary fw-bolder mx-auto" ><i class="bx bx-female"></i></div>Deaconesses <b class="mx-3 text-danger"><?=$resDeaconess['num'] ?? 0?></b>
-            <div class="filter col float-end">
+              <i class="bi bi-people-fill"></i></div>Total Suppliers<b class="mx-2 mb-0 text-danger"><?=$resSuppliers ?? 0?></b>
           </li>
         </ul>
       </nav>
@@ -46,7 +25,7 @@
 
 <?php if(!empty($data['row'])):?>
     <div class="section-header d-flex justify-content-between align-items-center mb-5">
-      <h2 class="text-muted border-bottom"><?=strtoupper('Sampa District Officers')?></h2>
+      <h2 class="text-muted border-bottom"><?=strtoupper('Sampa Branch Suppliers')?></h2>
       
       <a href="<?=ROOT?>/admin/excel/print_officers"><button class="btn btn-success btn-sm fs-6 px-3 py-0 m-0" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button></a>
     </div>
@@ -58,7 +37,7 @@
   <?php foreach($data['row'] as $row):?>
   <?php if(!empty($row->category_id)):?>
 
-  <?php if($row->role_name === 'elder' OR $row->role_name === 'deacon' OR $row->role_name === 'deaconess'):?>
+  <?php if($row->role_name === 'Supplier'):?>
 
   <?php
     $mydob = get_date_month_day($row->dob);

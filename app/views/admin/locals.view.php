@@ -24,26 +24,7 @@ include('stat.inc.php');
 
           <li class="card-title mx-auto d-flex">
             <div class="card-icon rounded-circle text-primary fw-bolder">
-              <i class="bi bi-people-fill px-2 fs-6"></i></div>Total <b class="mx-2 mb-0 text-danger"><?=$resAllStaffs['num'] ?? 0?></b>
-              <div class="filter col float-end">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Staffs</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Users </label><span class="col-6 text-primary fw-bold"><?=$resUsers['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Admin </label><span class="col-6 text-primary fw-bold"><?=$resAdmin['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Membs. </label><span class="col-6 text-primary fw-bold"><?=$resStaff['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Elds </label><span class="col-6 text-primary fw-bold"><?=$resElder['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Dcnss. </label><span class="col-6 text-primary fw-bold"><?=$resDeaconess['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Dcns. </label><span class="col-6 text-primary fw-bold"><?=$resDeacon['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Children </label><span class="col-6 text-primary fw-bold"><?=$resChild['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Visitors </label><span class="col-6 text-primary fw-bold"><?=$resVisitor['num']?></span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6">Ps. & Wife </label><span class="col-6 text-primary fw-bold">2</span></a></li>
-                    <li><a class="dropdown-item" href="#"><label class="col-6 fw-bolder text-danger">TOTAL </label><span class=" col-6 text-danger fw-bold" style="border-bottom:2px solid red"><?=$resAllStaffs['num']?></span></a></li>
-                  </ul>
-                </div>
+              <i class="bi bi-people-fill px-2 fs-6"></i></div>Total <b class="mx-2 mb-0 text-danger"><?=$resMale['num'] + $resFemale['num'] ?? 0?></b>
           </li>
 
           <li class="card-title mx-auto d-flex">
@@ -88,41 +69,17 @@ include('stat.inc.php');
 
                 <li class="nav-item">
                   <button style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="dropdown" id="tabular-tab" title="Tabular Views">
-                    <i class="text-info bi bi-list toggle-sidebar-btn"></i> Tabular<i class="bi bi-caret-down-fill"></i>
+                    <i class="text-info bi bi-list toggle-sidebar-btn"></i> Staff<i class="bi bi-caret-down-fill"></i>
                   </button>
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border " data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>All Staffs</button>
+                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border py-2" data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>Tabular</button>
                     </li>
-
-                    <?php if(!empty($categories) AND !empty($members)):?>
-                     <?php foreach($categories as $cat):?>
-                      <li class="nav-item">                 
-                        <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tabular-<?=$cat->slug?>" id="tabular-<?=$cat->slug?>-tab"><i class="bi bi-house text-info"></i><?=$cat->category?></label>             
-                      </li>
-                    <?php endforeach;?>
-                    <?php endif;?>
-                  </ul>
-                </li>
-
-                <li class="nav-item">
-                  <button style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="dropdown" id="leaders-tab" title="Grid View">
-                    <i class="text-info bi bi-grid"></i> Grid<i class="bi bi-caret-down-fill"></i>
-                  </button>
-                  <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>All Staffs</button>
+                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>Grid</button>
                     </li>
-
-                    <?php if(!empty($categories) AND !empty($members)):?>
-                     <?php foreach($categories as $cat):?>
-                      <li class="nav-item">                 
-                        <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#grid-<?=$cat->slug?>" id="grid-<?=$cat->slug?>-tab"><i class="bi bi-house text-info"></i><?=$cat->category?></label>             
-                      </li>
-                    <?php endforeach;?>
-                    <?php endif;?>
                   </ul>
                 </li>
 
@@ -133,16 +90,13 @@ include('stat.inc.php');
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                      <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border " data-bs-toggle="tab" data-bs-target="#officers" id="officers-tab" title="Suppliers"><i class="text-info bi bi-grid"></i>All Suppliers</button>
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#officers" id="suppliers-tab" title="Suppliers"><i class="text-info bi bi-list"></i>Tabular</label>
                     </li>
 
-                    <?php if(!empty($categories) AND !empty($members)):?>
-                     <?php foreach($categories as $cat):?>
-                      <li class="nav-item">                 
-                        <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link" data-bs-toggle="tab" data-bs-target="#officers_<?=$cat->slug?>" id="officers_<?=$cat->slug?>-tab"><i class="bx bx-street-view text-info"></i> <?=$cat->category?></label>             
-                      </li>
-                    <?php endforeach;?>
-                    <?php endif;?>
+                    <li class="nav-item">
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#officers" id="suppliers-grid-tab" title="Suppliers"><i class="text-info bi bi-grid"></i>Grid</label>
+                    </li> 
+
                   </ul>
                 </li>
               </ul>
@@ -198,35 +152,19 @@ include('stat.inc.php');
 
                 </div>
 
-                <?php if(!empty($categories) AND !empty($members)):?>
-                 <?php foreach($categories as $cat):?>
-                <div class="tab-pane fade grid-<?=$cat->slug?> pt-3 show " id="grid-<?=$cat->slug?>">
-                  Change Password Form
-                    
-                    <?php include views_path('admin/locals-view/_'.str_to_url($cat->id)) ?>
-
-                </div>
-                <?php endforeach;?>
-                <?php endif;?>
-
-                <div class="tab-pane fade officers pt-3 show " id="officers">
+                <div class="tab-pane fade suppliers pt-3 show " id="suppliers">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/leaders-view/officers') ?>
+                    <?php include views_path('admin/leaders-view/suppliers') ?>
 
                 </div>
 
-
-                <?php if(!empty($categories) AND !empty($members)):?>
-                 <?php foreach($categories as $cat):?>
-                <div class="tab-pane fade officers_<?=$cat->slug?> pt-3 show " id="officers_<?=$cat->slug?>">
+                <div class="tab-pane fade suppliers-grid pt-3 show " id="suppliers-grid">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/leaders-view/_'.str_to_url($cat->id)) ?>
+                    <?php include views_path('admin/leaders-view/suppliers_grid') ?>
 
                 </div>
-                <?php endforeach;?>
-                <?php endif;?>
                                  
                 </div>
 

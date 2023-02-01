@@ -70,7 +70,7 @@ use model\Auth;
               <i class="bi bi-eye-fill"></i> 
             </a>
 
-            <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
+            <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
               <i class="bi bi-pencil-square"></i> 
             </a>
 

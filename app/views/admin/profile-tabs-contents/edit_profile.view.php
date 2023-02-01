@@ -173,7 +173,7 @@
                             <option value="">---Select Role---</option>
                             <?php if(!empty($roles)):?>
                               <?php foreach($roles as $cat):?>
-                                <option <?=set_select('role',$row->role_name,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
+                                <option <?=set_select('role',$row->role,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
                               <?php endforeach;?>
                             <?php endif;?>
 

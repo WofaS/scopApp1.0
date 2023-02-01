@@ -191,25 +191,25 @@
 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
-                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link active bi bi-pencil">Edit Profile</button>
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link active bi bi-pencil">Edit Profile</button>
                   </a>
                 </li>
                 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/profile/<?=$row->id?>">
-                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link  bi bi-eye-fill" >View Profile</button>
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link  bi bi-eye-fill" >View Profile</button>
                   </a>
                 </li>
 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/delete/<?=$row->id?>">
-                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link  bi bi-trash-fill" >Delete</button>
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link  bi bi-trash-fill" >Delete</button>
                   </a>
                 </li>
 
                 <li class="nav-item mx-2">
                   <a class="justify-content-right float-right" href="<?=ROOT?>/admin/make_pdf/download_profile/<?=$row->id?>">
-                    <button class="nav-link bi bi-download"> Download profile</button>
+                    <button class="text-info nav-link bi bi-download"> Download profile</button>
                   </a>
                 </li>
 
@@ -407,7 +407,7 @@
                             <option value="">---Select Role---</option>
                             <?php if(!empty($roles)):?>
                               <?php foreach($roles as $cat):?>
-                                <option <?=set_select('role',$row->role_name,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
+                                <option <?=set_select('role',$row->role,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
                               <?php endforeach;?>
                             <?php endif;?>
 
@@ -420,7 +420,7 @@
                       </div>
                     <?php endif;?>
 
-                       <?php if(!($row->role_name === "Supplier") ):?>
+                       <?php if(!($row->role === "Supplier") ):?>
                         <div class="row mb-3">
                           <label for="residence" class="mx-auto col-md-4 col-lg-3 px-3">Position</label>
                           <div class="mx-auto col-md-8 col-lg-9">

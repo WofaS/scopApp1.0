@@ -162,7 +162,9 @@
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="<?=ROOT?>/admin/dashboard">Dashboard</a></li>
           <li class="breadcrumb-item">Profile</li>
+         <?php if(!empty($row->role_name)):?>
           <li class="breadcrumb-item"><?=esc(ucfirst(set_value('role',$row->role_name ?? '')))?></li>
+        <?php endif;?>
           <li class="breadcrumb-item active"><?=esc($row->firstname)?> <?=esc($row->lastname)?></li>
         </ol>
       </nav>
@@ -178,7 +180,9 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">            
             <img src="<?=get_avatar($row->image)?>" class="w-100 rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
               <h4 class="text-center"><?=esc($row->firstname)?> <?=esc($row->lastname)?></h4>
+              <?php if(!empty($row->role_name)):?>
               <h5><?=esc(set_value('role',$row->role_name ?? ''))?></h5>
+            <?php endif;?>
               <h5><?=esc($row->phone )?></h5>
               <small><?=esc($row->job )?></small>
               <small><?=$age?></small>
@@ -204,29 +208,29 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
                 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link active bi bi-eye-fill" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder active bi bi-eye-fill" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View Profile</button>
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
                 </li>
 
                 
-              <?php if(!($row->role_name === "Supplier") ):?>
+              <?php if(!empty($row->role_name) AND !($row->role_name === "Supplier") ):?>
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" action='search' class="nav-link bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab"><?=$row->firstname?>'s Attendance</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" action='search' class="text-info nav-link fw-bolder bi bi-book-half" data-bs-toggle="tab" data-bs-target="#attendance" id="attendance-tab"><?=$row->firstname?>'s Attendance</button>
                 </li>
               <?php endif;?>
 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
-                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link bi bi-pencil">Edit Profile</button>
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-pencil">Edit Profile</button>
                   </a>
                 </li>
 
                 <li class="nav-item mx-2">
                   <a class="justify-content-right float-right" href="<?=ROOT?>/admin/make_pdf/download_profile/<?=$row->id?>">
-                    <button class="nav-link bi bi-download"> Download profile</button>
+                    <button class="text-info nav-link fw-bolder bi bi-download"> Download profile</button>
                   </a>
                 </li>
 

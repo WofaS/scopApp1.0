@@ -3,54 +3,54 @@
   $categories = get_categories();
 
   
-  $query = "select count(id) as num from members where category_id = '5'";
+  $query = "select count(id) as num from members where category_id = '19'";
   $resLocal = query_row($query);
 
-  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '5'";
+  $queryMale = "select count(id) as num from members where gender = 'male' AND category_id = '19'";
   $resLocalMale = query_row($queryMale);
   
-  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '5'";
+  $queryMaleChild = "select count(id) as num from members where role = '8' AND gender = 'male' AND category_id = '19'";
   $resLocalMaleChild = query_row($queryMaleChild);
 
   $resLocalMaleAdult = $resLocalMale['num'] - $resLocalMaleChild['num'];
 
-  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '5'";
+  $queryFemale = "select count(id) as num from members where gender = 'female' AND category_id = '19'";
   $resLocalFemale = query_row($queryFemale);
 
-  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '5'";
+  $queryFemaleChild = "select count(id) as num from members where role = '8' AND gender = 'female' AND category_id = '19'";
   $resLocalFemaleChild = query_row($queryFemaleChild);
 
   $resLocalFemaleAdult = $resLocalFemale['num'] - $resLocalFemaleChild['num'];
 
-  $query1 = "select count(id) as num from members where role = '1' AND category_id = '5'";
+  $query1 = "select count(id) as num from members where role = '1' AND category_id = '19'";
   $resLocal1 = query_row($query1);
 
   //admin count
-  $query2 = "select count(id) as num from members where role = '2' AND category_id = '5'";
+  $query2 = "select count(id) as num from members where role = '2' AND category_id = '19'";
   $resLocal2 = query_row($query2);
 
   //members count
-  $query3 = "select count(id) as num from members where role = '4' AND category_id = '5'";
+  $query3 = "select count(id) as num from members where role = '4' AND category_id = '19'";
   $resLocal3 = query_row($query3);
 
   //elders count
-  $query4 = "select count(id) as num from members where role = '5' AND category_id = '5'";
+  $query4 = "select count(id) as num from members where role = '5' AND category_id = '19'";
   $resLocal4 = query_row($query4);
 
   //dcnss count
-  $query5 = "select count(id) as num from members where role = '6' AND category_id = '5'";
+  $query5 = "select count(id) as num from members where role = '6' AND category_id = '19'";
   $resLocal5 = query_row($query5);
 
   //dcn count
-  $query6 = "select count(id) as num from members where role = '7' AND category_id = '5'";
+  $query6 = "select count(id) as num from members where role = '7' AND category_id = '19'";
   $resLocal6 = query_row($query6);
 
   //child count
-  $query7 = "select count(id) as num from members where role = '8' AND category_id = '5'";
+  $query7 = "select count(id) as num from members where role = '8' AND category_id = '19'";
   $resLocal7 = query_row($query7);
   
   //visitor count
-  $query8 = "select count(id) as num from members where role = '9' AND category_id = '5'";
+  $query8 = "select count(id) as num from members where role = '9' AND category_id = '19'";
   $resLocal8 = query_row($query8);
 
   //total count
