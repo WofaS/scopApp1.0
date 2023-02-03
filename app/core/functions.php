@@ -369,6 +369,20 @@ function get_local_positions($id = null)
 	}
 }
 
+function get_account_destination($id = null)
+{
+	$destination = new \Model\Finance();
+	if($id){
+		$destination->limit = 1;
+		return $destination->wherePosition(['disabled'=>0,'id'=>$id]);
+	}else{
+
+		$destination->order = 'asc';
+		$destination->limit = 200;
+		return $destination->findAll('asc');
+	}
+}
+
 function get_app_details($id = null)
 {
 	$operations = new \Model\Operation();

@@ -38,7 +38,6 @@
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">NAME</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">M.STATUS</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">DOB</a></th>
-                  <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter">POSITION</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bx bxs-phone-incoming fw-bolder text-danger"></i> PHONE</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger"></i> RESIDENCE</a></th>
                   <th scope="col" data-sortable="" ><a href="#" class="dataTable-sorter"><i class="bi bi-pin-map fw-bolder text-danger fw-bolder"></i> BRANCH</a></th>
@@ -66,9 +65,9 @@
                       $mydob = get_date_month_day($row->dob);
                       $today = date('m d');
 
-                      
+                     
                   ?>
-                  <?php if(!empty($row->role_name) AND $row->role === 2 OR $row->role === 1): $id += 1;?>
+                  <?php if(!empty($row->role_name) AND $row->role === 3 ): $id += 1;?>
                 <tr>                        
                   <th scope="row"><a href="<?=ROOT?>/admin/profile/<?=$row->id?>"><?=$id?></a></th>
                   <td>
@@ -100,7 +99,6 @@
                   <th><a href="<?=ROOT?>/admin/profile/<?=$row->id?>"><?=$row->firstname?> <?=$row->lastname?> <small class="fst-italic text-muted">(<?=ucfirst($row->role_name ?? '')?>)</small></a></th>
                   <td><span class=""><?=ucfirst($row->marital_status_id ?? 'Unknown')?></span></td>
                   <td><span class=""><?=get_date($row->dob ?? 'Unknown')?></span></td>
-                  <td><span class=""><?=ucfirst($row->localposition_name ? :'Unknown')?></span></td>
                   <td><span class=""><?=$row->phone ?? 'Unknown'?></span></td>
                   <td><p class="fst-italic"><?=$row->residence?></p></td>          
                   <td><p class="fst-italic"><?=$row->category_name ?? 'Unknown'?></p></td>

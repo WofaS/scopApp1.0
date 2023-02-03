@@ -1797,6 +1797,399 @@ public function dashboard()
 		$this->view('admin/register/view_register',$data);
 	}
 
+
+
+	public function account_add()
+	{
+
+		$errors = [];
+		$data = [];	
+		$financeClass = new \Model\Finance();
+
+
+		if (!empty($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], "account_add")) {
+
+		    $_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+		}
+		if (!empty($_SESSION['referer']) && strstr($_SESSION['referer'], "source_of_funds")) {
+		   
+		    $source = "sof_add";
+		  
+		} else {
+
+		   $source = null;
+		}
+
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+		    
+		    $errors = $financeClass->validate($_POST);
+
+		    if (empty($errors)) {
+
+
+		        $_POST['balance'] = 0;
+		        $_POST['updated_on'] = date("Y-m-d H:i:s");
+		        $_POST['updated_by'] = auth::get('username');
+		        $_POST['id'] = rand(10000, 99999);
+		        
+		        $financeClass->insert($_POST);
+
+		        message("A/c created Successfully");
+
+		        if (!empty($_SESSION['referer']) && strstr($_SESSION['referer'], "savings_account")) {
+
+		                redirect("admin/savings_account");
+		            } else {
+
+		                redirect("admin/source_of_funds");
+		            }
+		        
+		    }
+		}
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$this->view('admin/finance/account_add');
+	}
+
+	public function account_edit()
+	{
+
+		$errors = [];
+		$financeClass = new \Model\Finance();
+
+		$id = $_GET['id'] ?? null;
+		$data['row'] = $row = $financeClass->first(['id' => $id]);
+
+		if (!empty($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], "account_edit")) {
+
+		    $_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+		}
+
+		if (!empty($_SESSION['referer']) && strstr($_SESSION['referer'], "source_of_funds")) {
+
+		    $source = "sof_add";
+		} else {
+
+		    $source = null;
+		}
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+
+		    if (Auth::access('admin')) {
+
+
+		        $errors = $financeClass->validate($_POST);
+
+		        if (empty($errors)) {
+
+		            $_POST['updated_on'] = date("Y-m-d H:i:s");
+		            $_POST['updated_by'] = auth::get('username');
+
+		            $financeClass->update($id, $_POST);
+
+		            $message = "Record for Account Id: $id updated successfully";
+		            Auth::setMessage($message);
+		            
+
+		            
+		            if (!empty($_SESSION['referer']) && strstr($_SESSION['referer'], "savings_account")) {
+
+		                redirect("admin/savings_account");
+		            } else {
+
+		                redirect("admin/source_of_funds");
+		            }
+		            
+		        }
+		    }
+		}
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$this->view('admin/finance/account_edit',$data);
+	}
+
+	public function account_statement()
+	{
+
+		$id = $_GET['id'] ?? null;
+		$recordClass = new \Model\RecordFinance();
+		$financeClass = new \Model\Finance();
+
+
+		$query= "SELECT SUM(credit) AS T_CREDIT,SUM(debit) AS T_DEBIT FROM finance_transaction WHERE acc_number=:acc_number";
+		$result = $recordClass->query($query,['acc_number'=>$id]);
+		$total_credit = $result[0]->T_CREDIT;
+		$total_debit = $result[0]->T_DEBIT;
+
+		$stmnt = $recordClass->where(['acc_number' =>$id]);
+		$row = $financeClass->first(['id' => $id]);
+
+
+		if(!Auth::logged_in())
+		{
+			message('please login to view the admin section');
+			redirect('login');
+		}
+
+		$this->view('admin/finance/account_statement');
+	}
+
+	public function expenses_record()
+	{
+
+		$errors = [];
+		$financeClass = new \Model\Finance();
+
+		$des = $financeClass->findAll();
+
+		if (!empty($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], "expenses_record")) {
+
+		    $_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+		}
+
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+		    $recordClass = new \Model\RecordFinance();
+		    $expensesClass = new \Model\Expenses();
+		    $row = $financeClass->first(['id' => $_POST['acc_number']]);
+		    
+		    $_POST['newbalance'] = $row->balance - $_POST['amount'];
+		    
+
+		    if (empty($expensesClass->validate($_POST))) {		      
+
+		        $transcode = date('Ymd') . rand(1000, 9999);
+
+		        $arr = [];
+		        $arr['date'] = $_POST['date'];
+		        $arr['type'] = "Expenses";
+		        $arr['transcode'] = $transcode;
+		        $arr['acc_number'] = $row['id'];
+		        $arr['acc_name'] = $row['acc_name'];
+		        $arr['credit'] = 0;
+		        $arr['debit'] = $_POST['amount'];
+		        $arr['balance'] = $_POST['newbalance'];
+		        $arr['comment'] = $_POST['purpose'].' by '.$_POST['receiver'];
+		        $arr['created_on'] = date("Y-m-d H:i:s");
+		        $arr['created_by'] = auth::get('username');
+		        $arr['status'] = "saved";
+
+		        $_POST['transcode'] = $transcode;
+		        $_POST['created_on'] = date("Y-m-d H:i:s");
+		        $_POST['created_by'] = auth::get('username');
+		        unset($_POST['newbalance']);
+		              
+		        $recordClass->insert($arr);
+		        $financeClass->update($arr['acc_number'], ['balance' => $arr['balance']]);
+
+		        $expensesClass->insert($_POST);
+		     
+		        message("Transaction completed Successfully");
+
+		            redirect("admin/expenses_record");
+		       
+		    }
+		}
+
+		$this->view('admin/finance/expenses_record');
+	}
+
+	public function expenses()
+	{
+
+		$expensesClass = new \Model\Expenses();
+
+		$exp = $expensesClass->findAll();	
+
+		$this->view('admin/finance/expenses');
+	}
+
+	public function fund_transfer()
+	{
+
+		$errors = [];
+		$financeClass = new \Model\Finance();
+
+		$id = $_GET['id'] ?? null;
+		$row = $financeClass->first(['id' => $id]);
+
+		$des = $financeClass->where(['type' => 'Savings']);
+
+		if (!empty($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], "fund_transfer")) {
+
+		    $_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+		}
+
+
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+		    $recordClass = new \Model\RecordFinance();
+		    $_POST['balance'] = $row['balance'];
+		    $_POST['newbalance'] = $row['balance'] - $_POST['amount'];
+
+		    $errors = $recordClass->validate1($_POST);
+
+		    if (empty($errors)) {
+
+		        $des = $financeClass->first(['id' => $_POST['destination']]);
+
+		        $_POST['debit'] = 0;
+		        $_POST['type'] = "Transfer In";
+		        $_POST['created_on'] = date("Y-m-d H:i:s");
+		        $_POST['created_by'] = auth::get('username');
+		        $_POST['balance'] = $row['balance'] + $_POST['amount'];
+		        $_POST['status'] = "Pending";
+
+		        $_POST['pre_balance'] = $row['balance'];
+
+		        $transcode= date('Ymd') . rand(1000, 9999);
+		        
+		        $arr = [];
+		        $arr['date'] = $_POST['date'];
+		        $arr['type'] = "Transfer Out";
+		        $arr['transcode'] = $transcode;
+		        $arr['acc_number'] = $row['id'];
+		        $arr['acc_name'] = $row['acc_name'];
+		        $arr['credit'] = 0;
+		        $arr['debit'] = $_POST['amount'];
+		        $arr['balance'] = $_POST['newbalance'];
+		        $arr['comment'] = $_POST['comment'];
+		        $arr['created_on'] = date("Y-m-d H:i:s");
+		        $arr['created_by'] = auth::get('username');
+		        $arr['status'] = "saved";
+		   
+		       
+		        $recordClass->insert($arr);
+		        $financeClass->update($arr['acc_number'], ['balance' => $arr['balance']]);
+		        
+		        $arr['type'] = "Transfer In";       
+		        $arr['acc_number'] = $_POST['destination'];
+		        $arr['acc_name'] = $des['acc_name'];
+		        $arr['credit'] = $_POST['amount'];
+		        $arr['debit'] = 0;
+		        $arr['balance'] = $des['balance'] + $_POST['amount'];
+		        $arr['source'] = $des['acc_name'].'('.$_POST['destination'].')';
+
+		        $recordClass->insert($arr);
+		        $financeClass->update($arr['acc_number'], ['balance' => $arr['balance']]);
+
+		        $message = "Transaction completed Successfully";
+		        Auth::setMessage($message);
+
+		        if (!empty($_SESSION['referer']) && strstr($_SESSION['referer'], "savings_account")) {
+
+		            redirect("admin/savings_account");
+		        } else {
+
+		            redirect("admin/source_of_funds");
+		        }
+		    }
+		}
+
+		$this->view('admin/finance/fund_transfer',$data);
+	}
+
+	public function record_finance($transcode = null)
+	{
+
+		$errors = [];
+		$transcode = $_GET['transcode'] ?? null;
+
+		$financeClass = new \Model\Finance();
+		$recordClass = new \Model\RecordFinance();
+
+
+		$sof = $financeClass->where(['type'=>'Default']);
+		$pending = $recordClass->where(['transcode' => $transcode, 'status' => 'Pending']);
+
+
+		if (!empty($_SERVER['HTTP_REFERER']) && !strstr($_SERVER['HTTP_REFERER'], "record_finance")) {
+
+		    $_SESSION['referer'] = $_SERVER['HTTP_REFERER'];
+		}
+
+
+
+		if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+
+
+		    if ($_POST['from'] == "add_finance") {
+		        unset($_POST['from']);
+
+		        $errors = $recordClass->validate($_POST);
+
+		        if (empty($errors)) {
+
+		            $row = $financeClass->first(['id' => $_POST['id']]);
+
+		            $_POST['debit'] = 0;
+		            $_POST['type'] = "Transfer In";
+		            $_POST['created_on'] = date("Y-m-d H:i:s");
+		            $_POST['created_by'] = auth::get('username');
+		            $_POST['transcode'] = $transcode;
+		            $_POST['acc_number'] = $_POST['id'];
+		            $_POST['acc_name'] = $row['acc_name'];
+		            $_POST['credit'] = $_POST['amount'];
+		            $_POST['balance'] = $row['balance'] + $_POST['amount'];
+		            $_POST['status'] = "Pending";
+		            unset($_POST['amount']);
+		            unset($_POST['id']);
+
+		            $recordClass->insert($_POST);
+
+		            $financeClass->update($_POST['acc_number'], ['balance' => $_POST['balance']]);
+
+		            redirect("admin/record_finance&transcode=$transcode");
+		        }
+		    } else {
+
+		        unset($_POST['from']);
+		        $query = "UPDATE finance_transaction SET status=:status WHERE transcode=:transcode";
+		        $financeClass->query($query, ['transcode' => $transcode, 'status' => 'Saved']);
+		        
+		        message("Financial Record Saved Successfully");
+		        
+		        redirect("admin/source_of_funds");
+		    }
+		}
+
+		$this->view('admin/finance/record_finance');
+	}
+
+	public function savings_account()
+	{
+
+		$financeClass = new \Model\Finance();
+
+		$sof = $financeClass->where(['type' =>'Savings']);
+
+		$this->view('admin/finance/savings_account');
+	}
+
+	public function source_of_funds()
+	{
+
+		$financeClass = new \Model\Finance();
+
+		$sof = $financeClass->where(['type' =>'Default']);
+
+		$this->view('admin/finance/source_of_funds');
+	}
+
 	public function roles($action = null, $id = null)
 	{
 

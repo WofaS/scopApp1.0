@@ -1,12 +1,4 @@
-<?php
-if (!empty($_SESSION['referer'])) {
-    $back_link = $_SESSION['referer'];
-} else {
-    $back_link = "index.php?pg=expenses-record";
-}
-?>
-
-<?php require views_path('partials/header'); ?>
+<?php $this->view('admin/admin-header',$data) ?>
 
 <div class="container-fluid border col-lg-5 col-md-6 mt-5 p-4" >
   
@@ -72,4 +64,4 @@ if (!empty($_SESSION['referer'])) {
    
 </div>
 
-<?php require views_path('partials/footer'); ?>
+<?php $this->view('admin/admin-footer',$data) ?>

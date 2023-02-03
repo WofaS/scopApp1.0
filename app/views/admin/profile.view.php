@@ -208,11 +208,11 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
                 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder active bi bi-eye-fill" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder active bi bi-eye-fill" data-bs-toggle="tab" data-bs-target="#profile-view" id="profile-view-tab">View</button>
                 </li>
 
                 <li class="nav-item mx-2">
-                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search Members</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-search" data-bs-toggle="tab" data-bs-target="#search" id="search-tab">Search</button>
                 </li>
 
                 
@@ -224,13 +224,13 @@
 
                 <li class="nav-item mx-2">
                   <a href="<?=ROOT?>/admin/profile_edit/<?=$row->id?>">
-                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-pencil">Edit Profile</button>
+                    <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="text-info nav-link fw-bolder bi bi-pencil">Edit</button>
                   </a>
                 </li>
 
                 <li class="nav-item mx-2">
                   <a class="justify-content-right float-right" href="<?=ROOT?>/admin/make_pdf/download_profile/<?=$row->id?>">
-                    <button class="text-info nav-link fw-bolder bi bi-download"> Download profile</button>
+                    <button class="text-info nav-link fw-bolder bi bi-download"> Download</button>
                   </a>
                 </li>
 

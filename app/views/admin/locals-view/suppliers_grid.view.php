@@ -4,7 +4,7 @@
 <div class="row">
   <div class="row d-flex col-12">
       <div class="col-12 d-flex">
-        <h3 class="col-9">STAFF GALARY</h3>
+        <h3 class="col-9">SUPPLIERS </h3>
 
         <div class="float-end"> 
           <a href="<?=ROOT?>/admin/excel/print_members"><button class="btn btn-success btn-sm" title="Download Excel"><i class="bi bi-file-earmark-excel p-0 fs-6"></i>  Excel</button></a>
@@ -23,9 +23,8 @@
     $mydob = get_date_month_day($row->dob);
     $today = date('m d');
     ?>
-
-
-  <?php if(!empty($row->role_name) AND $row->role === 1 OR $row->role === 2 ):?>
+  
+  <?php if(!empty($row->role_name) AND $row->role === 3 ):?>
     
   <div class="col py-2" style="">
   <div class="container bg-secondary rounded shadow" style="width:160px; height: fit-content;">

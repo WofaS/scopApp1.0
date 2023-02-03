@@ -47,13 +47,6 @@
                         </div>
 
                         <div class="row mb-3">
-                          <label for="Job" class="mx-auto col-md-4 col-lg-3 px-3">Job</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="job" type="text" class="form-control" id="Job" value="<?=set_value('job',$row->job)?>">
-                          </div>
-                        </div>
-
-                        <div class="row mb-3">
                           <label for="dob" class="mx-auto col-md-4 col-lg-3 px-3">dob</label>
                           <div class="mx-auto col-md-8 col-lg-9">
                             <input name="dob" type="date" class="form-control" id="dob" value="<?=set_value('dob',$row->dob)?>">

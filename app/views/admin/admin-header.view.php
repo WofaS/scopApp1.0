@@ -460,28 +460,75 @@
         </ul>
       </li>
 
-        <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#icons-nav3" data-bs-toggle="collapse" href="#">
-          <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Admin Operations</span><i class="text-info bi bi-chevron-down ms-auto"></i>
-        </a>
+    <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#icons-nav3" data-bs-toggle="collapse" href="#">
+      <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Accounts</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+    </a>
 
-        <ul id="icons-nav3" class="subnav nav-content collapse " data-bs-parent="#sidebar-nav">
+    <ul id="icons-nav3" class="subnav nav-content collapse " data-bs-parent="#sidebar-nav">
 
-          <?php if(user_can('view_roles')):?>
-            
+      <?php if(user_can('view_roles')):?>
+        
+        <li class="nav-item ">
+          <a class="nav-link collapsed" href="<?=ROOT?>/admin/source_of_funds">
+            <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
+            <span>Source of Funds</span>
+          </a>
+        </li><!-- End Dashboard Nav --> 
+          
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="<?=ROOT?>/admin/expenses">
+              <i class="text-info bi bi-list" style="font-size: 18px;"></i>
+              <span>Expenses History</span>
+            </a>
+          </li><!-- End Dashboard Nav -->      
+          <?php endif;?>
+
+          <?php if(user_can('view_marital_status')):?>
             <li class="nav-item ">
-              <a class="nav-link collapsed" href="<?=ROOT?>/adminsignup">
-                <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
-                <span>Add Admin</span>
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/savings_account">
+                <i class="text-info bi bi-gender-ambiguous" style="font-size: 18px;"></i>
+                <span>Savings Account</span>
               </a>
-            </li><!-- End Dashboard Nav --> 
-              
-              <li class="nav-item">
-                <a class="nav-link collapsed" href="<?=ROOT?>/admin/categories">
-                  <i class="text-info bi bi-list" style="font-size: 18px;"></i>
-                  <span>List Branches</span>
-                </a>
-              </li><!-- End Dashboard Nav -->      
+            </li><!-- End Dashboard Nav -->      
+          <?php endif;?>
+
+           <?php if(user_can('view_marital_status')):?>
+            <li class="nav-item ">
+              <a class="nav-link collapsed" href="<?=ROOT?>/admin/account_statement">
+                <i class="text-info bi bi-gender-ambiguous" style="font-size: 18px;"></i>
+                <span>Account Statement</span>
+              </a>
+            </li><!-- End Dashboard Nav -->      
+          <?php endif;?>
+
+
+        </ul>
+      </li>
+
+
+    <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-target="#icons-nav4" data-bs-toggle="collapse" href="#">
+      <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Admin Operations</span><i class="text-info bi bi-chevron-down ms-auto"></i>
+    </a>
+
+    <ul id="icons-nav4" class="subnav nav-content collapse " data-bs-parent="#sidebar-nav">
+
+      <?php if(user_can('view_roles')):?>
+        
+        <li class="nav-item ">
+          <a class="nav-link collapsed" href="<?=ROOT?>/adminsignup">
+            <i class="text-info bi bi-person-check" style="font-size: 18px;"></i>
+            <span>Add Admin</span>
+          </a>
+        </li><!-- End Dashboard Nav --> 
+          
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="<?=ROOT?>/admin/categories">
+              <i class="text-info bi bi-list" style="font-size: 18px;"></i>
+              <span>List Branches</span>
+            </a>
+          </li><!-- End Dashboard Nav -->      
           <?php endif;?>
 
           <?php if(user_can('view_marital_status')):?>
@@ -498,7 +545,7 @@
             <i class="text-info bi bi-gear-fill" style="font-size: 18px;"></i><span>App Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
           </a>
 
-            <ul id="icons-subnav" class="subnav nav-content collapse " data-bs-parent="#icons-nav3">
+            <ul id="icons-subnav" class="subnav nav-content collapse " data-bs-parent="#icons-nav4">
 
 
               <li class="nav-item ">
@@ -524,7 +571,7 @@
             <i class="text-info bi bi-gear" style="font-size: 18px;"></i><span>Position Settings</span><i class="text-info bi bi-chevron-down ms-auto"></i>
           </a>
 
-            <ul id="icons-subnav2" class="subnav nav-content collapse " data-bs-parent="#icons-nav3"> 
+            <ul id="icons-subnav2" class="subnav nav-content collapse " data-bs-parent="#icons-nav4"> 
                
             <li class="nav-item ">
               <a class="nav-link collapsed" href="<?=ROOT?>/admin/local_position">

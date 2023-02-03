@@ -74,11 +74,11 @@ include('stat.inc.php');
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border py-2" data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>Tabular</button>
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link active  border py-2 mb-2" data-bs-toggle="tab" data-bs-target="#tabular-view" id="tabular-view-tab" title="Tabular View"><i class="text-info bi bi-list toggle-sidebar-btn"></i>Tabular</label>
                     </li>
 
                     <li class="nav-item">
-                      <button onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>Grid</button>
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 50px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#grid-view" id="grid-view-tab" title="Grid View"><i class="text-info bi bi-grid"></i>Grid</label>
                     </li>
                   </ul>
                 </li>
@@ -90,11 +90,11 @@ include('stat.inc.php');
                   <ul class="dropdown-menu dropdown-menu-start dropdown-menu-arrow">
 
                      <li class="nav-item">
-                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#officers" id="suppliers-tab" title="Suppliers"><i class="text-info bi bi-list"></i>Tabular</label>
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2 mb-2" data-bs-toggle="tab" data-bs-target="#suppliers_tabular" id="suppliers-tab" title="Suppliers"><i class="text-info bi bi-list"></i>Tabular</label>
                     </li>
 
                     <li class="nav-item">
-                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#officers" id="suppliers-grid-tab" title="Suppliers"><i class="text-info bi bi-grid"></i>Grid</label>
+                      <label onclick="set_tab(this.getAttribute('data-bs-target'))" style="border-radius: 10px; padding-top: 1px; padding-bottom: 1px;" class="nav-link border py-2" data-bs-toggle="tab" data-bs-target="#suppliers_grid" id="suppliers-tab" title="Suppliers"><i class="text-info bi bi-grid"></i>Grid</label>
                     </li> 
 
                   </ul>
@@ -128,21 +128,10 @@ include('stat.inc.php');
                  <div class="tab-pane fade tabular-view pt-3 show active" id="tabular-view">
                   <!-- Profile Edit Form -->
 
-                      <?php include views_path('admin/tabular-view/tabular') ?>
+                      <?php include views_path('admin/locals-view/tabular') ?>
                   <!-- End Profile Edit Form -->
 
                 </div>
-
-                <?php if(!empty($categories) AND !empty($members)):?>
-                 <?php foreach($categories as $cat):?>
-                <div class="tab-pane fade tabular-<?=$cat->slug?> pt-3 show " id="tabular-<?=$cat->slug?>">
-                  <!-- Change Password Form -->
-                    
-                    <?php include views_path('admin/tabular-view/_'.str_to_url($cat->id)) ?>
-
-                </div>
-                <?php endforeach;?>
-                <?php endif;?>
 
                 <div class="tab-pane fade grid-view pt-3 show" id="grid-view">
                   <!-- Profile Edit Form -->
@@ -152,17 +141,17 @@ include('stat.inc.php');
 
                 </div>
 
-                <div class="tab-pane fade suppliers pt-3 show " id="suppliers">
+                <div class="tab-pane fade suppliers pt-3 show " id="suppliers_tabular">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/leaders-view/suppliers') ?>
+                    <?php include views_path('admin/locals-view/suppliers_tabular') ?>
 
                 </div>
 
-                <div class="tab-pane fade suppliers-grid pt-3 show " id="suppliers-grid">
+                <div class="tab-pane fade suppliers pt-3 show " id="suppliers_grid">
                   <!-- Change Password Form -->
                     
-                    <?php include views_path('admin/leaders-view/suppliers_grid') ?>
+                    <?php include views_path('admin/locals-view/suppliers_grid') ?>
 
                 </div>
                                  

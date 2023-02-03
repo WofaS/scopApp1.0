@@ -1,6 +1,5 @@
 <?php $this->view('admin/admin-header',$data) ?>
 
-
 <div class="container-fluid border col-lg-10 col-md-6 mt-5 p-4 mb-5" >
     <div class="table-responsive">
         <center>
@@ -14,7 +13,7 @@
                     <div class="alert alert-success text-center"><b><?= Auth::getMessage(); ?></b></div>
                 </center>
             <?php endif; ?>
-            <a href="index.php?pg=expenses-record" class="btn btn-outline-primary btn-sm mb-2 ">Add New <i class="fa fa-plus"></i></a>
+            <a href="<?=ROOT?>/admin/expenses_record" class="btn btn-outline-primary btn-sm mb-2 ">Add New <i class="fa fa-plus"></i></a>
 
             <tr>
                 <th>Sn</th><th>Date</th><th>Transcode</th><th>amount</th><th>Description</th><th>Receiver</th>
@@ -41,5 +40,4 @@
         </table>
     </div>
 </div>
-
 <?php $this->view('admin/admin-footer',$data) ?>

@@ -166,9 +166,8 @@
             <img src="<?=get_profile_image($row->image)?>" class="rounded-circle" style="object-fit: fill; width: 90px; max-width:90px;height:90px;">
           <?php endif;?>
               <h4 class="text-center"><?=esc($row->firstname)?> <?=esc($row->lastname)?></h4>
-              <h5><?=esc(set_value('role',$row->role_name ?? ''))?></h5>
+              <small class="fw-bolder text-muted "><?=esc(set_value('role',$row->role_name ?? ''))?>  <?=esc($row->localposition_name ? :'')?></small>
               <h5><?=esc($row->phone )?></h5>
-              <small><?=esc($row->job )?></small>
               <small><?=$age?></small>
 
               <div class="social-links mt-2">
@@ -278,13 +277,6 @@
                             <small class="js-error-lastname text-danger"><?=$errors['lastname']?></small>
                           <?php endif;?>
                           <small class="js-error-lastname text-danger"></small>
-                        </div>
-
-                        <div class="row mb-3">
-                          <label for="Job" class="mx-auto col-md-4 col-lg-3 px-3">Job</label>
-                          <div class="mx-auto col-md-8 col-lg-9">
-                            <input name="job" type="text" class="form-control" id="Job" value="<?=set_value('job',$row->job)?>">
-                          </div>
                         </div>
 
                         <div class="row mb-3">
@@ -407,7 +399,7 @@
                             <option value="">---Select Role---</option>
                             <?php if(!empty($roles)):?>
                               <?php foreach($roles as $cat):?>
-                                <option <?=set_select('role',$row->role,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
+                                <option <?=set_select('role',$row->role_name,$cat->role)?> value="<?=$cat->id?>"><?=esc($cat->role)?></option>
                               <?php endforeach;?>
                             <?php endif;?>
 
